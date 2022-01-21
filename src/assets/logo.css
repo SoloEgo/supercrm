@@ -1,0 +1,77 @@
+.logo-holder svg path:nth-child(1) {
+    fill: #2196F3;
+    animation: logoColorChange 3s infinite;
+}
+
+.logo-holder svg path:nth-child(2) {
+    fill: #E91E63;
+    animation: logoColorChange2 3s infinite;
+}
+
+.logo-holder svg path:nth-child(3) {
+    fill: #FFC107;
+    animation: logoColorChange3 3s infinite;
+}
+
+@keyframes logoColorChange {
+    0% {
+        fill: #2196F3;
+    }
+    32% {
+        fill: #2196F3;
+    }
+    33% {
+        fill: #E91E63;
+    }
+    65% {
+        fill: #E91E63;
+    }
+    66% {
+        fill: #FFC107;
+    }
+    100% {
+        fill: #FFC107;
+    }
+}
+
+@keyframes logoColorChange2 {
+    0% {
+        fill: #E91E63;
+    }
+    32% {
+        fill: #E91E63;
+    }
+    33% {
+        fill: #FFC107;
+    }
+    65% {
+        fill: #FFC107;
+    }
+    66% {
+        fill: #2196F3;
+    }
+    100% {
+        fill: #2196F3;
+    }
+}
+
+@keyframes logoColorChange3 {
+    0% {
+        fill: #FFC107;
+    }
+    32% {
+        fill: #FFC107;
+    }
+    33% {
+        fill: #2196F3;
+    }
+    65% {
+        fill: #2196F3;
+    }
+    66% {
+        fill: #E91E63;
+    }
+    100% {
+        fill: #E91E63;
+    }
+}

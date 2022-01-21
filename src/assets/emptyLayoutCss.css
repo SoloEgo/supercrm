@@ -1,0 +1,254 @@
+.empty-layout {
+    width: 100%;
+    height: 100%;
+    background-color: #dce0fe;
+}
+
+.form-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-block {
+    display: flex;
+    box-shadow: 10px 10px 40px #d3d3d3;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.form-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-block {
+    display: flex;
+    box-shadow: 10px 10px 40px #a7b1ff;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    height: 75%;
+    min-height: 400px;
+    width: 60%;
+    min-width: 400px;
+}
+
+.form-decore {
+    display: flex;
+    width: 50%;
+}
+
+.form-slider {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+}
+
+.form-container {
+    width: 50%;
+}
+
+.fs-item {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 100%;
+}
+
+.fs-controls {
+    height: 10px;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
+
+.fd-text-container {
+    width: 100%;
+    text-align: center;
+    padding: 5rem 10rem;
+}
+
+.fs-item.fsi-0.active {
+    background: #4f37ea;
+}
+
+.fs-item.fsi-0.active:before {
+    content: '';
+    position: absolute;
+    width: 20rem;
+    height: 20rem;
+    background: #3521b5;
+    top: -10rem;
+    left: -10rem;
+    border-radius: 50%;
+    box-shadow: 10px 10px 20px #3521b5;
+    z-index: 0;
+    animation: animateCircle1 6s infinite;
+    transition: all 0.5s;
+    animation-delay: 1s;
+}
+
+.fs-item.fsi-0.active:after {
+    content: '';
+    position: absolute;
+    width: 30rem;
+    height: 30rem;
+    background: #3521b5;
+    bottom: -15rem;
+    right: -15rem;
+    border-radius: 50%;
+    box-shadow: -14px -14px 26px #3521b5;
+    z-index: 0;
+    animation: animateCircle 6s infinite;
+    transition: all 0.5s;
+}
+
+.fs-item * {
+    z-index: 5;
+}
+
+.fd-text-heading {
+    font-size: 2.3rem;
+    line-height: 1;
+}
+
+.fd-text-container {
+    color: #fff;
+}
+
+.fd-text-content {
+    font-size: 1.3rem;
+    margin-top: 2rem;
+}
+
+.img_decore_container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.fly-img.fli-1 {
+    position: absolute;
+    top: 39%;
+    width: 23rem;
+    left: 11rem;
+    height: 12rem;
+    box-shadow: 2px 2px 15px #3521b5;
+}
+
+.fly-img img {
+    width: 100%;
+    height: 100%;
+}
+
+.fly-img.fli-2 {
+    position: absolute;
+    top: 30%;
+    left: 7rem;
+    width: 8rem;
+    height: 9.5rem;
+    box-shadow: 2px 2px 15px #3521b5;
+}
+
+.fly-img {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.fly-icon {
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: 2px 2px 15px #3521b5;
+}
+
+.fly-icon.fi-1 {
+    width: 2rem;
+    height: 2rem;
+    background: #3521b5;
+    top: 13rem;
+    right: 3rem;
+}
+
+.fly-icon.fi-2 {
+    width: 4rem;
+    height: 4rem;
+    background: #3521b5;
+    top: 10rem;
+    right: 9rem;
+}
+
+.fly-icon.fi-3 {
+    width: 1rem;
+    height: 1rem;
+    background: #3521b5;
+    top: 10rem;
+    right: 6rem;
+}
+
+.form-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-action p {
+    font-weight: 300;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.card-action {
+    margin-top: 20px;
+}
+
+.f-input-field.f-chck-w {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.f-input-field.f-chck-w * {
+    display: block;
+}
+
+@keyframes animateCircle {
+    0% {
+        bottom: -15rem;
+        right: -15rem
+    }
+    50% {
+        bottom: -13rem;
+        right: -13rem
+    }
+    100% {
+        bottom: -15rem;
+        right: -15rem
+    }
+}
+
+@keyframes animateCircle1 {
+    0% {
+        top: -10rem;
+        left: -10rem;
+    }
+    50% {
+        top: -8rem;
+        left: -8rem;
+    }
+    100% {
+        top: -10rem;
+        left: -10rem;
+    }
+}

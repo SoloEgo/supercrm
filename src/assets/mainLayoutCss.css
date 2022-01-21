@@ -1,0 +1,298 @@
+    .app-main-layout-wrapper.lightTheme {
+        --mainBG: #ecedef;
+        --elementBG: #ffffff;
+        --sideBarBG: #293042;
+        --fontsColor: #3e3e3e;
+        --btnBorderColor: #6c757d;
+        --btnLightBorder: #ced4da;
+        --btnLightBackground: #ecedef;
+        --modalFormElementBG: #ffffff;
+        --modalFormSpanBG: #e9ecef;
+        --modalFormElBorder: #ced4da;
+        --btnCloseBg: invert(0);
+    }
+    
+    .app-main-layout-wrapper.darkTheme {
+        --mainBG: #202634;
+        --elementBG: #293042;
+        --sideBarBG: #293042;
+        --fontsColor: #c7c7c7;
+        --accentTableRow: #3f4659;
+        --btnBorderColor: #838383;
+        --btnLightBorder: #202634;
+        --btnLightBackground: #2e3954;
+        --modalFormElementBG: #3f4659;
+        --modalFormSpanBG: #202634;
+        --modalFormElBorder: #838383;
+        --btnCloseBg: invert(1) grayscale(100%) brightness(200%);
+    }
+    
+    #app .btn-light {
+        color: var(--fontsColor);
+        background-color: var(--btnLightBackground);
+        border-color: var(--btnLightBorder);
+    }
+    
+    .app-main-layout-wrapper {
+        color: var(--fontsColor) !important;
+    }
+    
+    .app-main-layout-wrapper {
+        height: 100%;
+        width: 100%;
+    }
+    
+    .app-main-layout {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--mainBG);
+        height: 100%;
+        overflow: hidden;
+    }
+    
+    .page-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+    
+    .tile-card::-webkit-scrollbar {
+        width: 5px !important;
+    }
+    
+    .tile-card::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3) !important;
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    .tile-card::-webkit-scrollbar-thumb {
+        background-color: #0d6efd !important;
+        outline: 1px solid #0c397a !important;
+        border-radius: 5px !important;
+    }
+    
+    .content {
+        width: calc(100% - 260px);
+        height: 100%;
+        transition: all 0.5s;
+    }
+    
+    .card {
+        padding: 1.5rem;
+        box-sizing: border-box;
+        background-color: var(--elementBG) !important;
+        border-radius: 10px;
+        box-shadow: 5px 5px 20px #0000003b;
+    }
+    
+    .content-tiles {
+        height: calc(100% - 2.5rem);
+        padding: 2.5rem 2.5rem 1.5rem;
+        box-sizing: border-box;
+    }
+    
+    .content.full-width {
+        width: 100%;
+    }
+    
+    hr {
+        width: 80%;
+        background: #ecedef;
+        margin: 0 auto !important;
+    }
+    
+    a.page-link {
+        background: var(--elementBG);
+    }
+    
+    .page-item.disabled .page-link {
+        background: var(--elementBG);
+        background-color: var(--elementBG) !important;
+    }
+    
+    button.btn-small.btn.record-btn-more {
+        color: var(--fontsColor)
+    }
+    
+    .user-name .dropdown-toggle:after {
+        border: solid;
+        border-width: 0 2px 2px 0;
+        display: inline-block;
+        padding: 2px;
+        transform: rotate( 45deg);
+    }
+    
+    .dropdown-menu.dropdown-menu-end.show {
+        left: 0;
+        margin-top: 0.125rem;
+        top: 100%;
+    }
+    
+    .page-title {
+        display: flex;
+        justify-content: space-between;
+        height: 40px;
+        margin-bottom: 20px;
+    }
+    
+    .tile-holder {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 10px 10px;
+    }
+    
+    .tile-0 {
+        grid-column: 1/5;
+        grid-row: 1/4;
+        overflow: auto;
+    }
+    
+    .tile-1 {
+        grid-column: 1/3;
+        grid-row: 1/3;
+    }
+    
+    .tile-2 {
+        grid-column: 3/5;
+        grid-row: 1/3;
+    }
+    
+    .tile {
+        height: 100%;
+    }
+    
+    .card-content-block.table-wrapper-scroll-y {
+        max-height: 20rem;
+        overflow-y: auto;
+    }
+    
+    section {
+        height: calc(100% - 40px - 20px);
+    }
+    
+    .main-content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .tile-holder.g-0 {
+        height: 100%;
+    }
+    
+    .content-loader {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .content-loader svg {
+        width: 3rem;
+    }
+    
+    table,
+    td,
+    th,
+    tr,
+    .table-striped>tbody>tr:nth-of-type(odd)>* {
+        color: var(--fontsColor) !important;
+    }
+    
+    .badge.green {
+        background: #009688;
+    }
+    
+    .badge.red {
+        background: #f44336;
+    }
+    
+    .determinate.green {
+        background: #4caf50;
+    }
+    
+    .determinate.yellow {
+        background: #ffeb3b;
+    }
+    
+    .determinate.red {
+        background: #f44336;
+    }
+    
+    .table-striped>tbody>tr:nth-of-type(2n+1)>* {
+        background: var(--accentTableRow);
+    }
+    
+    .list-item-card .col {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.8rem;
+    }
+    
+    .list-item-card.card {
+        border-radius: 0.3rem;
+    }
+    
+    .list-item-card:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        height: 100%;
+        width: 3px;
+        top: 0;
+    }
+    
+    .list-item-card.card.mt-2.mb-2.pending:before {
+        background: #9a9a9a;
+    }
+    
+    .list-item-card.card.mt-2.mb-2.created:before {
+        background: #2196f3;
+    }
+    
+    .list-item-card.card.mt-2.mb-2.working:before {
+        background: #fbbd06;
+    }
+    
+    .list-item-card.card.mt-2.mb-2.closed:before {
+        background: #4bac4f;
+    }
+    
+    .list-item-card.card.mt-2.mb-2.cancelled:before {
+        background: #f44336;
+    }
+    
+    .list-item-card.card {
+        overflow: hidden;
+    }
+    
+    .list-group {
+        height: 100%;
+    }
+    
+    .list-group span {
+        height: 100%;
+    }
+    
+    .displayContentBlock {
+        height: 100%;
+    }
+    
+    .displayContentBlock section {
+        height: calc(100% - 60px);
+    }
+    
+    .displayContentBlock .tile-holder {
+        height: 100%;
+    }
+    
+    .minh-100 {
+        min-height: 100%;
+    }
+    
+    .table-hover tr {
+        cursor: pointer;
+    }

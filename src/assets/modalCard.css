@@ -1,0 +1,99 @@
+#app .modal-content {
+    background-color: var(--elementBG)
+}
+
+#app .modal-content input,
+#app .modal-content select,
+#app .modal-content textarea {
+    background-color: var(--modalFormElementBG);
+    border-color: var(--modalFormElBorder);
+    color: var(--fontsColor);
+    margin-left: -1px;
+}
+
+.modal-body .modal-header {
+    display: flex;
+    align-items: center;
+}
+
+.modal-body .input-group,
+.modal-body .input-group-text {
+    background: var(--modalFormSpanBG);
+    color: var(--fontsColor);
+    border-color: var(--modalFormElBorder);
+    border-radius: 0.2rem 0 0 0.2rem;
+}
+
+button.btn.btn-close {
+    font-size: 2.4rem;
+    color: var(--fontsColor);
+    width: 1em;
+    height: 1em;
+    padding: 0;
+    border: 0;
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    filter: var(--btnCloseBg)
+}
+
+.card input,
+.card select {
+    box-sizing: border-box;
+}
+
+.modal-card {
+    display: none;
+    background: #00000047;
+    backdrop-filter: blur(2px);
+}
+
+.modal-card.active {
+    display: block;
+}
+
+.popup-table-block {
+    position: absolute;
+    background: #fff;
+    z-index: 10;
+    box-shadow: 2px 2px 15px #7a7a7a;
+    padding: 1rem;
+    border-radius: 0.3rem;
+    display: none;
+}
+
+.popup-table-block .row {
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+.popup-table-block td {
+    white-space: nowrap;
+    padding: 0.2rem;
+}
+
+.popup-holder:hover .popup-table-block {
+    display: block;
+}
+
+.popup-holder {
+    cursor: pointer;
+}
+
+.modal-body .addNewContractor {
+    background: #0d6efd;
+    color: #fff;
+    border-color: #0d6efd;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.modal-body .addNewContractor:hover i {
+    transform: scale(1.2);
+}
+
+.modal-body .addNewContractor i {
+    transition: all 0.3s;
+}

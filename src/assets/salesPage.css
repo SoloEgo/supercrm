@@ -1,0 +1,120 @@
+.sale-table-status {
+    display: flex;
+    width: fit-content;
+    border-radius: 0.2rem;
+    padding: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    border: 1px solid var(--btnLightBorder);
+    cursor: pointer;
+}
+
+.sale-status-name {
+    font-size: 1.2rem;
+    font-weight: 500;
+    border-bottom: 2px solid;
+    border-color: var(--btnLightBorder);
+}
+
+.sale-table-status span {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 1rem;
+    margin-right: 5px;
+}
+
+.sale-table-status span.green {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.sale-table-status span.red {
+    background-color: #F44336;
+    color: #fff;
+}
+
+.sale-table-status span.yellow {
+    background-color: #FFC107;
+    color: #fff;
+}
+
+.sale-table-status span.blue {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+.sale-table-status span.grey {
+    background-color: #9E9E9E;
+    color: #fff;
+}
+
+.dropdown-item {
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.dropdown-item {
+    box-sizing: border-box;
+}
+
+.drop-status-list span.dropdown-item:before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 1.5rem;
+    left: 0;
+    top: 50%;
+    margin-top: -0.75rem
+}
+
+.drop-status-list span.dropdown-item.cancelled:before {
+    background: #F44336;
+}
+
+.drop-status-list span.dropdown-item.closed:before {
+    background: #4CAF50;
+}
+
+.drop-status-list span.dropdown-item.created:before {
+    background: #0d6efd;
+}
+
+.drop-status-list span.dropdown-item.working:before {
+    background: #FFC107;
+}
+
+.drop-status-list span.dropdown-item.pending:before {
+    background: #9E9E9E;
+}
+
+.list-item-card:hover {
+    box-shadow: 5px 5px 25px #00000052;
+    cursor: pointer;
+}
+
+.sales-table .btn {
+    box-shadow: 1px 1px 4px #00000042;
+}
+
+.sale-list-block:first-child {
+    border-left: 1px solid #d3d3d3;
+}
+
+.sale-list-block {
+    border-right: 1px solid #d3d3d3;
+}
+
+.sale-status-name {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ssn-count {
+    font-size: 0.8rem;
+    font-weight: normal;
+    background: var(--btnLightBackground);
+    border-radius: 0.3rem;
+    padding: 0.1rem 0.5rem;
+}

@@ -1,0 +1,76 @@
+.toast {
+    position: relative !important;
+}
+
+.toast:not(.show) {
+    display: flex !important;
+}
+
+.b-toast .toast {
+    margin-top: 1%;
+    display: flex;
+    flex-direction: column;
+    padding: 0.3rem;
+    border-radius: 0.5rem;
+}
+
+.toast-body p {
+    font-size: 1rem;
+}
+
+.toast-body i {
+    margin-right: 10px;
+}
+
+.toast-body i.yellow {
+    color: #FF9800;
+}
+
+.toast-body i.green {
+    color: #009688;
+}
+
+.toast-body i.red {
+    color: #f44336;
+}
+
+header.toast-header {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.toast-header button.close {
+    box-sizing: border-box;
+    width: 1rem;
+    height: 1rem;
+    color: #000;
+    background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'><path d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/></svg>");
+    border: 0;
+    border-radius: 0.25rem;
+    opacity: .5;
+    font-size: 0px;
+}
+
+.toast-header button.close {
+    margin-right: -0.375rem;
+    margin-left: 0.75rem;
+}
+
+header.toast-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toast-body p {
+    text-align: left;
+    width: 100%;
+}
+
+.toast-body {
+    width: 100%;
+    box-sizing: border-box;
+}
