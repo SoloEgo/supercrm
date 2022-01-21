@@ -1,16 +1,15 @@
 <template>
   <div class="row flex-nowrap mb-2 justify-content-center">
     <div
-      class="col-2 sale-list-block"
-      v-for="typeL of typeList"
+      class="col-2 department-list-block"
+      v-for="typeL of structureList"
       :key="typeL.id"
-      :class="typeL.status"
     >
-      <div class="sale-status-name" :class="typeL.status">
+      <div class="d-flex" :class="typeL.name">
         <div class="ssn-name">{{ typeL.name }}</div>
-        <div class="ssn-count">{{ typeL.list.length }}</div>
+        <!-- <div class="ssn-count">{{ typeL.list.length }}</div> -->
       </div>
-      <draggable
+      <!-- <draggable
         class="list-group"
         :list="typeL.list"
         group="people"
@@ -42,7 +41,7 @@
             </div>
           </div>
         </transition-group>
-      </draggable>
+      </draggable> -->
     </div>
   </div>
 </template>
@@ -51,31 +50,32 @@ import draggable from "vuedraggable";
 export default {
   data() {
     return {
-      typeList: [],
-      loading: true,
-      salesList: [],
+      structureList: [],
+      loading: true
     };
   },
   async mounted() {
-    const listTypes = (await this.$store.dispatch("fetchSalesStatus")).sort(
-      (a, b) => (a.order > b.order ? 1 : b.order > a.order ? -1 : 0)
-    );
+    const structureList = (await this.$store.dispatch("fetchStructure"))
+    console.log(structureList)
+    // .sort(
+    //   (a, b) => (a.order > b.order ? 1 : b.order > a.order ? -1 : 0)
+    // );
 
-    for (let i = 0; i < listTypes.length; i++) {
-      listTypes[i].list = new Array();
-      for (let z = 0; z < this.sales.length; z++) {
-        if (this.sales[z].status == listTypes[i].status) {
-          listTypes[i].list.push(this.sales[z]);
-        }
-      }
-    }
-    for (let i = 0, k = 0; i < listTypes.length; i++) {
-      for (let z = 0; z < listTypes[i].list.length; z++) {
-        listTypes[i].list[z].idx = k;
-        k++;
-      }
-    }
-    this.typeList = listTypes;
+    // for (let i = 0; i < listTypes.length; i++) {
+    //   listTypes[i].list = new Array();
+    //   for (let z = 0; z < this.sales.length; z++) {
+    //     if (this.sales[z].status == listTypes[i].status) {
+    //       listTypes[i].list.push(this.sales[z]);
+    //     }
+    //   }
+    // }
+    // for (let i = 0, k = 0; i < listTypes.length; i++) {
+    //   for (let z = 0; z < listTypes[i].list.length; z++) {
+    //     listTypes[i].list[z].idx = k;
+    //     k++;
+    //   }
+    // }
+    this.structureList = structureList;
     this.loading = false;
   },
   methods: {

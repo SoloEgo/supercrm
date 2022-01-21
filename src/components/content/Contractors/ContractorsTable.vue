@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-striped mb-5 table-hover">
+  <table class="table table-striped mb-5 table-hover1">
     <thead>
       <tr>
         <th>#</th>
@@ -9,6 +9,7 @@
         <th>Почта</th>
         <th>Телефон</th>
         <th>Описание</th>
+        <th></th>
       </tr>
     </thead>
 
@@ -17,7 +18,7 @@
         v-for="(contractor, idx) of contractors"
         :key="contractor.id"
         :data-id="contractor.id"
-        @click.prevent="openModalEditContr"
+        @click="openModalEditContr"
       >
         <td>{{ idx + 1 }}</td>
         <td>{{ contractor.date | date("date") }}</td>
@@ -26,6 +27,7 @@
         <td>{{ contractor.email }}</td>
         <td>{{ contractor.phone }}</td>
         <td>{{ contractor.description }}</td>
+        <td><button class="btn btn-light" :data-id="contractor.id" @click="openModalEditContr2">Редактировать</button></td>
       </tr>
     </tbody>
   </table>
@@ -44,9 +46,13 @@ export default {
   },
   methods: {
     openModalEditContr(ev) {
-      const id = ev.path[1].attributes["data-id"].value
+      const id = ev.path[2].attributes["data-id"].value
       this.$emit("contrTargetId", id);
     },
+    openModalEditContr2(ev){
+      const id = ev.target.attributes["data-id"].value
+      this.$emit("contrTargetId", id);
+    }
   },
 };
 </script>

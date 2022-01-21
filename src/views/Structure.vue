@@ -25,10 +25,10 @@
 import "@/assets/structure.css";
 import StructureBlock from "@/components/content/Structure/StructureBlock";
 export default {
-  name: "sales",
+  name: "departments",
   data: () => ({
     loading: true,
-    sales: [],
+    deparments: [],
     displayTable: null,
   }),
   async mounted() {
