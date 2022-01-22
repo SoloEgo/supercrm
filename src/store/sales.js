@@ -25,7 +25,7 @@ export default {
                 const sale = await firebase.database().ref(`/users/${uid}/sales`).push(newsale)
                 const statusTypes = await dispatch('fetchSalesStatus')
                 newsale.contractor_info = await dispatch('fetchContractorById', { id: newsale.contractor_id })
-                newsale.status_info = statusTypes.find(e => e.status === newsale.status)
+                newsale.status_info = statusTypes
                 return {...newsale, id: sale.key }
             } catch (e) {
                 commit('setError', e)
@@ -42,7 +42,6 @@ export default {
                     sal[i].contractor_info = await dispatch('fetchContractorById', { id: sal[i].contractor_id })
                     sal[i].status_info = statusTypes.find(e => e.status === sal[i].status)
                 }
-
                 return sal
             } catch (e) {
                 commit('setError', e)

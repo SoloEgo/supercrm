@@ -22,7 +22,8 @@ export default {
                     bill: 100,
                     avatarUrl: avatarUrl,
                     preferedTheme: 'lightTheme',
-                    name: name
+                    name: name,
+                    position: ''
                 })
             } catch (e) {
                 commit('setError', e)

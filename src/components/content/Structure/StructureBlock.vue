@@ -1,47 +1,62 @@
 <template>
-  <div class="row flex-nowrap mb-2 justify-content-center">
+  <div class="dlb-row row flex-nowrap mb-2 justify-content-start">
     <div
       class="col-2 department-list-block"
-      v-for="typeL of structureList"
-      :key="typeL.id"
+      v-for="stList of structureList"
+      :key="stList.id"
     >
-      <div class="d-flex" :class="typeL.name">
-        <div class="ssn-name">{{ typeL.name }}</div>
-        <!-- <div class="ssn-count">{{ typeL.list.length }}</div> -->
+      <div class="d-flex structure-cols-name justify-content-between">
+        <div class="ssn-name">
+          <input
+            type="text"
+            :disabled="stList.id == 'noDept'"
+            :data-id="stList.id"
+            :value="stList.name"
+            @change="deptNameChange"
+          />
+        </div>
+        <div class="ssn-delete" v-if="stList.id != 'noDept'">
+          <button
+            type="button"
+            class="btn btn-light btn-sm"
+            @click="deleteDept(stList.id)"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
       </div>
-      <!-- <draggable
+      <draggable
         class="list-group"
-        :list="typeL.list"
+        :list="stList.list"
+        :key="stList.length"
         group="people"
         :move="checkMove"
-        :data-id="typeL.status"
+        :data-id="stList.id"
       >
         <transition-group>
           <div
             class="list-item-card card mt-2 mb-2"
-            v-for="(el, index) in typeL.list"
-            :key="el.idx"
-            :data-id="index"
-            :class="typeL.status"
+            :class="{ 'text-danger': el.info.deptHead }"
+            v-for="el in stList.list"
+            :key="el.id"
+            :data-id="el.id"
+            @click="showUserInfo"
           >
             <div class="row">
-              <div class="col lgt-name">{{ el.contractor_info.name }}</div>
-              <div class="col lgt-budget">
-                {{ el.budget | currency("RUB") }}
+              <div class="col lic-name">
+                <div class="user_avtar"><img :src="el.info.avatarUrl"></div>
+                <div class="user_name">{{ el.info.name }} {{ el.info.surname }}</div>                
               </div>
-            </div>
-            <div class="row">
-              <div class="col lgt-description-name">Описание</div>
-              <div class="col lgt-description">{{ el.description }}</div>
-            </div>
-            <div class="row">
-              <div class="col lgt-date">
-                <small>{{ el.date | date("date") }}</small>
-              </div>
+              <div class="col lgt-position">{{ el.info.position }}</div>
             </div>
           </div>
         </transition-group>
-      </draggable> -->
+      </draggable>
+    </div>
+    <div class="col-1 ndb-holder">
+      <button class="btn btn-light new-dept-btn btn-sm" @click="addNewDept">
+        <i class="bi bi-plus-square"></i>
+      </button>
     </div>
   </div>
 </template>
@@ -51,31 +66,36 @@ export default {
   data() {
     return {
       structureList: [],
-      loading: true
+      users: [],
+      loading: true,
+      deptName: "",
     };
   },
   async mounted() {
-    const structureList = (await this.$store.dispatch("fetchStructure"))
-    console.log(structureList)
-    // .sort(
-    //   (a, b) => (a.order > b.order ? 1 : b.order > a.order ? -1 : 0)
-    // );
+    const structureList = await this.$store.dispatch("fetchStructure");
+    const users = await this.$store.dispatch("fetchUsers");
+    let emptyDept = [];
+    for (let i = 0; i < users.length; i++) {
+      if (!users[i].info.department || users[i].info.department == "noDept") {
+        users[i].info.department = "noDept";
+        emptyDept.push(users[i]);
+      }
+    }
+    if (emptyDept.length > 0) {
+      structureList.unshift({ id: "noDept", name: "Отдел не назначен" });
+    }
 
-    // for (let i = 0; i < listTypes.length; i++) {
-    //   listTypes[i].list = new Array();
-    //   for (let z = 0; z < this.sales.length; z++) {
-    //     if (this.sales[z].status == listTypes[i].status) {
-    //       listTypes[i].list.push(this.sales[z]);
-    //     }
-    //   }
-    // }
-    // for (let i = 0, k = 0; i < listTypes.length; i++) {
-    //   for (let z = 0; z < listTypes[i].list.length; z++) {
-    //     listTypes[i].list[z].idx = k;
-    //     k++;
-    //   }
-    // }
-    this.structureList = structureList;
+    for (let i = 0; i < structureList.length; i++) {
+      structureList[i].list = [];
+      for (let z = 0; z < users.length; z++) {
+        if (users[z].info.department == structureList[i].id) {
+          structureList[i].list.push(users[z]);
+        }
+      }
+    }
+    this.structureList = structureList.sort((a, b) =>
+      a.date > b.date ? 1 : b.date > a.date ? -1 : 0
+    );
     this.loading = false;
   },
   methods: {
@@ -83,17 +103,50 @@ export default {
     replace: function () {},
     clone: function (el) {},
     async checkMove(evt) {
-      this.loading = true;
       const itemId = evt.draggedContext.element.id;
-      const newStatus =
-        evt.to.__vue__.$el.parentElement.getAttribute("data-id");
-      const sales = await this.$store.dispatch("changeStatusById", {
-        id: itemId,
-        status: newStatus,
+      const dept = evt.to.__vue__.$el.parentElement.getAttribute("data-id");
+      await this.$store.dispatch("changeDepartment", {
+        uid: itemId,
+        deptId: dept,
       });
-      this.$emit("updated", sales);
-      this.loading = false;
+      this.$message('Сотруднику был назначен новый отдел');
     },
+    async addNewDept() {
+      const id = await this.$store.dispatch("createDept", {
+        name: "Новый отдел",
+        date: new Date().toJSON(),
+      });
+      this.structureList.push({ id: id, name: "Новый отдел", list: [] });
+      this.$message("Отдел успешно создан");
+    },
+    async deleteDept(id) {
+      for (let i = 0; i < this.structureList.length; i++) {
+        if(this.structureList[i].id == id){
+          this.structureList[0].list = this.structureList[0].list.concat(this.structureList[i].list)
+        }
+      }
+      this.structureList = this.structureList.filter(function (obj) {
+        return obj.id !== id;
+      });
+      await this.$store.dispatch("deleteDept", id);
+      this.$message("Отдел успешно удален. Сотрудники перемещены");
+    },
+    async deptNameChange(el) {
+      const name = el.target.value;
+      const id = el.currentTarget.getAttribute("data-id");
+      for (let i = 0; i < this.structureList.length; i++) {
+        if (this.structureList[i].id == id) {
+          this.structureList[i].name = name;
+        }
+      }
+      await this.$store.dispatch("renameDept", { id, name });
+      this.$message("Отдел успешно переименован");
+    },
+    async showUserInfo(el){
+      const uid = el.currentTarget.getAttribute("data-id")
+      let user = await this.$store.dispatch('fetchInfoById', uid )
+      console.log(user)
+    }
   },
 
   components: {

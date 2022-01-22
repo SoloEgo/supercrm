@@ -36,8 +36,24 @@
       >
         <i class="bi bi-moon"></i>
       </button>
-      <button class="notification-holder-btn btn btn-light btn-sm dropdown  me-3">
+      <button
+        class="notification-holder-btn btn btn-light btn-sm dropdown me-3"
+      >
         <i class="bi bi-bell"></i>
+        <span
+          class="
+            position-absolute
+            top-0
+            start-100
+            translate-middle
+            badge
+            rounded-pill
+            bg-danger
+          "
+        >
+          9+
+          <span class="visually-hidden">unread messages</span>
+        </span>
       </button>
       <div
         class="dropdown user-block"
@@ -45,25 +61,28 @@
         @click="showUserSettings = !showUserSettings"
         v-click-outside="closeDropDown"
       >
-        <div class="avatar avatar-xl user-image" :style="{backgroundImage: 'url('+avatar+')'}"></div>
+        <div
+          class="avatar avatar-xl user-image"
+          :style="{ backgroundImage: 'url(' + avatar + ')' }"
+        ></div>
         <div class="user-name">
-          <span class="dropdown-toggle">{{ name }} {{surname}}</span>
+          <span class="dropdown-toggle">{{ name }} {{ surname }}</span>
           <small>{{ position }}</small>
         </div>
         <ul
           class="dropdown-menu dropdown-menu-end"
-          
           :class="{ show: showUserSettings }"
-        ><li>
-          <router-link to="/profile" class="dropdown-item">
-            <i class="bi bi-person"></i> Профиль
-          </router-link>
-        </li>
-        <li>
-          <a href="#" class="dropdown-item" @click.prevent="logout">
-            <i class="bi bi-box-arrow-left"></i> Выйти
-          </a>
-        </li>   
+        >
+          <li>
+            <router-link to="/profile" class="dropdown-item">
+              <i class="bi bi-person"></i> Профиль
+            </router-link>
+          </li>
+          <li>
+            <a href="#" class="dropdown-item" @click.prevent="logout">
+              <i class="bi bi-box-arrow-left"></i> Выйти
+            </a>
+          </li>
         </ul>
       </div>
     </div>
@@ -106,17 +125,19 @@ export default {
         rootEl.classList.remove("lightTheme");
         rootEl.classList.add("darkTheme");
         this.theme = "darkTheme";
-        this.$cookies.set("theme", 'darkTheme', 60 * 60 * 24 * 30);
+        this.$cookies.set("theme", "darkTheme", 60 * 60 * 24 * 30);
       } else {
         rootEl.classList.add("lightTheme");
         rootEl.classList.remove("darkTheme");
         this.theme = "lightTheme";
-        this.$cookies.set("theme", 'lightTheme', 60 * 60 * 24 * 30);
-      }    
+        this.$cookies.set("theme", "lightTheme", 60 * 60 * 24 * 30);
+      }
     },
     closeDropDown() {
-      document.querySelectorAll('.dropdown-menu').forEach(el => el.classList.remove('show'))
-      this.showUserSettings = false
+      document
+        .querySelectorAll(".dropdown-menu")
+        .forEach((el) => el.classList.remove("show"));
+      this.showUserSettings = false;
     },
   },
   computed: {
@@ -136,7 +157,7 @@ export default {
   async mounted() {
     this.theme = this.$cookies.get("theme");
     this.date = new Date();
-    let ref = this.$store.getters.info.avatarUrl
+    let ref = this.$store.getters.info.avatarUrl;
     document.querySelector(".user-image").style.backgroundImage =
       "url(" + ref + ")";
   },

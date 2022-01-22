@@ -3,9 +3,6 @@
     <div class="page-title">
       <div class="page-header"><h3>Структура отделов</h3><span class="badge bg-primary ms-3">Администрирование</span></div>
       <div class="page-controls">
-        <button class="btn btn-primary" @click="openModalCreateSale">
-          <i class="bi bi-plus-square"></i> Новый отдел
-        </button>
       </div>
     </div>
     <section>
@@ -13,7 +10,7 @@
       <div class="tile-holder" v-else>
         <div class="tile-card tile-0">
           <div class="card white-card minh-100">
-            <StructureBlock :sales="sales" :key="sales.length"  @updated="updateSales"/>
+            <StructureBlock :deparments="deparments" :key="deparments.length"  @updated="updateSales"/>
           </div>
         </div>
       </div>

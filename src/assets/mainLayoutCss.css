@@ -90,6 +90,7 @@
         height: calc(100% - 2.5rem);
         padding: 2.5rem 2.5rem 1.5rem;
         box-sizing: border-box;
+        overflow: auto;
     }
     
     .content.full-width {
@@ -145,7 +146,6 @@
     .tile-0 {
         grid-column: 1/5;
         grid-row: 1/4;
-        overflow: auto;
     }
     
     .tile-1 {
@@ -291,8 +291,13 @@
     
     .minh-100 {
         min-height: 100%;
+        height: 100%;
     }
     
     .table-hover tr {
         cursor: pointer;
+    }
+    
+    .card {
+        overflow-x: auto;
     }
