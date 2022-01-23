@@ -1,5 +1,6 @@
 <template>
-  <ul class="side-nav nav nav-pills flex-column mb-auto">
+<div>
+<ul class="side-nav nav nav-pills flex-column mb-auto">
     <li class="sidebar-header">Страницы</li>
     <router-link
       v-for="link in links"
@@ -19,8 +20,12 @@
         >
       </li>
     </router-link>
-    <li class="sidebar-header" v-if="isAdmin">Администрирование</li>
-    <router-link
+  </ul>
+  <ul class="side-nav nav nav-pills flex-column mb-auto" v-if="isAdmin">
+        <li class="sidebar-header" >
+      Администрирование
+      </li>
+        <router-link
       v-for="link in admlinks"
       :key="link.path"
       tag="li"
@@ -38,7 +43,8 @@
         >
       </li>
     </router-link>
-  </ul>
+      </ul>
+</div>
 </template>
 
 <script>

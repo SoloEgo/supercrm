@@ -1,13 +1,11 @@
 .col.lgt-position {
     flex: 0 1 auto;
-    width: 25%;
     box-sizing: border-box;
     padding: 0 0.2rem;
 }
 
 .col.lic-name {
     flex: 0 1 auto;
-    width: 75%;
     box-sizing: border-box;
     padding: 0 0.2rem;
     display: flex;
@@ -62,6 +60,7 @@
 
 .ssn-name input {
     border: none;
+    width: 100%;
 }
 
 .ssn-name input:focus {
