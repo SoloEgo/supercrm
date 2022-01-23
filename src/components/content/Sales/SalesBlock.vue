@@ -14,15 +14,15 @@
         class="list-group"
         :list="typeL.list"
         group="people"
-        :move="checkMove"
         :data-id="typeL.status"
+        @end="onEnd"
       >
         <transition-group>
           <div
             class="list-item-card card mt-2 mb-2"
-            v-for="(el, index) in typeL.list"
+            v-for="(el) in typeL.list"
             :key="el.idx"
-            :data-id="index"
+            :data-id="el.id"
             :class="typeL.status"
           >
             <div class="row">
@@ -82,6 +82,7 @@ export default {
       }
     }
     this.typeList = listTypes;
+    console.log(this.typeList)
     this.loading = false;
   },
   methods: {
@@ -89,17 +90,17 @@ export default {
     replace: function () {},
     clone: function (el) {
     },
-    async checkMove(evt) {
+    async onEnd(evt) {
       this.loading = true;
-      const itemId = evt.draggedContext.element.id;
-      const newStatus =
-        evt.to.__vue__.$el.parentElement.getAttribute("data-id");
+      const itemId = evt.item.getAttribute("data-id");
+      const newStatus = evt.to.__vue__.$el.parentElement.getAttribute("data-id");
       const sales = await this.$store.dispatch("changeStatusById", {
         id: itemId,
         status: newStatus,
       });
       this.$emit('updated',sales)
       this.loading = false;
+      this.$message("Статус продажи успешно изменен");
     },
   },
 

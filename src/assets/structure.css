@@ -87,3 +87,20 @@
 .user_avtar img {
     width: 100%;
 }
+
+.user_name,
+.user-position {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.user-img {
+    background-position: center;
+    background-size: 100%;
+    width: 100%;
+    height: 0%;
+    box-sizing: border-box;
+    padding: 50%;
+    border-radius: 0.5rem;
+}

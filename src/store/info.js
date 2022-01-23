@@ -33,6 +33,15 @@ export default {
             }
 
         },
+        async fetchUsers({ commit, dispatch }) {
+            try {
+                const users = (await firebase.database().ref(`/users`).once('value')).val() || {}
+                return Object.keys(users).map(key => ({...users[key], id: key }))
+            } catch (error) {
+                commit('setError', e)
+                throw e
+            }
+        },
         async updateInfo({ dispatch, commit, getters }, toUpdate) {
             try {
                 const uid = await dispatch('getUid')
@@ -48,20 +57,31 @@ export default {
                 throw e
             }
         },
-        async changeDepartment({ commit, dispatch }, { uid, deptId }) {
+        async updateInfoById({ dispatch, commit }, toUpdate) {
             try {
-                await firebase.database().ref(`/users/${uid}/info`).update({ department: deptId })
+                const id = toUpdate.id
+                const updateData = toUpdate
+                delete updateData.id
+                await firebase.database().ref(`/users/${id}/info`).update(updateData)
             } catch (e) {
                 commit('setError')
                 throw e
             }
         },
-        async fetchUsers({ commit, dispatch }) {
+        async fetchPositions({ commit, dispatch }) {
             try {
-                const users = (await firebase.database().ref(`/users`).once('value')).val() || {}
-                return Object.keys(users).map(key => ({...users[key], id: key }))
-            } catch (error) {
-                commit('setError', e)
+                const positions = await (await firebase.database().ref(`/positions`).once('value')).val() || {}
+                return positions
+            } catch (e) {
+                commit('setError')
+                throw e
+            }
+        },
+        async changeDepartment({ commit, dispatch }, { uid, deptId }) {
+            try {
+                await firebase.database().ref(`/users/${uid}/info`).update({ department: deptId })
+            } catch (e) {
+                commit('setError')
                 throw e
             }
         },
