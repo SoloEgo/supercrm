@@ -258,7 +258,6 @@ export default {
             }
           }
         }
-        console.log(this.structureList);
         this.$v.$reset();
         this.$message("Данные успешно обновлены");
       } catch (e) {

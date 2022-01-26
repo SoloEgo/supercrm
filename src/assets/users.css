@@ -1,0 +1,22 @@
+.user-page-avatar {
+    background-position: center;
+    background-size: 100%;
+    width: 2rem;
+    height: 2rem;
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+}
+
+.users-table span.badge.rounded-pill {
+    text-transform: capitalize;
+}
+
+.user-img {
+    background-position: center;
+    background-size: 100%;
+    width: 100%;
+    height: 0%;
+    box-sizing: border-box;
+    padding: 50%;
+    border-radius: 0.5rem;
+}

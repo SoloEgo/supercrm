@@ -89,8 +89,8 @@ li.sidebar-header {
     margin-bottom: 10px;
 }
 
-a.nav-link.text-white.active {
-    padding: 0.5rem 1rem;
+a.nav-link {
+    padding: 0.3rem 1rem;
 }
 
 .nav-link:hover:before {
@@ -103,4 +103,48 @@ a.nav-link.text-white.active {
     left: 0px;
     top: 0px;
     border-radius: 0.2rem;
+}
+
+.nav-pills .nav-link {
+    background: none;
+    border: 0;
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.nav-pills .nav-link i {
+    font-size: 0.8rem;
+}
+
+.btn.btn-sdb-toggle {
+    background: none;
+    border: 0;
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.btn-toggle::before {
+    width: 1.25em;
+    line-height: 0;
+    content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><path fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/></svg>");
+    transition: transform .35s ease;
+    transform-origin: 0.5em 50%;
+    transform: rotate(0deg) scale(0.7);
+}
+
+.btn-toggle[aria-expanded="true"]::before {
+    transform: rotate(90deg) scale(0.7);
+}
+
+ul.side-nav.nav.nav-pills.flex-column.mb-auto {
+    background: #0000001a;
+    border-radius: 0.25rem;
 }

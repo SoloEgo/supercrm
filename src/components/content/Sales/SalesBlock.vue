@@ -82,7 +82,6 @@ export default {
       }
     }
     this.typeList = listTypes;
-    console.log(this.typeList)
     this.loading = false;
   },
   methods: {

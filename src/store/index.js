@@ -7,6 +7,7 @@ import record from './record'
 import contractors from './contractors'
 import sales from './sales'
 import structure from './structure'
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({

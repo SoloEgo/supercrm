@@ -15,12 +15,6 @@
     align-items: center;
 }
 
-.search-box.dropdown i {
-    position: absolute;
-    top: 7px;
-    right: 10px;
-}
-
 .avatar.avatar-xl.user-image {
     width: 40px;
     height: 40px;
@@ -48,7 +42,8 @@
     font-size: 1.5rem;
 }
 
-button#toggleNavigationTooltip i {
+
+/* button#toggleNavigationTooltip i {
     font-size: 1.5rem;
     line-height: 0;
 }
@@ -60,7 +55,7 @@ button#toggleNavigationTooltip {
     color: var(--fontsColor);
     line-height: 1 !important;
     padding: 0.375rem 0.375rem;
-}
+} */
 
 .toggle-icon-wrapper {
     margin-right: 20px;
@@ -113,10 +108,104 @@ button#toggleNavigationTooltip {
 }
 
 .navbar.navbar-light {
-    height: 2.5rem;
+    height: 3.5rem;
     background: var(--elementBG);
+    box-sizing: border-box;
 }
 
 .content.full-width .navbar-top .left-nav-bar {
     margin-left: 1rem;
+}
+
+.dropdownNotificationBlock {
+    position: fixed;
+    width: 40rem;
+    height: calc(100% - 3.5rem);
+    background: #ecedefba;
+    z-index: 100;
+    right: -40rem;
+    bottom: 0;
+    overflow: auto;
+    transition: all 0.5s;
+    padding: 10px;
+    box-sizing: border-box;
+    box-shadow: -2px 7px 15px #00000052;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+}
+
+.dropdownNotificationBlock.active {
+    right: 0;
+}
+
+.n-icon {
+    color: var(--fontsColor);
+    background-color: var(--btnLightBackground);
+    border-color: var(--btnLightBorder);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+}
+
+.noticication_cards {
+    padding: 0.5rem;
+}
+
+.d_date {
+    font-size: 0.7rem;
+    text-align: right;
+    width: 100%;
+}
+
+.notificationCard.card .col-2 {
+    padding: 0;
+    width: 20%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.notificationCard.card {
+    padding: 0.5rem;
+}
+
+.n_author {
+    font-size: 0.8rem;
+}
+
+.n_header {
+    font-weight: bold;
+}
+
+.notification-status {
+    font-size: 0.5rem;
+    position: absolute;
+    top: -3px;
+    right: -3px;
+}
+
+.notification-status.nf-viewed {
+    color: #bdbdbd;
+}
+
+.notification-status.nf-not-viewed {
+    color: var(--bs-primary);
+}
+
+.nf-row {
+    display: flex;
+    align-items: flex-start;
+}
+
+.nf-col-bell {
+    margin-right: 0.5rem;
+}
+
+.nf-col-text {
+    width: 100%;
 }

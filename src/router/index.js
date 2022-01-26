@@ -91,6 +91,17 @@ const routes = [{
         meta: { layout: "main", auth: true },
         component: () =>
             import ("../views/Users.vue"),
+    }, ,
+    {
+        path: "/notCenter",
+        name: "Notifications",
+        title: 'Уведомления',
+        icon: 'bi-app-indicator',
+        inSidebar: true,
+        forAdmin: true,
+        meta: { layout: "main", auth: true },
+        component: () =>
+            import ("../views/NotCenter.vue"),
     },
 
     // {

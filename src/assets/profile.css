@@ -50,3 +50,21 @@
     transition: all 0.4s;
     cursor: pointer;
 }
+
+.cropper {
+    height: 200px;
+    width: 200px;
+    background: #DDD;
+}
+
+.vue-bounding-box.vue-rectangle-stencil__bounding-box>div:last-child {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    border-radius: 1000rem;
+}
+
+.vue-bounding-box.vue-rectangle-stencil__bounding-box>div:first-child {
+    height: 100%;
+}

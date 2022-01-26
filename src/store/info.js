@@ -61,7 +61,7 @@ export default {
             try {
                 const id = toUpdate.id
                 const updateData = toUpdate
-                delete updateData.id
+                    //delete updateData.id
                 await firebase.database().ref(`/users/${id}/info`).update(updateData)
             } catch (e) {
                 commit('setError')
@@ -80,6 +80,30 @@ export default {
         async changeDepartment({ commit, dispatch }, { uid, deptId }) {
             try {
                 await firebase.database().ref(`/users/${uid}/info`).update({ department: deptId })
+            } catch (e) {
+                commit('setError')
+                throw e
+            }
+        },
+        async fetchViewedNotifications({ commit, dispatch }) {
+            try {
+                const uid = await dispatch('getUid')
+                const nots = await (await firebase.database().ref(`/users/${uid}/info/viewvedNots`).once('value')).val() || {}
+                return nots
+            } catch (e) {
+                commit('setError')
+                throw e
+            }
+        },
+        async addToViewedNotsId({ commit, dispatch }, id) {
+            try {
+                const uid = await dispatch('getUid')
+                let nots = await (await firebase.database().ref(`/users/${uid}/info/viewvedNots`).once('value')).val() || {}
+                console.log(nots)
+                nots = nots + '|' + id
+                console.log(nots)
+                await firebase.database().ref(`/users/${uid}/info`).update({ viewvedNots: nots })
+                    //return nots
             } catch (e) {
                 commit('setError')
                 throw e

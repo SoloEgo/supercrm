@@ -1,39 +1,25 @@
 <template>
   <div class="displayContentBlock">
     <div class="page-title">
-      <div class="page-header"><h3>Пользователи</h3><span class="badge bg-primary ms-3">Администрирование</span></div>
-      <div class="page-controls">
-        <button
-          class="btn me-3"
-          :class="displayTable ? 'btn-primary' : 'btn-light'"
-          @click="bthDisplayHnadler"
-        >
-          <i class="bi bi-table"></i>
-        </button>
-        <button
-          class="btn me-3"
-          :class="!displayTable ? 'btn-primary' : 'btn-light'"
-          @click="bthDisplayHnadler"
-        >
-          <i class="bi bi-card-list"></i>
-        </button>
-        <button class="btn btn-primary" @click="openModalCreateSale">
-          <i class="bi bi-plus-square"></i> Новая сделка
-        </button>
+      <div class="page-header">
+        <h3>Пользователи</h3>
+        <span class="badge bg-primary ms-3">Администрирование</span>
       </div>
+      <div class="page-controls"></div>
     </div>
     <section>
       <LoaderContent v-if="loading" />
       <div class="empty-results-holder" v-else-if="!users.length">
-        <div class="empty-result">
-            Пользователей пока нет.
-          <button class="btn primary-btn">Добавить нового пользователя</button>
-        </div>
+        <div class="empty-result">Пользователей пока нет.</div>
       </div>
       <div class="tile-holder" v-else>
         <div class="tile-card tile-0">
-          <div class="card white-card minh-100" v-if="displayTable">
-            <SalesTable :sales="sales" :key="sales.length" @updated="updateSales"/>
+          <div class="card white-card minh-100">
+            <UsersTable
+              :users="users"
+              :key="users.length"
+              @updateUser="updateUserInfo"
+            />
             <nav aria-label="Page navigation example">
               <Paginate
                 v-model="page"
@@ -51,40 +37,58 @@
               />
             </nav>
           </div>
-          <div class="card white-card minh-100" v-else>
-            <SalesBlock :sales="sales" :key="sales.length"  @updated="updateSales"/>
-          </div>
         </div>
-        <SalesCreateModal @createdSale="addNewSale" />
       </div>
     </section>
   </div>
 </template>
 
 <script>
-import "@/assets/salesPage.css";
-import SalesCreateModal from "@/components/content/Sales/SalesCreateModal";
-import SalesTable from "@/components/content/Sales/SalesTable";
-import SalesBlock from "@/components/content/Sales/SalesBlock";
+import "@/assets/users.css";
+import UsersTable from "@/components/content/Users/UsersTable";
 import paginationMixin from "@/mixins/pagination.mixin";
 export default {
-  name: "sales",
+  name: "users",
   mixins: [paginationMixin],
   data: () => ({
     loading: true,
-    sales: [],
+    users: [],
     displayTable: null,
+    updC: 0,
+    positions: [],
   }),
   async mounted() {
-    this.sales = await this.$store.dispatch("fetchSales");
+    const usersDirty = await this.$store.dispatch("fetchUsers");
+    const positions = await this.$store.dispatch("fetchPositions");
+    const departments = await this.$store.dispatch("fetchStructure");
+    let users = Object.keys(usersDirty).map((key) => ({
+      ...usersDirty[key].info,
+      id: usersDirty[key].id,
+      positionName: positions.filter(
+        (position) => position.id == usersDirty[key].info.position
+      )[0].name,
+      positionRole: positions.filter(
+        (position) => position.id == usersDirty[key].info.position
+      )[0].role,
+    }));
+
+    for (let i = 0; i < users.length; i++) {
+      users[i].departmentName = "Нет отдела";
+      for (let z = 0; z < departments.length; z++) {
+        if (users[i].department == departments[z].id) {
+          users[i].departmentName = departments[z].name;
+        }
+      }
+    }
+    this.positions = positions;
+    this.users = users;
     this.setupPagination(
-      this.sales.map((sale) => {
+      this.users.map((user) => {
         return {
-          ...sale,
+          ...user,
         };
       })
     );
-    this.displayTable = this.$cookies.get("displayTable") === "true";
     this.loading = false;
   },
   methods: {
@@ -93,22 +97,28 @@ export default {
         .querySelector(".create-new-record-card")
         .classList.toggle("active");
     },
-    addNewSale(sale) {
-      this.sales.push(sale);
-      this.updateCount++;
+    updateUserInfo(uInfo) {
+      let userTmp = this.users;
+      for (let i = 0; i < userTmp.length; i++) {
+        if (userTmp[i].id == uInfo.id) {
+          userTmp[i].name = uInfo.name;
+          userTmp[i].surname = uInfo.surname;
+          userTmp[i].position = uInfo.position;
+          for (let z = 0; z < this.positions.length; z++) {
+            if (this.positions[z].id == userTmp[i].position) {
+              userTmp[i].positionName = this.positions[z].name;
+              userTmp[i].positionRole = this.positions[z].role;
+            }
+          }
+        }
+      }
+      console.log(userTmp)
+      this.users = userTmp
+      this.updC++;
     },
-    bthDisplayHnadler() {
-      this.displayTable = !this.displayTable;
-      this.$cookies.set("displayTable", this.displayTable, 60 * 60 * 24 * 30);
-    },
-    updateSales(sales){
-      this.sales = sales
-    }
   },
   components: {
-    SalesTable,
-    SalesCreateModal,
-    SalesBlock,
+    UsersTable,
   },
 };
 </script>

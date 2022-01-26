@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-striped mb-5 table-hover1">
+  <table class="table table-striped mb-5 table-hover">
     <thead>
       <tr>
         <th>#</th>
@@ -27,7 +27,7 @@
         <td>{{ contractor.email }}</td>
         <td>{{ contractor.phone }}</td>
         <td>{{ contractor.description }}</td>
-        <td><button class="btn btn-light" :data-id="contractor.id" @click="openModalEditContr2">Редактировать</button></td>
+        <td><button class="btn btn-light btn-sm" :data-id="contractor.id" @click="openModalEditContr2"><i class="bi bi-pencil-square"></i></button></td>
       </tr>
     </tbody>
   </table>
