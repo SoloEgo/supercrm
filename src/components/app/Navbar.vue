@@ -61,7 +61,10 @@
           <span class="visually-hidden">unread notifications</span>
         </span>
       </button>
-      <button class="messanger-holder-btn btn btn-light btn-sm dropdown me-3">
+      <button
+        class="messanger-holder-btn btn btn-light btn-sm dropdown me-3"
+        @click="chatListShow = !chatListShow"
+      >
         <i class="bi bi-chat-right-text"></i>
         <span
           class="
@@ -75,7 +78,7 @@
           "
         >
           9+
-          <span class="visually-hidden">unread notifications</span>
+          <span class="visually-hidden">unread messages</span>
         </span>
       </button>
       <div
@@ -114,11 +117,7 @@
       :class="{ active: notificationShow }"
     >
       <div v-for="n of notifications" :key="n.id" class="noticication_cards">
-        <div
-          class="notificationCard card mb-1"
-          :data-id="n.id"
-          @click="notCardClicked"
-        >
+        <div class="notificationCard card mb-1">
           <div class="nf-row">
             <div class="nf-col-bell">
               <div class="n-icon">
@@ -132,11 +131,72 @@
               </div>
             </div>
             <div class="nf-col-text">
-              <div class="n_author">от: {{ n.author }}</div>
-              <div class="n_header">{{ n.header }}</div>
-              <div class="n_text">{{ n.content }}</div>
-              <div class="d_date">
-                {{ n.date | date("datetime") }}
+              <div class="nf-header">
+                <div class="n_author">от: {{ n.author }}</div>
+                <div class="d_date">
+                  {{ n.date | date("datetime") }}
+                </div>
+              </div>
+
+              <div class="n_header" v-html="n.header"></div>
+              <div class="n_text" v-html="n.content"></div>
+              <div class="nf_confirm_button">
+                <button
+                  :data-id="n.id"
+                  class="btn btn-sm"
+                  @click="notCardClicked"
+                  :class="n.isRead ? ' btn-secondary' : ' btn-primary'"
+                  :disabled="n.isRead"
+                >
+                  <span v-if="n.isRead">Прочитано</span>
+                  <span v-else>Подтвердить</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="chatListWrapper" :class="{ active: chatListShow }">
+      <div class="chatListHeader">
+        <div class="chatListSearch">
+          <input
+            placeholder="Search..."
+            aria-label="Search"
+            type="search"
+            class="search-input form-control"
+            v-model="searchChat"
+            value=""
+          />
+        </div>
+      </div>
+      <div class="chatListHeading">Контакты</div>
+      <div class="chatListBody">
+        <div class="chatList">
+          <div class="chatListCard" v-for="r of chartRooms" :key="r.id + uChange">
+            <div class="chat_row">
+              <div class="chatUI">
+                <div
+                  class="user-status"
+                  :class="r.userOnline ? 'usr-online' : 'usr-offline'"
+                ></div>
+                <div
+                  class="chatUserImage"
+                  :style="{ backgroundImage: 'url(' + r.avatar + ')' }"
+                ></div>
+              </div>
+              <div class="chatUText">
+                <div class="chutHeader">
+                  <div class="chutName">
+                    {{ r.name }}
+                  </div>
+                  <div class="chutDate">
+                    {{ r.lastMessageDate | date("datetime") }}
+                  </div>
+                </div>
+                <div class="chutLastMessage">
+                  <div class="chutlm">{{ r.lastMessage }}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -152,6 +212,8 @@ import "firebase/firestore";
 import firebase from "firebase/app";
 import { db } from "@/plugins/db";
 import ClickOutside from "vue-click-outside";
+import "@/assets/chatList.css";
+
 export default {
   data: () => ({
     uid: null,
@@ -163,6 +225,14 @@ export default {
     theme: "",
     notifications: [],
     notReadsLength: 0,
+    chatListShow: false,
+    searchChat: "",
+    usersOnline: [],
+    usersChat: [],
+    messages: [],
+    rooms: [],
+    chartRooms: [],
+    uChange: 0
   }),
   methods: {
     async logout() {
@@ -202,14 +272,37 @@ export default {
       this.showUserSettings = false;
     },
     async notCardClicked(el) {
+      var btn = el.currentTarget;
+      if (btn.firstChild.data == "Подтвердить") {
+        btn.firstChild.data = "Прочитано";
+      }
       const id = el.currentTarget.getAttribute("data-id");
       const nota = this.notifications.find((el) => el.id == id);
       if (!nota.viewedUsers.includes(this.uid)) {
-        let viewedUsersArr = nota.viewedUsers
-        viewedUsersArr.push(this.uid)
-        db.collection("notifications").doc(id).update({viewedUsers: viewedUsersArr});
+        let viewedUsersArr = nota.viewedUsers;
+        viewedUsersArr.push(this.uid);
+        db.collection("notifications")
+          .doc(id)
+          .update({ viewedUsers: viewedUsersArr });
       }
     },
+    //   fetchMessageById(groupId, messageId) {
+    //     let ms = db
+    //       .collection("messageGroup")
+    //       .doc(groupId)
+    //       .collection("messages")
+    //       .doc(messageId)
+    //       .get()
+    //       .then((snapshot) => {
+    //         if (snapshot.exists) {
+    //           console.log(snapshot.data());
+    //           let message = snapshot.data();
+    //           return message.messageText;
+    //         } else {
+    //           console.log("No such document!");
+    //         }
+    //       });
+    //   },
   },
   computed: {
     name() {
@@ -227,11 +320,14 @@ export default {
   },
   firestore: {
     notifications: db.collection("notifications").orderBy("date", "desc"),
+    usersOnline: db.collection("users"),
+    messages: db.collection("messageGroup"),
+    rooms: db.collection("rooms"),
   },
   watch: {
     notifications: async function () {
       this.notifications.map((obj) => ({ ...obj, isRead: false }));
-      this.notReadsLength = 0
+      this.notReadsLength = 0;
       if (this.notifications) {
         for (let i = 0; i < this.notifications.length; i++) {
           if (!this.notifications[i].viewedUsers.includes(this.uid)) {
@@ -243,6 +339,76 @@ export default {
         }
       }
     },
+    usersOnline: async function () {
+      let onlineUsers = this.usersOnline;
+      if (onlineUsers) {
+        let chartRooms = this.chartRooms;
+        if (chartRooms.length > 0) {          
+          for (let i = 0; i < chartRooms.length; i++) {
+            if (chartRooms[i].singleChart) {
+              for (let z = 0; z < onlineUsers.length; z++) {
+                if(onlineUsers[z].id == chartRooms[i].members[0]){
+                  chartRooms[i].userOnline = onlineUsers[z].online
+                }                
+              }
+            }
+          }
+            
+          this.chartRooms = chartRooms;
+          this.uChange ++
+          console.log(this.chartRooms)   
+        }
+      }
+      
+    },
+    rooms: async function () {
+      if (this.rooms) {
+        const uid = await this.$store.dispatch("getUid");
+        let rooms = new Array();
+        for (let i = 0; i < this.rooms.length; i++) {
+          rooms[i] = Object();
+          rooms[i].name = this.rooms[i].name;
+          rooms[i].members = this.rooms[i].members.filter((m) => m != uid);
+
+          if (rooms[i].members.length == 1) {
+            rooms[i].singleChart = true;
+            // this.usersOnline.includes(rooms[i].members[0])
+            //   ? (rooms[i].userOnline = true)
+            //   : (rooms[i].userOnline = false);
+            const uInfo = await this.$store.dispatch(
+              "fetchInfoById",
+              rooms[i].members[0]
+            );
+            rooms[i].avatar = uInfo.avatarUrl;
+            rooms[i].name = uInfo.name + " " + uInfo.surname;
+          } else {
+            rooms[i].singleChart = false;
+            rooms[i].avatar = "";
+          }
+          rooms[i].lastMessageId = this.rooms[i].lastMessage.messageId;
+          rooms[i].id = this.rooms[i].id;
+          db.collection("messageGroup")
+            .doc(this.rooms[i].id)
+            .collection("messages")
+            .doc(rooms[i].lastMessageId)
+            .get()
+            .then((snapshot) => {
+              if (snapshot.exists) {
+                let message = snapshot.data();
+                rooms[i].lastMessage = message.messageText;
+                rooms[i].lastMessageDate = message.sentAt;
+              } else {
+                console.log("No such document!");
+              }
+            });
+        }
+        this.chartRooms = rooms;
+        this.usersOnline.push({})
+        this.usersOnline.splice(this.usersOnline.length - 1);
+        //console.log(rooms);
+      }
+    },
+    
   },
   async mounted() {
     this.uid = await this.$store.dispatch("getUid");

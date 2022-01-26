@@ -1,0 +1,14 @@
+.ql-toolbar.ql-snow {
+    border-radius: 0.25rem 0.25rem 0 0;
+    background: var(--mainBG);
+}
+
+.ql-container.ql-snow {
+    border-radius: 0 0 0.25rem 0.25rem;
+    min-height: 200px
+}
+
+.col.w-initial {
+    width: initial !important;
+    flex: initial;
+}

@@ -1,10 +1,15 @@
 import firebase from 'firebase/app'
+import { db } from "@/plugins/db";
 
 export default {
     actions: {
         async login({ dispatch, commit }, { email, password }) {
             try {
                 await firebase.auth().signInWithEmailAndPassword(email, password)
+                const uid = await dispatch('getUid')
+                db.collection("users").doc(uid).set({
+                    online: true
+                })
             } catch (e) {
                 commit('setError', e)
                 throw e
@@ -34,9 +39,18 @@ export default {
             const user = firebase.auth().currentUser
             return user ? user.uid : null
         },
-        async logout({ commit }) {
-            await firebase.auth().signOut()
-            commit('clearInfo')
-        }
+        async logout({ dispatch, commit }) {
+            try {
+                const uid = await dispatch('getUid')
+                db.collection("users").doc(uid).set({
+                    online: false
+                })
+                await firebase.auth().signOut()
+                commit('clearInfo')
+            } catch (e) {
+                commit('setError', e)
+                throw e
+            }
+        },
     }
 }

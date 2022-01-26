@@ -158,7 +158,6 @@ button#toggleNavigationTooltip {
 .d_date {
     font-size: 0.7rem;
     text-align: right;
-    width: 100%;
 }
 
 .notificationCard.card .col-2 {
@@ -208,4 +207,42 @@ button#toggleNavigationTooltip {
 
 .nf-col-text {
     width: 100%;
+}
+
+.n_text br {
+    line-height: 0;
+    display: none;
+}
+
+.n_text p {
+    margin-bottom: 0.1rem;
+}
+
+.n_text br {
+    line-height: 0;
+    display: none;
+}
+
+.n_text p {
+    margin-bottom: 0.1rem;
+}
+
+.n_text a,
+.n_text a:visited,
+.n_text a:active,
+.n_text a:hover {
+    box-sizing: border-box;
+    color: #0d6efd;
+    text-decoration: underline;
+}
+
+.nf-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nf_confirm_button {
+    display: flex;
+    justify-content: flex-end;
 }
