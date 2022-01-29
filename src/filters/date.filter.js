@@ -8,7 +8,7 @@ export default function dateFilter(value, format = 'date') {
     if (format.includes('time')) {
         options.hour = 'numeric'
         options.minute = 'numeric'
-        options.second = 'numeric'
+            //options.second = 'numeric'
     }
     if (value != undefined) {
         return new Intl.DateTimeFormat('ru-RU', options).format(new Date(value))

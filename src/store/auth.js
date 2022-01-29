@@ -24,7 +24,7 @@ export default {
                     .ref("users/stock-avatar.jpg")
                     .getDownloadURL();
                 await firebase.database().ref(`/users/${uid}/info`).set({
-                    bill: 100,
+                    uid: uid,
                     avatarUrl: avatarUrl,
                     preferedTheme: 'lightTheme',
                     name: name,

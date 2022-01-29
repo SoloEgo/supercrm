@@ -11,24 +11,6 @@
           <i class="bi bi-list"></i>
         </button>
       </div>
-      <!-- <div class="search-box dropdown">
-        <div class="toggle" id="" aria-expanded="false" data-toggle="dropdown">
-          <form class="position-relative">
-            <div class="input-group  input-group-sm">
-              
-              <input
-              placeholder="Search..."
-              aria-label="Search"
-              type="search"
-              class="search-input form-control form-control-sm"
-              value=""
-            />
-            <span class="input-group-text" id="basic-addon"><i class="bi bi-search"></i></span>
-            </div>
-            
-          </form>
-        </div>
-      </div> -->
       <div class="date-holder ms-5">
         <span><i class="bi bi-calendar2 me-2"></i></span
         ><span>{{ date | date("date") }}</span>
@@ -63,7 +45,7 @@
       </button>
       <button
         class="messanger-holder-btn btn btn-light btn-sm dropdown me-3"
-        @click="chatListShow = !chatListShow"
+        @click="chatListShowClcik"
       >
         <i class="bi bi-chat-right-text"></i>
         <span
@@ -165,41 +147,164 @@
             aria-label="Search"
             type="search"
             class="search-input form-control"
-            v-model="searchChat"
+            v-model="searchChatInput"
+            @click="UsersList"
+            @keyup="searchChatInputChange"
             value=""
           />
+          <div class="userSearchList" :class="{ show: showUserListPanel }">
+            <div class="userSearchBlock" v-for="u in usersSearList" :key="u.id">
+              <div class="usb-row">
+                <div class="usb-col usb-img">
+                  <div
+                    class="chatUserImage"
+                    :style="{
+                      backgroundImage: 'url(' + u.info.avatarUrl + ')',
+                    }"
+                  ></div>
+                </div>
+                <div class="usb-col usb-name">
+                  {{ u.info.name }} {{ u.info.surname }}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="chatListHeading">Контакты</div>
+      <div class="chatListHeading">Чаты</div>
       <div class="chatListBody">
+        <!-- <div v-for="u of Users" :key="u.id">{{u.id}}</div> -->
         <div class="chatList">
-          <div class="chatListCard" v-for="r of chartRooms" :key="r.id + uChange">
+          <div
+            class="chatListCard"
+            v-for="c of chatRooms"
+            :key="c.id"
+            :chat-id="c.id"
+            @click="openChatRoom"
+          >
             <div class="chat_row">
               <div class="chatUI">
                 <div
                   class="user-status"
-                  :class="r.userOnline ? 'usr-online' : 'usr-offline'"
+                  :class="c.memberOnline ? 'usr-online' : 'usr-offline'"
                 ></div>
                 <div
                   class="chatUserImage"
-                  :style="{ backgroundImage: 'url(' + r.avatar + ')' }"
+                  :style="{ backgroundImage: 'url(' + c.avatar + ')' }"
                 ></div>
               </div>
               <div class="chatUText">
                 <div class="chutHeader">
                   <div class="chutName">
-                    {{ r.name }}
+                    {{ c.name }}
                   </div>
                   <div class="chutDate">
-                    {{ r.lastMessageDate | date("datetime") }}
+                    {{ c.lastMessageDate | date("datetime") }}
                   </div>
                 </div>
                 <div class="chutLastMessage">
-                  <div class="chutlm">{{ r.lastMessage }}</div>
+                  <div class="chutlm" v-html="c.lastMessage"></div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="chatRoomWindow" :class="{ show: showChatRoom }">
+      <div class="mesWindow">
+        <div
+          class="mes-row"
+          v-for="m in messages"
+          :key="m.id"
+          :class="m.sentBy == uid ? 'my-message' : ''"
+        >
+          <div class="message-wrapper" @contextmenu.prevent="mesMenuClick">
+            <div class="dropdown">
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" @click.prevent="replyOnMessage"
+                    ><i class="bi bi-reply"></i> Ответить</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" :data-id="m.id" @click.prevent=""
+                    ><i class="bi bi-arrow-90deg-right"></i> Переслать</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" @click.prevent=""
+                    ><i class="bi bi-files"></i> Скопировать текст</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" :data-id="m.id" @click.prevent=""
+                    ><i class="bi bi-trash"></i> Удалить</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="messageBlock">
+              <div class="messageSentBy" v-if="!m.continueMessage">{{ m.sentByName }}</div>
+              <div class="messageText">
+                <div class="m-line" v-html="m.messageText"></div>
+                <div class="m-date">{{ m.sentAt | date("time") }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ms-input-holder">
+        <div class="emoji-holder" :class="{ show: showEmojiBlock }">
+          <picker
+            title=""
+            set="apple"
+            :data="emojiIndex"
+            :showSkinTones="false"
+            @select="showEmoji"
+            :i18n="{
+              search: 'Поиск',
+              notfound: 'Не найидено',
+              categories: {
+                search: 'Результаты поиска',
+                recent: 'Недавние',
+                people: 'Эмоции',
+                nature: 'Животные',
+                foods: 'Еда и напитки',
+                activity: 'Активность',
+                places: 'Путешествия',
+                objects: 'Объекты',
+                symbols: 'Символы',
+                flags: 'Флаги',
+                custom: 'Custom',
+              },
+            }"
+          />
+        </div>
+        <div class="input-group">
+          <span class="input-group-text ms-sgb"
+            ><button class="btn btn-light" @click="addFile">
+              <i class="bi bi-paperclip"></i></button
+          ></span>
+          <span class="input-group-text ms-sgb">
+            <button
+              class="btn btn-light"
+              @click="showEmojiBlock = !showEmojiBlock"
+            >
+              <i class="bi bi-emoji-smile"></i></button
+          ></span>
+          <div
+            contenteditable="true"
+            class="message-input form-control"
+            ref="inputMessage"
+            @keyup.enter.prevent="sendMessage"
+          >
+            {{ emojisOutput }}
+          </div>
+          <span class="input-group-text"
+            ><button class="btn btn-primary" @click="sendMessage">
+              <i class="bi bi-send"></i></button
+          ></span>
         </div>
       </div>
     </div>
@@ -212,29 +317,43 @@ import "firebase/firestore";
 import firebase from "firebase/app";
 import { db } from "@/plugins/db";
 import ClickOutside from "vue-click-outside";
+import "emoji-mart-vue-fast/css/emoji-mart.css";
+import data from "emoji-mart-vue-fast/data/all.json";
+import { Picker, EmojiIndex } from "emoji-mart-vue-fast";
 import "@/assets/chatList.css";
-
+let emojiIndex = new EmojiIndex(data);
 export default {
   data: () => ({
     uid: null,
     showUserSettings: false,
-    date: new Date(),
-    dateInterval: null,
     hideSidebarStatus: true,
     notificationShow: false,
+    chatListShow: false,
+    showUserListPanel: false,
+    showEmojiBlock: false,
+    showChatRoom: false,
     theme: "",
+    date: new Date(),
     notifications: [],
     notReadsLength: 0,
-    chatListShow: false,
-    searchChat: "",
-    usersOnline: [],
-    usersChat: [],
+    usersSearList: [],
     messages: [],
-    rooms: [],
-    chartRooms: [],
-    uChange: 0
+    searchChatInput: "",
+    userMessageText: "",
+    emojiIndex: emojiIndex,
+    emojisOutput: "",
   }),
+  created() {
+    this.$store.dispatch("bindUsersOnline");
+    this.$store.dispatch("bindChatRooms");
+  },
+  components: {
+    Picker,
+  },
   methods: {
+    showEmoji(emoji) {
+      this.emojisOutput = this.emojisOutput + emoji.native;
+    },
     async logout() {
       await this.$store.dispatch("logout");
       this.$router.push("/login?message=logout");
@@ -286,23 +405,157 @@ export default {
           .update({ viewedUsers: viewedUsersArr });
       }
     },
-    //   fetchMessageById(groupId, messageId) {
-    //     let ms = db
-    //       .collection("messageGroup")
-    //       .doc(groupId)
-    //       .collection("messages")
-    //       .doc(messageId)
-    //       .get()
-    //       .then((snapshot) => {
-    //         if (snapshot.exists) {
-    //           console.log(snapshot.data());
-    //           let message = snapshot.data();
-    //           return message.messageText;
-    //         } else {
-    //           console.log("No such document!");
-    //         }
-    //       });
-    //   },
+    async UsersList() {
+      this.showUserListPanel = true;
+      let string = this.searchChatInput;
+      let usersReal = await this.$store.dispatch("fetchUsers");
+      let usersStart = usersReal;
+      let users = [];
+      if (string.length > 0) {
+        for (let i = 0; i < usersStart.length; i++) {
+          if (
+            (
+              usersStart[i].info.name.toUpperCase() +
+              usersStart[i].info.surname.toUpperCase()
+            ).indexOf(string.toUpperCase()) < 0
+          ) {
+            usersStart.splice(i, 1);
+            i--;
+          }
+        }
+        users = usersStart;
+      } else {
+        users = usersReal;
+      }
+
+      let usersOnline = [
+        ...new Set(this.$store.state.usersOnline.map((item) => item.id)),
+      ];
+      for (let i = 0; i < users.length; i++) {
+        users[i].online = usersOnline.includes(users[i].id);
+      }
+      this.usersSearList = users;
+    },
+    async searchChatInputChange() {
+      let string = this.searchChatInput;
+      let usersReal = await this.$store.dispatch("fetchUsers");
+      let usersStart = usersReal;
+      if (string.length > 0) {
+        for (let i = 0; i < usersStart.length; i++) {
+          if (
+            (
+              usersStart[i].info.name.toUpperCase() +
+              usersStart[i].info.surname.toUpperCase()
+            ).indexOf(string.toUpperCase()) < 0
+          ) {
+            usersStart.splice(i, 1);
+            i--;
+          }
+        }
+        this.usersSearList = usersStart;
+      } else {
+        this.usersSearList = usersReal;
+      }
+    },
+    async openChatRoom(el) {
+      let id = el.currentTarget.getAttribute("chat-id");
+      this.$store.state.activeChatRoomId = id;
+      this.$store.dispatch("bindMessages");
+      let messages = this.$store.getters.messages;      
+      this.messages = messages;      
+      this.showChatRoom = true;
+    },
+    async sendMessage(el) {
+      const uid = this.$store.state.info.info.uid;
+      const info = await this.$store.dispatch("fetchInfoById", uid);
+      const name = info.name + " " + info.surname;
+      const roomId = this.$store.state.activeChatRoomId;
+      let mText = this.$refs.inputMessage.innerHTML.replaceAll(
+        "<div><br></div>",
+        ""
+      );
+      if (mText.length > 0) {
+        let message = {
+          messageText: mText,
+          sentAt: new Date().toJSON(),
+          sentBy: uid,
+          sentByName: name,
+        };
+        db.collection("messageGroup")
+          .doc(roomId)
+          .collection("messages")
+          .add(message);
+        db.collection("rooms")
+          .doc(roomId)
+          .update({
+            modifiedAt: new Date().toJSON(),
+            "lastMessage.messageText": mText,
+            "lastMessage.readBy": [uid],
+          });
+      }
+      this.$refs.inputMessage.innerHTML = "";
+    },
+    chatListShowClcik() {
+      this.chatListShow = !this.chatListShow;
+      this.showChatRoom = false;
+    },
+    addFile() {},
+    pastEmodji(el) {
+      console.log(el);
+      this.showEmoji = false;
+    },
+    mesMenuClick(el) {
+      let menu = el.currentTarget.children[0].children[0];
+      menu.classList.add("show");
+    },
+    replyOnMessage(el) {
+      const replied = el.currentTarget.closest(".message-wrapper").children[1];
+      this.$refs.inputMessage.innerHTML =
+        '<div class="repWrap"><div class="repliedMessage">' +
+        replied.innerHTML +
+        "</div></div><br><br>";
+    },
+    close(e) {
+      let c = 0;
+      for (let i = 0; i < e.path.length; i++) {
+        if (e.path[i].classList) {
+          if (e.path[i].classList.contains("chatListSearch")) {
+            c++;
+          }
+        }
+      }
+      if (c == 0) {
+        this.showUserListPanel = false;
+      }
+    },
+  },
+  asyncComputed: {
+    async chatRooms() {
+      const uid = this.$store.state.info.info.uid;
+      let usersOnline = this.$store.state.usersOnline;
+      let rooms = this.$store.state.rooms;
+      //let messages = this.$store.state.messages
+      let chatRooms = new Array();
+      for (let i = 0; i < rooms.length; i++) {
+        chatRooms[i] = Object();
+        chatRooms[i].id = rooms[i].id;
+        chatRooms[i].name = rooms[i].name;
+        chatRooms[i].lastMessageDate = rooms[i].modifiedAt;
+        chatRooms[i].lastMessage = rooms[i].lastMessage.messageText;
+        chatRooms[i].members = rooms[i].members.filter((m) => m != uid);
+        if (chatRooms[i].members.length == 1) {
+          chatRooms[i].avatar = (
+            await this.$store.dispatch("fetchInfoById", chatRooms[i].members[0])
+          ).avatarUrl;
+          chatRooms[i].memberOnline = usersOnline.filter(
+            (u) => u.id != chatRooms[i].members[0]
+          )[0].online;
+        }
+      }
+      //this.$store.state.rooms = chatRooms
+      return chatRooms;
+    },
+    async messages(el) {},
   },
   computed: {
     name() {
@@ -317,12 +570,12 @@ export default {
     avatar() {
       return this.$store.getters.info.avatarUrl;
     },
+    Users() {
+      return this.$store.state.usersOnline;
+    },
   },
   firestore: {
     notifications: db.collection("notifications").orderBy("date", "desc"),
-    usersOnline: db.collection("users"),
-    messages: db.collection("messageGroup"),
-    rooms: db.collection("rooms"),
   },
   watch: {
     notifications: async function () {
@@ -339,76 +592,18 @@ export default {
         }
       }
     },
-    usersOnline: async function () {
-      let onlineUsers = this.usersOnline;
-      if (onlineUsers) {
-        let chartRooms = this.chartRooms;
-        if (chartRooms.length > 0) {          
-          for (let i = 0; i < chartRooms.length; i++) {
-            if (chartRooms[i].singleChart) {
-              for (let z = 0; z < onlineUsers.length; z++) {
-                if(onlineUsers[z].id == chartRooms[i].members[0]){
-                  chartRooms[i].userOnline = onlineUsers[z].online
-                }                
-              }
-            }
+    messages: function(){
+      let messages = this.messages
+      console.log(messages)
+      for (let i = 0; i < messages.length; i++) {
+        if(i>0){
+          if( messages[i].sentBy == messages[i-1].sentBy ){
+            messages[i].continueMessage = true
           }
-            
-          this.chartRooms = chartRooms;
-          this.uChange ++
-          console.log(this.chartRooms)   
-        }
+        }        
       }
-      
-    },
-    rooms: async function () {
-      if (this.rooms) {
-        const uid = await this.$store.dispatch("getUid");
-        let rooms = new Array();
-        for (let i = 0; i < this.rooms.length; i++) {
-          rooms[i] = Object();
-          rooms[i].name = this.rooms[i].name;
-          rooms[i].members = this.rooms[i].members.filter((m) => m != uid);
-
-          if (rooms[i].members.length == 1) {
-            rooms[i].singleChart = true;
-            // this.usersOnline.includes(rooms[i].members[0])
-            //   ? (rooms[i].userOnline = true)
-            //   : (rooms[i].userOnline = false);
-            const uInfo = await this.$store.dispatch(
-              "fetchInfoById",
-              rooms[i].members[0]
-            );
-            rooms[i].avatar = uInfo.avatarUrl;
-            rooms[i].name = uInfo.name + " " + uInfo.surname;
-          } else {
-            rooms[i].singleChart = false;
-            rooms[i].avatar = "";
-          }
-          rooms[i].lastMessageId = this.rooms[i].lastMessage.messageId;
-          rooms[i].id = this.rooms[i].id;
-          db.collection("messageGroup")
-            .doc(this.rooms[i].id)
-            .collection("messages")
-            .doc(rooms[i].lastMessageId)
-            .get()
-            .then((snapshot) => {
-              if (snapshot.exists) {
-                let message = snapshot.data();
-                rooms[i].lastMessage = message.messageText;
-                rooms[i].lastMessageDate = message.sentAt;
-              } else {
-                console.log("No such document!");
-              }
-            });
-        }
-        this.chartRooms = rooms;
-        this.usersOnline.push({})
-        this.usersOnline.splice(this.usersOnline.length - 1);
-        //console.log(rooms);
-      }
-    },
-    
+      this.messages = messages
+    }
   },
   async mounted() {
     this.uid = await this.$store.dispatch("getUid");
@@ -417,9 +612,13 @@ export default {
     let ref = this.$store.getters.info.avatarUrl;
     document.querySelector(".user-image").style.backgroundImage =
       "url(" + ref + ")";
+    document.addEventListener("click", this.close);
   },
   directives: {
     ClickOutside,
+  },
+  beforeDestroy() {
+    document.removeEventListener("click", this.close);
   },
 };
 </script>

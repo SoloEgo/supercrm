@@ -2,7 +2,7 @@
     position: fixed;
     width: 25rem;
     height: calc(100% - 3.5rem);
-    background: #ecedef;
+    background: var(--mainBG);
     z-index: 100;
     right: -25rem;
     bottom: 0;
@@ -36,14 +36,20 @@
 }
 
 .chatList {
-    background: #fff;
+    background: var(--elementBG);
     height: 100%;
     overflow-y: auto;
     box-sizing: border-box;
     display: flex;
     flex-flow: column;
-    border: 1px solid #ced4da;
+    border: 1px solid;
     border-radius: 0.25rem;
+    border-color: var(--btnLightBorder);
+}
+
+input.search-input.form-control {
+    background: var(--modalFormElementBG);
+    border-color: var(--btnLightBorder);
 }
 
 .chatUserImage {
@@ -125,4 +131,231 @@
 
 .user-status.usr-offline {
     background: #9e9e9e;
+}
+
+.usb-row {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.usb-col.usb-img {
+    width: 10%;
+}
+
+.userSearchBlock {
+    box-sizing: border-box;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--btnLightBorder);
+    margin-top: -1px;
+}
+
+.userSearchList {
+    background: var(--elementBG);
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    box-shadow: 0px 4px 10px #00000047;
+    display: none;
+}
+
+.usb-col.usb-name {
+    width: 90%;
+    box-sizing: border-box;
+    padding-left: 0.5rem;
+}
+
+.userSearchBlock:hover {
+    background: #00000012;
+    cursor: pointer;
+}
+
+.userSearchList.show {
+    display: block;
+}
+
+.userSearchList.show {
+    display: block;
+}
+
+.chatRoomWindow {
+    position: fixed;
+    width: 60rem;
+    height: calc(100% - 3.5rem);
+    background: var(--elementBG);
+    z-index: 50;
+    right: -60rem;
+    bottom: 0;
+    transition: all 0.5s;
+    box-sizing: border-box;
+    box-shadow: -2px 7px 15px #00000052;
+    display: flex;
+    flex-flow: column;
+    backdrop-filter: blur(2px);
+    padding: 1rem;
+}
+
+.chatRoomWindow.show {
+    right: 25rem;
+}
+
+.chatBarRight {
+    z-index: 100;
+}
+
+.mesWindow {
+    flex: 1 1 auto;
+    width: 100%;
+    background: #0000000f;
+    margin-bottom: 1rem;
+    overflow: auto;
+}
+
+.ms-input-holder {
+    flex: 0 1 auto;
+}
+
+.ms-input-holder input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.messageText {
+    display: flex;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    color: #fff;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.4rem;
+    align-items: flex-end;
+}
+
+.darkTheme .messageText {
+    background-color: #2e405a;
+}
+
+.lightTheme .messageText {
+    background-color: #2e405a;
+}
+
+.mes-row.my-message .messageText {
+    background: #0d6efd;
+}
+
+.mes-row {
+    display: flex;
+    margin-bottom: 0.5rem;
+}
+
+.m-date {
+    font-size: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.mesWindow {
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+span.input-group-text {
+    padding: 0;
+    overflow: hidden;
+    border-color: #0d6efd;
+}
+
+span.input-group-text .btn {
+    border-radius: 0;
+    height: 100%;
+    border: 0;
+}
+
+.message-input.form-control {
+    background: var(--modalFormElementBG);
+    border-color: var(--btnLightBorder)
+}
+
+.mes-row.my-message {
+    justify-content: flex-end;
+}
+
+.chutlm img {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    display: block;
+    border: 1px solid;
+    border-color: var(--btnLightBorder)
+}
+
+.ms-input-holder .ms-sgb {
+    border-color: var(--btnLightBorder)
+}
+
+.darkTheme .mesWindow {
+    background: url('../assets/img/chatBGDark.png');
+}
+
+.lightTheme .mesWindow {
+    background: url('../assets/img/chatBGLight.png');
+}
+
+.mesWindow .dropdown-menu[data-bs-popper="none"] {
+    display: block;
+}
+
+.message-wrapper .dropdown {
+    position: absolute;
+}
+
+.message-wrapper .dropdown a {
+    cursor: pointer;
+}
+
+.message-wrapper .dropdown a i {
+    padding: 0 0.5rem;
+}
+
+.repliedMessage {
+    display: flex;
+    padding: 0.2rem 0.4rem;
+    align-items: flex-end;
+    border-left: 2px solid;
+    margin: 10px 0px;
+    flex-direction: column;
+}
+
+.repWrap {
+    display: inline-block;
+}
+
+.chutlm .repliedMessage {
+    display: none;
+}
+
+.chutlm br {
+    display: none;
+}
+
+.chutlm .repWrap:before {
+    content: 'reply:';
+    display: block;
+    margin-right: 10px;
+    text-decoration: underline;
+}
+
+.emoji-holder {
+    position: absolute;
+    z-index: 10;
+    bottom: 40px;
+    display: none;
+}
+
+.emoji-holder.show {
+    display: block;
+}
+
+.emoji-mart-bar {
+    display: none !important;
 }
