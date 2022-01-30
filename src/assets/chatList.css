@@ -181,11 +181,11 @@ input.search-input.form-control {
 
 .chatRoomWindow {
     position: fixed;
-    width: 60rem;
+    width: 40rem;
     height: calc(100% - 3.5rem);
     background: var(--elementBG);
     z-index: 50;
-    right: -60rem;
+    right: -40rem;
     bottom: 0;
     transition: all 0.5s;
     box-sizing: border-box;
@@ -210,6 +210,9 @@ input.search-input.form-control {
     background: #0000000f;
     margin-bottom: 1rem;
     overflow: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 .ms-input-holder {
@@ -320,10 +323,14 @@ span.input-group-text .btn {
 .repliedMessage {
     display: flex;
     padding: 0.2rem 0.4rem;
-    align-items: flex-end;
     border-left: 2px solid;
     margin: 10px 0px;
     flex-direction: column;
+    font-size: 0.6rem;
+}
+
+.repliedMessage .m-date{
+    display: none;
 }
 
 .repWrap {
@@ -358,4 +365,10 @@ span.input-group-text .btn {
 
 .emoji-mart-bar {
     display: none !important;
+}
+
+.my-message .messageBlock {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-end;
 }

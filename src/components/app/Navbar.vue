@@ -212,7 +212,7 @@
       </div>
     </div>
     <div class="chatRoomWindow" :class="{ show: showChatRoom }">
-      <div class="mesWindow">
+      <div class="mesWindow" ref="chatWindow">
         <div
           class="mes-row"
           v-for="m in messages"
@@ -457,13 +457,30 @@ export default {
         this.usersSearList = usersReal;
       }
     },
-    async openChatRoom(el) {
+    openChatRoom(el) {
       let id = el.currentTarget.getAttribute("chat-id");
       this.$store.state.activeChatRoomId = id;
       this.$store.dispatch("bindMessages");
       let messages = this.$store.getters.messages;      
-      this.messages = messages;      
+      this.messages = messages;
+      this.readMessage(id)
       this.showChatRoom = true;
+    },
+    readMessage(id){
+      const uid = this.$store.state.info.info.uid;
+      db.collection("rooms").doc(id).get().then(querySnapshot => {
+        let doc = querySnapshot.data()
+        let readBy =doc.lastMessage.readBy
+        console.log((readBy.filter(el => el == uid)).length)
+        if( (readBy.filter(el => el == uid)).length <= 0 ){
+           readBy.push(uid)
+        }
+        console.log(uid)
+        console.log(readBy)
+        db.collection("rooms").doc(id).update({
+          "lastMessage.readBy": readBy
+        })
+      })
     },
     async sendMessage(el) {
       const uid = this.$store.state.info.info.uid;
@@ -501,7 +518,6 @@ export default {
     },
     addFile() {},
     pastEmodji(el) {
-      console.log(el);
       this.showEmoji = false;
     },
     mesMenuClick(el) {
@@ -516,7 +532,8 @@ export default {
         "</div></div><br><br>";
     },
     close(e) {
-      let c = 0;
+      if(e.path){
+        let c = 0;
       for (let i = 0; i < e.path.length; i++) {
         if (e.path[i].classList) {
           if (e.path[i].classList.contains("chatListSearch")) {
@@ -527,6 +544,8 @@ export default {
       if (c == 0) {
         this.showUserListPanel = false;
       }
+      }
+      
     },
   },
   asyncComputed: {
@@ -544,12 +563,13 @@ export default {
         chatRooms[i].lastMessage = rooms[i].lastMessage.messageText;
         chatRooms[i].members = rooms[i].members.filter((m) => m != uid);
         if (chatRooms[i].members.length == 1) {
-          chatRooms[i].avatar = (
-            await this.$store.dispatch("fetchInfoById", chatRooms[i].members[0])
-          ).avatarUrl;
+          let info = await this.$store.dispatch("fetchInfoById", chatRooms[i].members[0])
+          chatRooms[i].avatar = 
+            info.avatarUrl;
           chatRooms[i].memberOnline = usersOnline.filter(
             (u) => u.id != chatRooms[i].members[0]
           )[0].online;
+          chatRooms[i].name = info.name + ' ' + info.surname
         }
       }
       //this.$store.state.rooms = chatRooms
@@ -594,15 +614,20 @@ export default {
     },
     messages: function(){
       let messages = this.messages
-      console.log(messages)
-      for (let i = 0; i < messages.length; i++) {
-        if(i>0){
-          if( messages[i].sentBy == messages[i-1].sentBy ){
+      if(messages){
+        for (let i = 0; i < messages.length; i++) {
+        if(i != messages.length-1){
+          if( messages[i].sentBy == messages[i+1].sentBy ){
             messages[i].continueMessage = true
+          }else{
+            messages[i].continueMessage = false
           }
         }        
       }
+      //console.log(messages)
       this.messages = messages
+      }
+      
     }
   },
   async mounted() {

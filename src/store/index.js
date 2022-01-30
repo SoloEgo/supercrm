@@ -44,7 +44,7 @@ export default new Vuex.Store({
         }),
         bindMessages: firestoreAction(({ state, bindFirestoreRef, }) => {
             const id = state.activeChatRoomId
-            return bindFirestoreRef('messages', db.collection('messageGroup').doc(id).collection('messages').orderBy("sentAt", "asc"))
+            return bindFirestoreRef('messages', db.collection('messageGroup').doc(id).collection('messages').orderBy("sentAt", "desc"))
         }),
         async fetchCurrency() {
             const key = process.env.VUE_APP_CERRUNCY_API_KEY
