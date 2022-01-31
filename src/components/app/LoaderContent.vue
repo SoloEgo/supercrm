@@ -12,7 +12,7 @@
         r="20"
         fill="none"
         stroke-width="5"
-        stroke="#0d6efd"
+        stroke="#6769EA"
         stroke-linecap="round"
         stroke-dashoffset="0"
         stroke-dasharray="100, 200"

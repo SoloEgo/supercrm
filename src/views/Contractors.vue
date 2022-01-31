@@ -3,8 +3,8 @@
     <div class="page-title">
       <div class="pahe-header"><h3>Контрагенты</h3></div>
       <div class="page-controls">
-        <button class="btn btn-primary" @click="openModalCreateContr">
-          <i class="bi bi-plus-square"></i> Новый контрагент</button>
+        <button class="btn btn-sm btn-primary" @click="openModalCreateContr">
+          <i class="bi btn-sm bi-plus-square"></i> Новый контрагент</button>
       </div>
     </div>
     <section>
@@ -12,7 +12,7 @@
       <div class="empty-results-holder" v-else-if="!contractors.length">
         <div class="empty-result">
           Контрагентов пока нет.
-          <button class="btn primary-btn">Добавить нового контрагента</button>
+          <button class="btn btn-sm primary-btn">Добавить нового контрагента</button>
         </div>
       </div>
       <div class="tile-holder" v-else>
@@ -27,7 +27,7 @@
                 :click-handler="pageChangeHandler"
                 :prev-text="'Назад'"
                 :next-text="'Вперед'"
-                :container-class="'pagination'"
+                :container-class="'pagination pagination-sm'"
                 :page-class="'page-item'"
                 :page-link-class="'page-link'"
                 :prev-class="'page-item'"

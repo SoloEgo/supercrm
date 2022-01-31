@@ -1,0 +1,6 @@
+$primary: #6769EA;
+@import "./node_modules/bootstrap/scss/bootstrap";
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    background: none;
+}

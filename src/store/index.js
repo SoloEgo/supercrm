@@ -46,6 +46,10 @@ export default new Vuex.Store({
             const id = state.activeChatRoomId
             return bindFirestoreRef('messages', db.collection('messageGroup').doc(id).collection('messages').orderBy("sentAt", "desc"))
         }),
+        unbindMessages: firestoreAction(({ state, unbindFirestoreRef }) => {
+            const id = state.activeChatRoomId
+            return unbindFirestoreRef(db.collection('messageGroup').doc(id).collection('messages'))
+        }),
         async fetchCurrency() {
             const key = process.env.VUE_APP_CERRUNCY_API_KEY
             const res = await fetch(`https://freecurrencyapi.net/api/v2/latest?apikey=${key}&base_currency=RUB`)

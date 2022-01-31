@@ -154,7 +154,7 @@ input.search-input.form-control {
     background: var(--elementBG);
     box-sizing: border-box;
     position: absolute;
-    width: 100%;
+    width: 60%;
     z-index: 10;
     box-shadow: 0px 4px 10px #00000047;
     display: none;
@@ -244,7 +244,7 @@ input.search-input.form-control {
 }
 
 .mes-row.my-message .messageText {
-    background: #0d6efd;
+    background: var(--bs-primary);
 }
 
 .mes-row {
@@ -265,7 +265,7 @@ input.search-input.form-control {
 span.input-group-text {
     padding: 0;
     overflow: hidden;
-    border-color: #0d6efd;
+    border-color: #6769ea;
 }
 
 span.input-group-text .btn {
@@ -329,7 +329,7 @@ span.input-group-text .btn {
     font-size: 0.6rem;
 }
 
-.repliedMessage .m-date{
+.repliedMessage .m-date {
     display: none;
 }
 
@@ -371,4 +371,101 @@ span.input-group-text .btn {
     display: flex;
     flex-flow: column;
     align-items: flex-end;
+}
+
+.chatSearchControl {
+    display: flex;
+}
+
+input.search-input.form-control {
+    width: 0px;
+    box-sizing: border-box;
+    opacity: 0;
+    padding: 0;
+    transition: all 0.5s;
+}
+
+.chatWindowHeader {
+    margin-bottom: 15px;
+}
+
+input.search-input.form-control.show {
+    width: initial;
+    opacity: 1;
+    padding: 0.25rem 0.5rem;
+}
+
+.chatSearchControl .btn {
+    box-sizing: border-box;
+    height: 34px;
+}
+
+.chatSearchControl {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.userSearchList {}
+
+input.search-input.form-control {
+    width: 0px;
+    box-sizing: border-box;
+    opacity: 0;
+    padding: 0;
+    transition: all 0.5s;
+}
+
+.chatWindowHeader {
+    margin-bottom: 15px;
+}
+
+input.search-input.form-control.show {
+    width: initial;
+    opacity: 1;
+    padding: 0.25rem 0.5rem;
+}
+
+.chatSearchControl .btn {
+    box-sizing: border-box;
+    height: 34px;
+}
+
+button.btn.btn-sm.btn-close {
+    width: 1rem;
+    height: 1rem;
+    font-size: 1rem;
+}
+
+.csc-col {
+    display: flex;
+}
+
+.my-message ul.dropdown-menu {
+    left: -100%;
+}
+
+.my-message .dropdown {
+    width: 100%;
+}
+
+.deleteReply {
+    position: absolute;
+    right: -1rem;
+    background: var(--btnLightBackground);
+    border-radius: 100rem;
+    display: none;
+}
+
+.active .deleteReply {
+    display: block;
+}
+
+.reply-wrapper.active {
+    display: inline-block;
+}
+
+.deleteReply button.btn.btn-sm.btn-close {
+    font-size: 0.5rem;
+    padding: 0.6rem;
 }

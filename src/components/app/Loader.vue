@@ -59,12 +59,12 @@
   animation-iteration-count: infinite;
 }
 .loader::before {
-  background: #2196f3;
+  background: #6769EA;
   -webkit-animation-name: droplets;
   animation-name: droplets;
 }
 .loader::after {
-  border: 1px solid #2196f3;
+  border: 1px solid #6769EA;
   opacity: 0;
   -webkit-animation-name: ripples;
   animation-name: ripples;

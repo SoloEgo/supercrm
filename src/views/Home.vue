@@ -1,48 +1,63 @@
 <template>
-  <div  class="displayContentBlock">
+  <div class="displayContentBlock">
     <div class="page-title">
-      <h3>Счет</h3>
-
+      <h3>Рабочий стол</h3>
       <button class="btn btn-primary btn-sm" @click="refresh">
-         <i class="bi bi-arrow-clockwise"></i> 
+        <i class="bi bi-arrow-clockwise"></i>
       </button>
     </div>
     <section>
       <LoaderContent v-if="loading" />
-      <div v-else class="tile-holder g-0">
-        <HomeBill :rates="currency.data" />
-        <HomeCurrency
-          :rates="currency.data"
-          :date="new Date(currency.query.timestamp * 1000)"
-        />
+      <div v-else class="home-dashboard-holder g-0">
+        <div class="item">
+          <div class="item_name">Item name 1</div>
+        </div>
+        <div class="item">
+          <div class="item_name">Item name 2</div>
+        </div>
+        <div class="item">
+          <div class="item_name">Item name 3</div>
+        </div>
+        <div class="item">
+          <div class="item_name">Item name 4</div>
+        </div>
+        <div class="item">
+          <div class="item_name">Item name 5</div>
+        </div>
+        <div class="item">
+          <div class="item_name">Item name 6</div>
+        </div>
+        <div class="item">
+          <div class="item_name">Item name 7</div>
+        </div>
+        <div class="item">
+          <div class="item_name">Item name 8</div>
+        </div>
+        <div class="item">
+          <div class="item_name">Item name 9</div>
+        </div>
+        <div class="item">
+          <div class="item_name">Item name 10</div>
+        </div>
       </div>
     </section>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HomeBill from "@/components/content/Home/HomeBill";
-import HomeCurrency from "@/components/content/Home/HomeCurrency";
-
+import "@/assets/home.css";
 export default {
   name: "Home",
   data: () => ({
     loading: true,
-    currency: null,
   }),
   async mounted() {
-    this.currency = await this.$store.dispatch("fetchCurrency");
     this.loading = false;
   },
-  components: {
-    HomeBill,
-    HomeCurrency,
-  },
+  components: {},
   methods: {
     async refresh() {
       this.loading = true;
-      this.currency = await this.$store.dispatch("fetchCurrency");
       this.loading = false;
     },
   },

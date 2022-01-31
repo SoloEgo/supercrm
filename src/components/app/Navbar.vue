@@ -140,37 +140,7 @@
       </div>
     </div>
     <div class="chatListWrapper" :class="{ active: chatListShow }">
-      <div class="chatListHeader">
-        <div class="chatListSearch">
-          <input
-            placeholder="Search..."
-            aria-label="Search"
-            type="search"
-            class="search-input form-control"
-            v-model="searchChatInput"
-            @click="UsersList"
-            @keyup="searchChatInputChange"
-            value=""
-          />
-          <div class="userSearchList" :class="{ show: showUserListPanel }">
-            <div class="userSearchBlock" v-for="u in usersSearList" :key="u.id">
-              <div class="usb-row">
-                <div class="usb-col usb-img">
-                  <div
-                    class="chatUserImage"
-                    :style="{
-                      backgroundImage: 'url(' + u.info.avatarUrl + ')',
-                    }"
-                  ></div>
-                </div>
-                <div class="usb-col usb-name">
-                  {{ u.info.name }} {{ u.info.surname }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="chatListHeader"></div>
       <div class="chatListHeading">Чаты</div>
       <div class="chatListBody">
         <!-- <div v-for="u of Users" :key="u.id">{{u.id}}</div> -->
@@ -212,6 +182,54 @@
       </div>
     </div>
     <div class="chatRoomWindow" :class="{ show: showChatRoom }">
+      <div class="chatWindowHeader">
+        <div class="chatListSearch">
+          <div class="chatSearchControl">
+            <div class="csc-col">
+              <button
+                class="btn btn-light btn-sm"
+                @click="showSearchBar = !showSearchBar"
+              >
+                <i class="bi bi-plus-lg"></i><i class="bi bi-people"></i>
+              </button>
+              <input
+                placeholder="Search..."
+                aria-label="Search"
+                type="search"
+                class="search-input form-control ms-3"
+                :class="{ show: showSearchBar }"
+                v-model="searchChatInput"
+                @click="UsersList"
+                @keyup="searchChatInputChange"
+                value=""
+              />
+            </div>
+            <div class="csc-col">
+              <button
+                class="btn btn-sm btn-close"
+                @click="closeChatRoom"
+              ></button>
+            </div>
+          </div>
+          <div class="userSearchList" :class="{ show: showUserListPanel }">
+            <div class="userSearchBlock" v-for="u in usersSearList" :key="u.id">
+              <div class="usb-row">
+                <div class="usb-col usb-img">
+                  <div
+                    class="chatUserImage"
+                    :style="{
+                      backgroundImage: 'url(' + u.info.avatarUrl + ')',
+                    }"
+                  ></div>
+                </div>
+                <div class="usb-col usb-name">
+                  {{ u.info.name }} {{ u.info.surname }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="mesWindow" ref="chatWindow">
         <div
           class="mes-row"
@@ -245,7 +263,9 @@
               </ul>
             </div>
             <div class="messageBlock">
-              <div class="messageSentBy" v-if="!m.continueMessage">{{ m.sentByName }}</div>
+              <div class="messageSentBy" v-if="!m.continueMessage">
+                {{ m.sentByName }}
+              </div>
               <div class="messageText">
                 <div class="m-line" v-html="m.messageText"></div>
                 <div class="m-date">{{ m.sentAt | date("time") }}</div>
@@ -280,6 +300,10 @@
               },
             }"
           />
+        </div>
+        <div ref="replyWrapper" class="reply-wrapper">
+          <div class="deleteReply"><button class="btn btn-sm btn-close" @click="deleteReply"></button></div>
+          <div ref="replyHolder" class="reply-message-holder"></div>
         </div>
         <div class="input-group">
           <span class="input-group-text ms-sgb"
@@ -332,6 +356,7 @@ export default {
     showUserListPanel: false,
     showEmojiBlock: false,
     showChatRoom: false,
+    showSearchBar: false,
     theme: "",
     date: new Date(),
     notifications: [],
@@ -461,36 +486,47 @@ export default {
       let id = el.currentTarget.getAttribute("chat-id");
       this.$store.state.activeChatRoomId = id;
       this.$store.dispatch("bindMessages");
-      let messages = this.$store.getters.messages;      
+      let messages = this.$store.getters.messages;
       this.messages = messages;
-      this.readMessage(id)
+      this.readMessage(id);
       this.showChatRoom = true;
     },
-    readMessage(id){
+    closeChatRoom() {
+      this.$store.dispatch("unbindMessages");
+      this.showChatRoom = false;
+    },
+    readMessage(id) {
       const uid = this.$store.state.info.info.uid;
-      db.collection("rooms").doc(id).get().then(querySnapshot => {
-        let doc = querySnapshot.data()
-        let readBy =doc.lastMessage.readBy
-        console.log((readBy.filter(el => el == uid)).length)
-        if( (readBy.filter(el => el == uid)).length <= 0 ){
-           readBy.push(uid)
-        }
-        console.log(uid)
-        console.log(readBy)
-        db.collection("rooms").doc(id).update({
-          "lastMessage.readBy": readBy
-        })
-      })
+      db.collection("rooms")
+        .doc(id)
+        .get()
+        .then((querySnapshot) => {
+          let doc = querySnapshot.data();
+          let readBy = doc.lastMessage.readBy;
+          console.log(readBy.filter((el) => el == uid).length);
+          if (readBy.filter((el) => el == uid).length <= 0) {
+            readBy.push(uid);
+          }
+          console.log(uid);
+          console.log(readBy);
+          db.collection("rooms").doc(id).update({
+            "lastMessage.readBy": readBy,
+          });
+        });
     },
     async sendMessage(el) {
       const uid = this.$store.state.info.info.uid;
       const info = await this.$store.dispatch("fetchInfoById", uid);
       const name = info.name + " " + info.surname;
       const roomId = this.$store.state.activeChatRoomId;
+      
       let mText = this.$refs.inputMessage.innerHTML.replaceAll(
         "<div><br></div>",
         ""
       );
+      if(this.$refs.replyHolder.innerHTML.length > 0){
+        mText = this.$refs.replyHolder.innerHTML + mText
+      }
       if (mText.length > 0) {
         let message = {
           messageText: mText,
@@ -511,6 +547,12 @@ export default {
           });
       }
       this.$refs.inputMessage.innerHTML = "";
+      this.$refs.replyHolder.innerHTML = "";
+      this.$refs.replyWrapper.classList.remove('active')
+    },
+    deleteReply(){
+      this.$refs.replyHolder.innerHTML = "";
+      this.$refs.replyWrapper.classList.remove('active')
     },
     chatListShowClcik() {
       this.chatListShow = !this.chatListShow;
@@ -526,26 +568,29 @@ export default {
     },
     replyOnMessage(el) {
       const replied = el.currentTarget.closest(".message-wrapper").children[1];
-      this.$refs.inputMessage.innerHTML =
-        '<div class="repWrap"><div class="repliedMessage">' +
+      this.$refs.replyWrapper.classList.add('active')
+      this.$refs.replyHolder.innerHTML =
+       '<div class="repWrap"><div class="repliedMessage">' +
         replied.innerHTML +
-        "</div></div><br><br>";
+        "</div></div><br>";
+      // this.$refs.inputMessage.innerHTML = '<div class="repWrap"><div class="repliedMessage">' +
+      // replied.innerHTML +
+      // "</div></div><br><br>";
     },
     close(e) {
-      if(e.path){
+      if (e.path) {
         let c = 0;
-      for (let i = 0; i < e.path.length; i++) {
-        if (e.path[i].classList) {
-          if (e.path[i].classList.contains("chatListSearch")) {
-            c++;
+        for (let i = 0; i < e.path.length; i++) {
+          if (e.path[i].classList) {
+            if (e.path[i].classList.contains("chatListSearch")) {
+              c++;
+            }
           }
         }
+        if (c == 0) {
+          this.showUserListPanel = false;
+        }
       }
-      if (c == 0) {
-        this.showUserListPanel = false;
-      }
-      }
-      
     },
   },
   asyncComputed: {
@@ -563,13 +608,15 @@ export default {
         chatRooms[i].lastMessage = rooms[i].lastMessage.messageText;
         chatRooms[i].members = rooms[i].members.filter((m) => m != uid);
         if (chatRooms[i].members.length == 1) {
-          let info = await this.$store.dispatch("fetchInfoById", chatRooms[i].members[0])
-          chatRooms[i].avatar = 
-            info.avatarUrl;
+          let info = await this.$store.dispatch(
+            "fetchInfoById",
+            chatRooms[i].members[0]
+          );
+          chatRooms[i].avatar = info.avatarUrl;
           chatRooms[i].memberOnline = usersOnline.filter(
             (u) => u.id != chatRooms[i].members[0]
           )[0].online;
-          chatRooms[i].name = info.name + ' ' + info.surname
+          chatRooms[i].name = info.name + " " + info.surname;
         }
       }
       //this.$store.state.rooms = chatRooms
@@ -612,23 +659,22 @@ export default {
         }
       }
     },
-    messages: function(){
-      let messages = this.messages
-      if(messages){
+    messages: function () {
+      let messages = this.messages;
+      if (messages) {
         for (let i = 0; i < messages.length; i++) {
-        if(i != messages.length-1){
-          if( messages[i].sentBy == messages[i+1].sentBy ){
-            messages[i].continueMessage = true
-          }else{
-            messages[i].continueMessage = false
+          if (i != messages.length - 1) {
+            if (messages[i].sentBy == messages[i + 1].sentBy) {
+              messages[i].continueMessage = true;
+            } else {
+              messages[i].continueMessage = false;
+            }
           }
-        }        
+        }
+        //console.log(messages)
+        this.messages = messages;
       }
-      //console.log(messages)
-      this.messages = messages
-      }
-      
-    }
+    },
   },
   async mounted() {
     this.uid = await this.$store.dispatch("getUid");

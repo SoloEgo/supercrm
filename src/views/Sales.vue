@@ -4,20 +4,20 @@
       <div class="pahe-header"><h3>Сделки</h3></div>
       <div class="page-controls">
         <button
-          class="btn me-3"
+          class="btn btn-sm me-3"
           :class="displayTable ? 'btn-primary' : 'btn-light'"
           @click="bthDisplayHnadler"
         >
           <i class="bi bi-table"></i>
         </button>
         <button
-          class="btn me-3"
+          class="btn btn-sm me-3"
           :class="!displayTable ? 'btn-primary' : 'btn-light'"
           @click="bthDisplayHnadler"
         >
           <i class="bi bi-card-list"></i>
         </button>
-        <button class="btn btn-primary" @click="openModalCreateSale">
+        <button class="btn btn-sm btn-primary" @click="openModalCreateSale">
           <i class="bi bi-plus-square"></i> Новая сделка
         </button>
       </div>
@@ -27,7 +27,7 @@
       <div class="empty-results-holder" v-else-if="!sales.length">
         <div class="empty-result">
           Сделок пока нет.
-          <button class="btn primary-btn">Добавить новую сделку</button>
+          <button class="btn  btn-sm primary-btn">Добавить новую сделку</button>
         </div>
       </div>
       <div class="tile-holder" v-else>
