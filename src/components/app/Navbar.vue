@@ -17,12 +17,12 @@
       </div>
     </div>
     <div class="right-nav-bar">
-      <button
+      <!-- <button
         class="theme-control-toggle-label btn btn-sm btn-light me-3"
         @click="changeTheme"
       >
         <i class="bi bi-moon"></i>
-      </button>
+      </button> -->
       <button
         class="notification-holder-btn btn btn-light btn-sm dropdown me-3"
         @click="notificationShow = !notificationShow"
@@ -84,6 +84,16 @@
           <li>
             <router-link to="/profile" class="dropdown-item">
               <i class="bi bi-person"></i> Профиль
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/profile" class="dropdown-item">
+              <i class="bi bi-info-lg"></i> Помощь
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/profile" class="dropdown-item">
+              <i class="bi bi-gear-wide-connected"></i> Параметры
             </router-link>
           </li>
           <li>
@@ -395,20 +405,6 @@ export default {
       }
       this.hideSidebarStatus = !this.hideSidebarStatus;
     },
-    async changeTheme() {
-      let rootEl = document.querySelector(".app-main-layout-wrapper");
-      if (this.theme == "lightTheme") {
-        rootEl.classList.remove("lightTheme");
-        rootEl.classList.add("darkTheme");
-        this.theme = "darkTheme";
-        this.$cookies.set("theme", "darkTheme", 60 * 60 * 24 * 30);
-      } else {
-        rootEl.classList.add("lightTheme");
-        rootEl.classList.remove("darkTheme");
-        this.theme = "lightTheme";
-        this.$cookies.set("theme", "lightTheme", 60 * 60 * 24 * 30);
-      }
-    },
     closeDropDown() {
       document
         .querySelectorAll(".dropdown-menu")
@@ -503,12 +499,10 @@ export default {
         .then((querySnapshot) => {
           let doc = querySnapshot.data();
           let readBy = doc.lastMessage.readBy;
-          console.log(readBy.filter((el) => el == uid).length);
+          //console.log(readBy.filter((el) => el == uid).length);
           if (readBy.filter((el) => el == uid).length <= 0) {
             readBy.push(uid);
           }
-          console.log(uid);
-          console.log(readBy);
           db.collection("rooms").doc(id).update({
             "lastMessage.readBy": readBy,
           });

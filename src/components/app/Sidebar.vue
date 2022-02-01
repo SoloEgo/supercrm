@@ -83,6 +83,7 @@ export default {
     }),
     isAdmin: false,
   }),
+
   async mounted() {
     this.isAdmin = this.$store.getters.info.isAdmin;
   },
