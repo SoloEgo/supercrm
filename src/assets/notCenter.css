@@ -1,3 +1,24 @@
+.dropdownNotificationBlock {
+    position: fixed;
+    width: 30rem;
+    height: calc(100% - 3.5rem);
+    background: #0000004d;
+    z-index: 100;
+    right: -30rem;
+    bottom: 0;
+    overflow: auto;
+    transition: all 0.5s;
+    padding: 10px;
+    box-sizing: border-box;
+    box-shadow: -2px 7px 15px #00000052;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+}
+
+.dropdownNotificationBlock.active {
+    right: 0;
+}
+
 .ql-toolbar.ql-snow {
     border-radius: 0.25rem 0.25rem 0 0;
     background: var(--mainBG);

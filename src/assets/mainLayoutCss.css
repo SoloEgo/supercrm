@@ -315,3 +315,8 @@
     .card {
         overflow-x: auto;
     }
+    
+    .toggleThemeBlock i.active {
+        color: #FFC107;
+        font-weight: bold;
+    }

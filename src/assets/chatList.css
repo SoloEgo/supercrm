@@ -13,7 +13,7 @@
     flex-flow: column;
 }
 
-.chatListWrapper.active {
+.active .chatListWrapper {
     right: 0;
 }
 
@@ -91,6 +91,8 @@ input.search-input.form-control {
 
 .chutLastMessage {
     width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .chatUText {
@@ -468,4 +470,64 @@ button.btn.btn-sm.btn-close {
 .deleteReply button.btn.btn-sm.btn-close {
     font-size: 0.5rem;
     padding: 0.6rem;
+    display: none;
+}
+
+.reply-wrapper.active .deleteReply button.btn.btn-sm.btn-close {
+    display: block;
+}
+
+.chatListHeading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.readIndicator i {
+    color: var(--bs-primary);
+}
+
+.unreadIndicator i {
+    font-size: 0.5rem;
+    color: var(--bs-danger);
+}
+
+.newChatUserSearchList {
+    display: none;
+}
+
+.newChatUserSearchList.show {
+    display: block;
+}
+
+.fly-button {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+}
+
+.newChatHolder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    z-index: 10;
+    display: none;
+}
+
+.newChatHolder.active {
+    display: block;
+}
+
+.newChatListSearch {
+    padding: 1rem 0;
+}
+
+.neChatControls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem 0 0;
 }

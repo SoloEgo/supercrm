@@ -20,7 +20,7 @@
             <div class="toggleThemeBlock">
               <div class="lightIcon">
                 <label class="form-check-label" for="flexSwitchCheckDefault"
-                  ><i class="bi bi-sun"></i
+                  ><i class="bi bi-sun" :class="{active: !darkTheme}"></i
                 ></label>
               </div>
               <div class="form-check form-switch">
@@ -35,7 +35,7 @@
               </div>
               <div class="darkIcon">
                 <label class="form-check-label" for="flexSwitchCheckDefault"
-                  ><i class="bi bi-moon-stars"></i
+                  ><i class="bi bi-moon-stars" :class="{active: darkTheme}"></i
                 ></label>
               </div>
             </div>
@@ -43,11 +43,12 @@
         </div>
       </nav>
       <div class="content">
-        <Navbar />
+        <Navbar  @chatWindowState="chatListShowFun"/>
         <div class="content-tiles">
           <router-view />
         </div>
       </div>
+      <ChatWindow ref="chatWrapper"/>
     </div>
   </div>
 </template>
@@ -66,12 +67,13 @@
 import Navbar from "@/components/app/Navbar";
 import Sidebar from "@/components/app/Sidebar";
 import messages from "@/utils/messages";
-
+import ChatWindow from "@/components/content/Chat/ChatWindow";
 export default {
   name: "main-layout",
   data: () => ({
     loading: true,
-    darkTheme: false
+    darkTheme: false,
+    chatListShow: false
   }),
   methods: {
     async changeTheme() {
@@ -89,6 +91,9 @@ export default {
         this.$cookies.set("theme", "lightTheme", 60 * 60 * 24 * 30);
         this.darkTheme =false
       }
+    },
+    chatListShowFun(){
+      this.$refs.chatWrapper.$el.classList.add('active')
     }
   },
   async mounted() {
@@ -122,6 +127,7 @@ export default {
   components: {
     Navbar,
     Sidebar,
+    ChatWindow
   },
   computed: {
     error() {
