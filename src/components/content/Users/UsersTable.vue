@@ -6,6 +6,7 @@
       <thead>
         <tr>
           <th></th>
+          <th>e-mail</th>
           <th>Имя</th>
           <th>Фамилия</th>
           <th>Должность</th>
@@ -25,6 +26,7 @@
               }"
             ></div>
           </td>
+          <td>{{ user.email }}</td>
           <td>{{ user.name }}</td>
           <td>{{ user.surname }}</td>
           <td>{{ user.positionName }}</td>

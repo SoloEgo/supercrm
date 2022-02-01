@@ -512,7 +512,7 @@ button.btn.btn-sm.btn-close {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #fff;
+    background: var(--elementBG);
     z-index: 10;
     display: none;
 }
@@ -530,4 +530,12 @@ button.btn.btn-sm.btn-close {
     align-items: center;
     justify-content: space-between;
     padding: 0 1rem 0 0;
+}
+
+.neChatControls input.search-input.form-control.show {
+    width: 70%;
+}
+
+.neChatControls {
+    margin-bottom: 1rem;
 }

@@ -85,7 +85,7 @@
                   v-for="u in usersSearList"
                   :key="u.id"
                 >
-                  <div class="usb-row">
+                  <div class="usb-row" :data-id="u.id" @click="createNewChat">
                     <div class="usb-col usb-img">
                       <div
                         class="chatUserImage"
@@ -312,6 +312,32 @@ export default {
       this.readMessage(id);
       this.showChatRoom = true;
     },
+    async createNewChat(el){
+      const uid = this.$store.state.info.info.uid;
+      const id = el.currentTarget.getAttribute('data-id')
+      const snapshot = await db.collection("rooms").where("members","array-contains",uid).get()
+      let chats = snapshot.docs.map(doc => doc.data());
+      chats = chats.filter(el => el.members.indexOf(id) >= 0)
+      console.log(chats)
+      if(chats.length <= 0){
+        //console.log('we ready to start chat')
+        let room = {
+          createdAt: new Date().toJSON(),
+          createdBy: uid,
+          lastMessage:{
+            messageText: '',
+            readBy:[uid]
+          },
+          members:[id,uid],
+          modifiedAt: new Date().toJSON(),
+          name: ''
+        };
+        db.collection("rooms").add(room);
+        this.showNewUserListPanel = false;
+        this.newChatShow = false
+      }
+      
+    },
     readMessage(id) {
       const uid = this.$store.state.info.info.uid;
       db.collection("rooms")
@@ -334,7 +360,7 @@ export default {
       const info = await this.$store.dispatch("fetchInfoById", uid);
       const name = info.name + " " + info.surname;
       const roomId = this.$store.state.activeChatRoomId;
-
+      
       let mText = this.$refs.inputMessage.innerHTML.replaceAll(
         "<div><br></div>",
         ""
@@ -471,7 +497,6 @@ export default {
         if (c == 0) {
           this.showUserListPanel = false;
           this.showNewUserListPanel = false;
-          console.log(this.showNewUserListPanel);
         }
       }
     },
