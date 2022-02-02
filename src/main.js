@@ -2,9 +2,9 @@ import Vue from "vue";
 import Vuelidate from 'vuelidate';
 import Paginate from 'vuejs-paginate'
 
-//import Bootstrap from 'bootstrap'
-// import "bootstrap";
-// import "bootstrap/dist/css/bootstrap.min.css";
+import Bootstrap from 'bootstrap'
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 //import PortalVue from 'portal-vue'
 import VueCookies from 'vue-cookies'
 import App from "./App.vue";
