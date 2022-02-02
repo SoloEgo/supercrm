@@ -111,7 +111,7 @@ export default {
   },
   mounted(){
     if(messages[this.$route.query.message]){
-      this.$warning(messages[this.$route.query.message])
+      this.$warning(messages[this.$route.query.message], this)
     }    
   },
   methods: {

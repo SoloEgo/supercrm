@@ -1,3 +1,4 @@
+
 export default {
     install(Vue, options) {
         Vue.prototype.$message = function(html) {
@@ -25,6 +26,7 @@ export default {
                     `${html} `
                 ]
             )
+            console.log(message)
             this.$bvToast.toast(
                 [message], {
                     title: "Предупреждение",

@@ -1,9 +1,33 @@
+
+
+
+
 .toast {
-    position: relative !important;
+    background: var(--elementBG);
+    padding: 0 !important;
+    color: var(--fontsColor);
+    border-color: var(--btnLightBorder);
+    border-radius: 0.5rem;
+}
+
+header.toast-header {
+    background-color: var(--mainBG);
+    color: var(--fontsColor);
+    border:none;
+}
+
+.toast-body {
+    background-color: var(--elementBG);
+    border-radius: 0 0 0.5rem 0.5rem;
+    padding: 1rem;
 }
 
 .toast:not(.show) {
     display: flex !important;
+}
+
+header.toast-header {
+    text-shadow: none;
 }
 
 .b-toast .toast {
@@ -73,4 +97,8 @@ header.toast-header {
 .toast-body {
     width: 100%;
     box-sizing: border-box;
+}
+
+.close{
+    filter: var(--btnCloseBg)
 }

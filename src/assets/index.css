@@ -1,3 +1,35 @@
+.lightTheme {
+    --mainBG: #ecedef;
+    --elementBG: #ffffff;
+    --sideBarBG: #293042;
+    --fontsColor: #3e3e3e;
+    --btnBorderColor: #6c757d;
+    --btnLightBorder: #ced4da;
+    --btnLightBackground: #ecedef;
+    --modalFormElementBG: #ffffff;
+    --modalFormSpanBG: #e9ecef;
+    --modalFormElBorder: #ced4da;
+    --btnCloseBg: invert(0);
+    --boxShadow: 2px 4px 12px rgb(0 0 0 / 8%);
+}
+
+.darkTheme {
+    --mainBG: #16151A;
+    --elementBG: #1F1E25;
+    --sideBarBG: #1F1E25;
+    --fontsColor: #f5f5f5;
+    --accentTableRow: #16151a;
+    --btnBorderColor: #838383;
+    --btnLightBorder: #16151a;
+    --btnLightBackground: #36343E;
+    --modalFormElementBG: #36343E;
+    --modalFormSpanBG: #16151A;
+    --modalFormElBorder: #16151a;
+    --bs-primary: #6769EA;
+    --btnCloseBg: invert(1) grayscale(100%) brightness(200%);
+    --boxShadow: 2px 4px 12px rgb(0 0 0 / 8%);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -26,7 +58,7 @@ div#app {
     height: 100%;
 }
 
-.toast {
+/* .toast {
     position: fixed;
     opacity: 0;
     margin-top: 45%;
@@ -52,7 +84,7 @@ div#app {
 
 .toast span.warning {
     color: #FBC02D;
-}
+} */
 
 span.f-card-title {
     font-size: 40px;

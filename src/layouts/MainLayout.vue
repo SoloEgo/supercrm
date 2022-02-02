@@ -59,7 +59,6 @@
 @import "../assets/sideBar.css";
 @import "../assets/modalCard.css";
 @import "../assets/profile.css";
-@import "../assets/toast.css";
 @import "../assets/logo.css";
 </style>
 
@@ -77,7 +76,7 @@ export default {
   }),
   methods: {
     async changeTheme() {
-      let rootEl = document.querySelector(".app-main-layout-wrapper");
+      let rootEl = document.querySelector("body");
       if (this.theme == "lightTheme") {
         rootEl.classList.remove("lightTheme");
         rootEl.classList.add("darkTheme");
@@ -100,25 +99,8 @@ export default {
     if (!Object.keys(this.$store.getters.info).length) {
       await this.$store.dispatch("fetchInfo");
     }
-    //this.theme = await this.$store.dispatch("fetchTheme");
-    this.theme = this.$cookies.get("theme");
-    if (this.theme) {
-      document
-        .querySelector(".app-main-layout-wrapper")
-        .classList.add(this.theme);
-    } else {
-      this.$cookies.set("theme", "lightTheme", 60 * 60 * 24 * 30);
-      this.theme = this.$cookies.get("theme");
-      document
-        .querySelector(".app-main-layout-wrapper")
-        .classList.add(this.theme);
-    }
 
-    if(this.theme == 'lightTheme'){
-      this.darkTheme = false
-    }else{
-      this.darkTheme = true
-    }
+    this.darkTheme = this.$cookies.get("theme");
 
     setTimeout(() => {
       this.loading = false;
