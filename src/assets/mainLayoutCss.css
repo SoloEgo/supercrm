@@ -10,6 +10,7 @@
         --modalFormSpanBG: #e9ecef;
         --modalFormElBorder: #ced4da;
         --btnCloseBg: invert(0);
+        --boxShadow: 2px 4px 12px rgb(0 0 0 / 8%);
     }
     
     .app-main-layout-wrapper.darkTheme {
@@ -26,6 +27,7 @@
         --modalFormElBorder: #16151a;
         --bs-primary: #6769EA;
         --btnCloseBg: invert(1) grayscale(100%) brightness(200%);
+        --boxShadow: 2px 4px 12px rgb(0 0 0 / 8%);
     }
     
     .darkTheme .ssn-name input {
@@ -96,13 +98,13 @@
         padding: 1.5rem;
         box-sizing: border-box;
         background-color: var(--elementBG) !important;
-        border-radius: 10px;
-        box-shadow: 5px 5px 20px #0000003b;
+        border-radius: 0.5rem !important;
+        box-shadow: var(--boxShadow);
     }
     
     .content-tiles {
         height: calc(100% - 3.5rem);
-        padding: 2.5rem 2.5rem 1.5rem;
+        padding: 1.5rem 2.5rem 2.5rem;
         box-sizing: border-box;
         overflow: auto;
     }
@@ -147,8 +149,13 @@
     .page-title {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         height: 40px;
         margin-bottom: 20px;
+        background: var(--elementBG);
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        box-shadow: var(--boxShadow);
     }
     
     .tile-holder {
@@ -314,9 +321,4 @@
     
     .card {
         overflow-x: auto;
-    }
-    
-    .toggleThemeBlock i.active {
-        color: #FFC107;
-        font-weight: bold;
     }

@@ -8,22 +8,16 @@
           class="btn btn-light bth-toggle-sidebar btn-sm"
           @click="hideSidebar"
         >
-          <i class="bi bi-list"></i>
+          <i class="bi bi-layout-sidebar-inset"></i>
         </button>
-      </div>
-      <div class="date-holder ms-5">
-        <span><i class="bi bi-calendar2 me-2"></i></span
-        ><span>{{ date | date("date") }}</span>
       </div>
     </div>
     <div class="right-nav-bar">
-      <!-- <button
-        class="theme-control-toggle-label btn btn-sm btn-light me-3"
-        @click="changeTheme"
-      >
-        <i class="bi bi-moon"></i>
-      </button> -->
-      <button class="notification-holder-btn btn btn-light btn-sm dropdown me-3"
+      <button
+        class="calendar-toggle btn btn-sm btn-light me-3">
+        <i class="bi bi-calendar3"></i>
+      </button>
+      <button class="notification-holder-btn btn btn-sm dropdown me-3" :class="notificationShow?'btn-primary':'btn-light'"
         @click="notificationShow = !notificationShow"
       >
         <i class="bi bi-bell"></i>
@@ -37,9 +31,9 @@
             rounded-pill
             bg-primary
           "
+          v-if="notReadsLength>0"
         >
           {{ notReadsLength }}
-          <span class="visually-hidden">unread notifications</span>
         </span>
       </button>
       <button class="messanger-holder-btn btn btn-light btn-sm dropdown me-3"
@@ -79,22 +73,22 @@
         >
           <li>
             <router-link to="/profile" class="dropdown-item">
-              <i class="bi bi-person"></i> Профиль
+              <i class="bi bi-person me-2"></i> Профиль
             </router-link>
           </li>
           <li>
             <router-link to="/profile" class="dropdown-item">
-              <i class="bi bi-info-lg"></i> Помощь
+              <i class="bi bi-info-lg me-2"></i> Помощь
             </router-link>
           </li>
           <li>
             <router-link to="/profile" class="dropdown-item">
-              <i class="bi bi-gear-wide-connected"></i> Параметры
+              <i class="bi bi-gear-wide-connected me-2"></i> Параметры
             </router-link>
           </li>
           <li>
             <a href="#" class="dropdown-item" @click.prevent="logout">
-              <i class="bi bi-box-arrow-left"></i> Выйти
+              <i class="bi bi-box-arrow-left me-2"></i> Выйти
             </a>
           </li>
         </ul>

@@ -58,7 +58,7 @@ button.btn.btn-close {
     position: absolute;
     background: #fff;
     z-index: 10;
-    box-shadow: 2px 2px 15px #7a7a7a;
+    box-shadow: var(--boxShadow);
     padding: 1rem;
     border-radius: 0.3rem;
     display: none;

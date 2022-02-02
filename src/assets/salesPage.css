@@ -89,12 +89,12 @@
 }
 
 .list-item-card:hover {
-    box-shadow: 5px 5px 25px #00000052;
+    box-shadow: var(--boxShadow);
     cursor: pointer;
 }
 
 .sales-table .btn {
-    box-shadow: 1px 1px 4px #00000042;
+    box-shadow: var(--boxShadow);
 }
 
 .sale-list-block:first-child {

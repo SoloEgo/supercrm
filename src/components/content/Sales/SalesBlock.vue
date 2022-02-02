@@ -1,5 +1,5 @@
 <template>
-  <div class="row flex-nowrap mb-2 justify-content-center">
+  <div class="row flex-nowrap h-100 mb-2 justify-content-center">
     <div
       class="col-2 sale-list-block"
       v-for="typeL of typeList"
