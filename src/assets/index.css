@@ -58,6 +58,12 @@ div#app {
     height: 100%;
 }
 
+#app input{
+    background-color: var(--elementBG);
+    color: var(--fontsColor);
+    border-color: var(--btnBorderColor);
+}
+
 /* .toast {
     position: fixed;
     opacity: 0;

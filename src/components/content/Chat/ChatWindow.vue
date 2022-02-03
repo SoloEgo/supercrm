@@ -141,9 +141,12 @@
                 >
                   <i class="bi bi-people"></i>
                 </button>
-                <ul class="dropdown-menu show" aria-labelledby="dropdownMembers">
+                <ul
+                  class="dropdown-menu show"
+                  aria-labelledby="dropdownMembers"
+                >
                   <li v-for="u of usersInRoom" :key="u.id">
-                    <div class="members-row">
+                    <div class="dropdown-item members-row">
                       <div class="member-img">
                         <div
                           class="m-avatar"
@@ -465,6 +468,9 @@ export default {
                 });
             }
             members.push(id);
+            if(members.length > 2){
+            this.activeChatSingle = false
+          }
             db.collection("rooms").doc(roomId).update({
               members: members,
             });
@@ -473,11 +479,28 @@ export default {
           }
         });
     },
-    deleteUserFromRoom() {},
+    async deleteUserFromRoom(el) {
+      const id = el.currentTarget.getAttribute("data-id");
+      const roomId = this.$store.state.activeChatRoomId;
+      console.log(id)
+      db.collection("rooms")
+        .doc(roomId)
+        .get()
+        .then(async (querySnapshot) => {
+          let doc = querySnapshot.data();
+          let members = doc.members;
+          let newmembers = members.filter( m => m != id);
+          if(newmembers.length <= 2){
+            this.activeChatSingle = true
+          }
+          db.collection("rooms").doc(roomId).update({
+            members: newmembers,
+          });
+        });
+    },
     async showUsersInRoom() {
-      console.log(this.roomMembersShow);
+      const uid = this.$store.state.info.info.uid;
       this.roomMembersShow = !this.roomMembersShow;
-      console.log(this.roomMembersShow);
       const roomId = this.$store.state.activeChatRoomId;
       db.collection("rooms")
         .doc(roomId)
@@ -493,7 +516,7 @@ export default {
               members[i].id
             );
           }
-          this.usersInRoom = members;
+          this.usersInRoom = members.filter((u) => u.id != uid);
         });
     },
     changeChatName() {

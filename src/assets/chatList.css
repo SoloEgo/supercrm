@@ -560,8 +560,45 @@ button.btn.btn-sm.btn-close {
 input.chatNameControl {
     background: none;
     border: 0;
+    color: var(--fontsColor);
 }
 
 ul.dropdown-menu[data-popper-placement] {
     display: block;
+    left: -5rem !important;
+}
+
+.chatUserImage.groupImg {
+    color: #3e3e3e;
+}
+
+.chatSearchControl .dropdown-menu {
+    background: var(--elementBG);
+    color: var(--fontsColor);
+}
+
+.members-row {
+    display: flex;
+    align-items: center;
+    padding: 0.2rem 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+    color: var(--fontsColor);
+}
+
+.m-avatar {
+    width: 2rem;
+    height: 2rem;
+    background-size: 100%;
+    border-radius: 100rem;
+}
+
+.member-name {
+    white-space: nowrap;
+    width: 110px;
+    margin-right: 1rem;
+}
+
+.member-img {
+    margin-right: 0.5rem;
 }
