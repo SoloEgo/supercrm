@@ -20,7 +20,7 @@
             <div class="toggleThemeBlock">
               <div class="lightIcon">
                 <label class="form-check-label" for="flexSwitchCheckDefault"
-                  ><i class="bi bi-sun" :class="{active: !darkTheme}"></i
+                  ><i class="bi bi-sun" :class="{ active: !darkTheme }"></i
                 ></label>
               </div>
               <div class="form-check form-switch">
@@ -35,7 +35,10 @@
               </div>
               <div class="darkIcon">
                 <label class="form-check-label" for="flexSwitchCheckDefault"
-                  ><i class="bi bi-moon-stars" :class="{active: darkTheme}"></i
+                  ><i
+                    class="bi bi-moon-stars"
+                    :class="{ active: darkTheme }"
+                  ></i
                 ></label>
               </div>
             </div>
@@ -43,12 +46,12 @@
         </div>
       </nav>
       <div class="content">
-        <Navbar  @chatWindowState="chatListShowFun"/>
+        <Navbar @chatWindowState="chatListShowFun" />
         <div class="content-tiles">
           <router-view />
         </div>
       </div>
-      <ChatWindow ref="chatWrapper"/>
+      <ChatWindow ref="chatWrapper" />
     </div>
   </div>
 </template>
@@ -72,7 +75,8 @@ export default {
   data: () => ({
     loading: true,
     darkTheme: false,
-    chatListShow: false
+    chatListShow: false,
+    theme: "",
   }),
   methods: {
     async changeTheme() {
@@ -82,26 +86,27 @@ export default {
         rootEl.classList.add("darkTheme");
         this.theme = "darkTheme";
         this.$cookies.set("theme", "darkTheme", 60 * 60 * 24 * 30);
-        this.darkTheme =true
+        this.darkTheme = true;
       } else {
         rootEl.classList.add("lightTheme");
         rootEl.classList.remove("darkTheme");
         this.theme = "lightTheme";
         this.$cookies.set("theme", "lightTheme", 60 * 60 * 24 * 30);
-        this.darkTheme =false
+        this.darkTheme = false;
       }
     },
-    chatListShowFun(){
-      this.$refs.chatWrapper.$el.classList.add('active')
-    }
+    chatListShowFun() {
+      this.$refs.chatWrapper.$el.classList.add("active");
+    },
   },
   async mounted() {
+    this.theme = this.$cookies.get("theme");
+    this.darkTheme = this.$cookies.get("theme");
+
     if (!Object.keys(this.$store.getters.info).length) {
       await this.$store.dispatch("fetchInfo");
     }
-
-    this.darkTheme = this.$cookies.get("theme");
-
+    this.theme == 'lightTheme' ? this.darkTheme = false : this.darkTheme = true
     setTimeout(() => {
       this.loading = false;
     }, 500);
@@ -109,7 +114,7 @@ export default {
   components: {
     Navbar,
     Sidebar,
-    ChatWindow
+    ChatWindow,
   },
   computed: {
     error() {

@@ -32,7 +32,6 @@
               </div>
             </div>
             <div class="row">
-              <div class="col lgt-description-name">Описание</div>
               <div class="col lgt-description">{{ el.description }}</div>
             </div>
             <div class="row">

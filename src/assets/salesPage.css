@@ -118,3 +118,23 @@
     border-radius: 0.3rem;
     padding: 0.1rem 0.5rem;
 }
+
+#app .list-item-card.card {
+    padding: 0.5rem 1rem;
+    background-color: var(--btnLightBackground) !important;
+}
+
+.col.lgt-name {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.list-item-card.card .row {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.list-item-card.card .col {
+    width: fit-content;
+    flex: 0 auto;
+}

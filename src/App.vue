@@ -19,7 +19,7 @@
 import MainLayout from "@/layouts/MainLayout";
 import EmptyLayout from "@/layouts/EmptyLayout";
 import "@/assets/customize.scss";
-
+import { db } from "@/plugins/db";
 export default {
   data: () => ({
     darkTheme: false,
@@ -29,29 +29,48 @@ export default {
       return (this.$route.meta.layout || "empty") + "-layout";
     },
   },
+  created() {
+    window.addEventListener("beforeunload", this.leaving);
+    window.addEventListener(
+      "beforeunload",
+      function (event) {
+        event.preventDefault();
+        this.leaving;
+        event.returnValue = "";
+      },
+      false
+    );
+  },
   components: {
     EmptyLayout,
     MainLayout,
   },
-  mounted() {
+  methods: {
+    async leaving() {
+      const uid = await this.$store.dispatch("getUid");
+      db.collection("users").doc(uid).set({
+        online: false,
+      });
+    },
+  },
+  async mounted() {
     this.theme = this.$cookies.get("theme");
     if (this.theme) {
-      document
-        .querySelector("body")
-        .classList.add(this.theme);
+      document.querySelector("body").classList.add(this.theme);
     } else {
       this.$cookies.set("theme", "lightTheme", 60 * 60 * 24 * 30);
       this.theme = this.$cookies.get("theme");
-      document
-        .querySelector("body")
-        .classList.add(this.theme);
+      document.querySelector("body").classList.add(this.theme);
     }
-
     if (this.theme == "lightTheme") {
       this.darkTheme = false;
     } else {
       this.darkTheme = true;
     }
+    const uid = await this.$store.dispatch("getUid");
+    db.collection("users").doc(uid).set({
+      online: true,
+    });
   },
 };
 </script>

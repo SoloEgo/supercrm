@@ -101,11 +101,12 @@ input.search-input.form-control {
 
 .chatListCard {
     cursor: pointer;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     transition: all 0.5s;
 }
 
-.chatListCard:hover {
+.chatListCard:hover,
+.chatListCard.active {
     background: #00000017;
 }
 
@@ -156,7 +157,7 @@ input.search-input.form-control {
     background: var(--elementBG);
     box-sizing: border-box;
     position: absolute;
-    width: 60%;
+    width: 100%;
     z-index: 10;
     box-shadow: var(--boxShadow);
     display: none;
@@ -195,7 +196,7 @@ input.search-input.form-control {
     display: flex;
     flex-flow: column;
     backdrop-filter: blur(2px);
-    padding: 0.7rem;
+    padding: 0.7rem 0.7rem 1.1rem 0.7rem;
 }
 
 .chatRoomWindow.show {
@@ -387,10 +388,6 @@ input.search-input.form-control {
     transition: all 0.5s;
 }
 
-.chatWindowHeader {
-    margin-bottom: 15px;
-}
-
 input.search-input.form-control.show {
     width: initial;
     opacity: 1;
@@ -408,18 +405,12 @@ input.search-input.form-control.show {
     justify-content: space-between;
 }
 
-.userSearchList {}
-
 input.search-input.form-control {
     width: 0px;
     box-sizing: border-box;
     opacity: 0;
     padding: 0;
     transition: all 0.5s;
-}
-
-.chatWindowHeader {
-    margin-bottom: 15px;
 }
 
 input.search-input.form-control.show {
@@ -538,4 +529,39 @@ button.btn.btn-sm.btn-close {
 
 .neChatControls {
     margin-bottom: 1rem;
+}
+
+.chatWindowHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 7px;
+}
+
+.chatWindowHeading {
+    font-size: 1.3rem;
+}
+
+.mesWindow {
+    border: 1px solid var(--btnLightBorder);
+    border-radius: 0.25rem;
+}
+
+.chatUserImage.groupImg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chatUserImage.groupImg i {
+    font-size: 1.5rem;
+}
+
+input.chatNameControl {
+    background: none;
+    border: 0;
+}
+
+ul.dropdown-menu[data-popper-placement] {
+    display: block;
 }

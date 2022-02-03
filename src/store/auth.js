@@ -23,6 +23,9 @@ export default {
                     .storage()
                     .ref("users/stock-avatar.jpg")
                     .getDownloadURL();
+                db.collection("users").doc(uid).set({
+                    online: true
+                })
                 await firebase.database().ref(`/users/${uid}/info`).set({
                     uid: uid,
                     avatarUrl: avatarUrl,

@@ -62,11 +62,11 @@
         transition: all 0.5s;
     }
     
-    .card {
+    #app .card {
         padding: 1.5rem;
         box-sizing: border-box;
-        background-color: var(--elementBG) !important;
-        border-radius: 0.5rem !important;
+        background-color: var(--elementBG);
+        border-radius: 0.5rem;
         box-shadow: var(--boxShadow);
     }
     
@@ -92,8 +92,12 @@
     }
     
     .page-item.disabled .page-link {
-        background: var(--elementBG);
-        background-color: var(--elementBG) !important;
+        background: var(--btnLightBackground);
+        background-color: var(--btnLightBackground) !important;
+    }
+    
+    #app .card a.page-link {
+        border-color: var(--btnLightBorder);
     }
     
     button.btn-small.btn.record-btn-more {
@@ -289,4 +293,9 @@
     
     .card {
         overflow-x: auto;
+    }
+    
+    .card td,
+    .card th {
+        border-color: var(--bs-gray-600);
     }

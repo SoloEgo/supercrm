@@ -41,7 +41,7 @@
                 :click-handler="pageChangeHandler"
                 :prev-text="'Назад'"
                 :next-text="'Вперед'"
-                :container-class="'pagination'"
+                :container-class="'pagination pagination-sm'"
                 :page-class="'page-item'"
                 :page-link-class="'page-link'"
                 :prev-class="'page-item'"
