@@ -40,7 +40,7 @@ export default new Vuex.Store({
         }),
         bindChatRooms: firestoreAction(({ bindFirestoreRef }) => {
             const uid = firebase.auth().currentUser.uid
-            return bindFirestoreRef('rooms', db.collection('rooms').where('members', 'array-contains', uid))
+            return bindFirestoreRef('rooms', db.collection('rooms').orderBy("modifiedAt", "desc").where('members', 'array-contains', uid))
         }),
         bindMessages: firestoreAction(({ state, bindFirestoreRef, }) => {
             const id = state.activeChatRoomId

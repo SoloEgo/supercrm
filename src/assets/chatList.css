@@ -602,3 +602,109 @@ ul.dropdown-menu[data-popper-placement] {
 .member-img {
     margin-right: 0.5rem;
 }
+
+.messageSentBy {
+    background: #0000001c;
+    padding: 0 0.5rem;
+    border-radius: 100rem;
+    margin-bottom: 0.2rem;
+}
+
+input#chatFile {
+    display: none;
+}
+
+label.btn.btn-light.chatFile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.darkTheme section.emoji-mart.emoji-mart-static {
+    background: var(--elementBG);
+    border-color: var(--btnLightBorder);
+}
+
+.darkTheme .emoji-mart-category-label {
+    background: var(--mainBG);
+    color: var(--fontsColor);
+}
+
+.ms-input-holder span {
+    border: 1px solid var(--btnLightBorder);
+    outline: none !important;
+}
+
+.fileBlock .fileIcon {
+    font-size: 2rem;
+}
+
+.fileBlock {
+    display: flex;
+    align-items: center;
+    background: #6769ea26;
+    width: fit-content;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.filesUploadHolder {
+    display: flex;
+    margin-bottom: 0.5rem;
+}
+
+.deleteFile {
+    position: absolute;
+    right: -7px;
+    top: -7px;
+    background: #ecedef;
+    border-radius: 100rem;
+    border: 1px solid var(--btnBorderColor);
+}
+
+.deleteFile button.btn.btn-close {
+    font-size: 0.5rem;
+    padding: 0.6rem;
+}
+
+.fileBlock .progress {
+    position: absolute;
+    width: 100%;
+    bottom: 1px;
+    left: 0px;
+}
+
+.fileBlock.disabled:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 3px);
+    left: 0;
+    top: 0;
+    background: #00000036;
+    border-radius: 0.2rem;
+}
+
+.fileBlock.disabled {
+    color: var(--mainBG);
+}
+
+.roomFile {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.roomFile i {
+    margin-right: 0.5rem;
+}
+
+.messageText .fileBlock .fileIcon {
+    font-size: 1.5rem;
+    margin-right: 0.3rem;
+}
+
+.messageText .fileBlock {
+    display: flex;
+    align-items: center;
+}

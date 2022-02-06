@@ -63,9 +63,11 @@ export default {
       document.querySelector("body").classList.add(this.theme);
     }
     if (this.theme == "lightTheme") {
+      document.documentElement.setAttribute("data-color-scheme", "light");
       this.darkTheme = false;
     } else {
       this.darkTheme = true;
+      document.documentElement.setAttribute("data-color-scheme", "dark");
     }
     const uid = await this.$store.dispatch("getUid");
     db.collection("users").doc(uid).set({

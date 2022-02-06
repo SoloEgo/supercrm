@@ -70,7 +70,8 @@ export default {
         },
         async fetchPositions({ commit, dispatch }) {
             try {
-                const positions = await (await firebase.database().ref(`/positions`).once('value')).val() || {}
+                let positions = await (await firebase.database().ref(`/positions`).once('value')).val()
+                positions = Object.values(positions)
                 return positions
             } catch (e) {
                 commit('setError')

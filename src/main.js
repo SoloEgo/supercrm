@@ -9,7 +9,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import dateFilter from '@/filters/date.filter';
-import nameFilter from '@/filters/name.filter';
+import fileTypeFilter from '@/filters/fileType.filter';
 import currencyFilter from '@/filters/currency.filter';
 import tooltipDirective from '@/directives/tooltip.directive'
 import messagePlugin from '@/utils/message.plugin'
@@ -30,7 +30,7 @@ Vue.use(Vuelidate);
 Vue.use(VueCookies)
 Vue.$cookies.config('7d')
 Vue.filter('date', dateFilter)
-Vue.filter('nameFilter', nameFilter)
+Vue.filter('fileTypeFilter', fileTypeFilter)
 Vue.filter('currency', currencyFilter)
 Vue.directive('tooltip', tooltipDirective)
 Vue.component('Loader', Loader)

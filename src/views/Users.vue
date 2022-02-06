@@ -64,12 +64,10 @@ export default {
     let users = Object.keys(usersDirty).map((key) => ({
       ...usersDirty[key].info,
       id: usersDirty[key].id,
-      positionName: positions.filter(
+      positionName: (positions.filter( (position) => position.id == usersDirty[key].info.position ))[0].name,
+      positionRole: (positions.filter(
         (position) => position.id == usersDirty[key].info.position
-      )[0].name,
-      positionRole: positions.filter(
-        (position) => position.id == usersDirty[key].info.position
-      )[0].role,
+      ))[0].role,
     }));
 
     for (let i = 0; i < users.length; i++) {
@@ -112,7 +110,6 @@ export default {
           }
         }
       }
-      console.log(userTmp)
       this.users = userTmp
       this.updC++;
     },

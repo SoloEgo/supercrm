@@ -299,14 +299,68 @@
           </div>
           <div ref="replyHolder" class="reply-message-holder"></div>
         </div>
+        <div class="attachFileWrapper">
+          <div
+            class="filesUploadHolder"
+            v-for="f in fileList"
+            :key="f.realName"
+          >
+            <div
+              class="fileBlock"
+              :class="f.state == 'disable' ? 'disabled' : 'enabled'"
+            >
+              <div
+                class="fileIcon"
+                :inner-html.prop="f.name | fileTypeFilter"
+              ></div>
+              <div class="fileName">{{ f.name }}</div>
+              <div class="progress" style="height: 3px">
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  :style="{ width: uploadProgress + '%' }"
+                  :aria-valuenow="uploadProgress"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ></div>
+              </div>
+              <div class="deleteFile">
+                <button
+                  :data-id="f.realName"
+                  @click="deleteFileFromUpload"
+                  class="btn btn-sm btn-close"
+                  v-if="f.state != 'disable'"
+                ></button>
+                <button
+                  :data-id="f.realName"
+                  @click="cancelTask"
+                  class="btn btn-sm btn-close"
+                  v-else
+                ></button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="input-group">
           <span class="input-group-text ms-sgb"
-            ><button class="btn btn-light" @click="addFile">
-              <i class="bi bi-paperclip"></i></button
+            ><label
+              class="btn btn-light chatFile"
+              @click="addFile"
+              for="chatFile"
+            >
+              <i class="bi bi-paperclip"></i>
+              <input
+                type="file"
+                class="hiddenInput"
+                id="chatFile"
+                ref="file"
+                v-on:change="handleFileUpload()"
+              /> </label
           ></span>
           <span class="input-group-text ms-sgb">
             <button
-              class="btn btn-light"
+              class="btn"
+              :class="showEmojiBlock ? 'btn-primary' : 'btn-light'"
               @click="showEmojiBlock = !showEmojiBlock"
             >
               <i class="bi bi-emoji-smile"></i></button
@@ -316,9 +370,8 @@
             class="message-input form-control"
             ref="inputMessage"
             @keyup.enter.prevent="sendMessage"
-          >
-            {{ emojisOutput }}
-          </div>
+            v-html="emojisOutput"
+          ></div>
           <span class="input-group-text"
             ><button class="btn btn-primary" @click="sendMessage">
               <i class="bi bi-send"></i></button
@@ -330,7 +383,6 @@
 </template>
 
 <script>
-import "firebase/storage";
 import "firebase/firestore";
 import firebase from "firebase/app";
 import { db } from "@/plugins/db";
@@ -357,11 +409,15 @@ export default {
     usersSearList: [],
     messages: [],
     searchChatInput: "",
+    file: "",
+    fileList: [],
     userMessageText: "",
     emojiIndex: emojiIndex,
     emojisOutput: "",
     usersInRoom: [],
     chatName: "",
+    uploadProgress: 0,
+    uploadTask: null,
     avatarColors: [
       "#FFCDD2",
       "#F8BBD0",
@@ -468,9 +524,9 @@ export default {
                 });
             }
             members.push(id);
-            if(members.length > 2){
-            this.activeChatSingle = false
-          }
+            if (members.length > 2) {
+              this.activeChatSingle = false;
+            }
             db.collection("rooms").doc(roomId).update({
               members: members,
             });
@@ -482,16 +538,15 @@ export default {
     async deleteUserFromRoom(el) {
       const id = el.currentTarget.getAttribute("data-id");
       const roomId = this.$store.state.activeChatRoomId;
-      console.log(id)
       db.collection("rooms")
         .doc(roomId)
         .get()
         .then(async (querySnapshot) => {
           let doc = querySnapshot.data();
           let members = doc.members;
-          let newmembers = members.filter( m => m != id);
-          if(newmembers.length <= 2){
-            this.activeChatSingle = true
+          let newmembers = members.filter((m) => m != id);
+          if (newmembers.length <= 2) {
+            this.activeChatSingle = true;
           }
           db.collection("rooms").doc(roomId).update({
             members: newmembers,
@@ -555,6 +610,16 @@ export default {
       if (this.$refs.replyHolder.innerHTML.length > 0) {
         mText = this.$refs.replyHolder.innerHTML + mText;
       }
+      if (this.fileList.length > 0) {
+        let ftext = ''
+        for (let i = 0; i < this.fileList.length; i++) {
+          ftext = `<a href="${this.fileList[i].fileUrl}"  download="download" target="_blank"><div class="fileBlock">
+              <div class="fileIcon">${this.$options.filters.fileTypeFilter(this.fileList[i].realName)}</div>
+              <div class="fileName">${this.fileList[i].name}</div>
+              </div></a>`           
+        }
+        mText = ftext + mText;
+      }
       if (mText.length > 0) {
         let message = {
           messageText: mText,
@@ -577,6 +642,10 @@ export default {
       this.$refs.inputMessage.innerHTML = "";
       this.$refs.replyHolder.innerHTML = "";
       this.$refs.replyWrapper.classList.remove("active");
+      this.showEmojiBlock = false;
+      this.fileList = []
+      document.getElementById('chatFile').value=null
+      this.file=''
     },
     deleteReply() {
       this.$refs.replyHolder.innerHTML = "";
@@ -609,6 +678,7 @@ export default {
       this.activeChatRoomid = null;
       this.$store.dispatch("unbindMessages");
       this.showChatRoom = false;
+      this.showSearchBar = false
     },
     async UsersList(e) {
       const uid = this.$store.state.info.info.uid;
@@ -692,7 +762,11 @@ export default {
       }
     },
     showEmoji(emoji) {
-      this.emojisOutput = this.emojisOutput + emoji.native;
+      let mText = this.$refs.inputMessage.innerHTML.replaceAll(
+        "<div><br></div>",
+        ""
+      );
+      this.emojisOutput = mText + emoji.native;
     },
     close(e) {
       if (e.path) {
@@ -713,6 +787,108 @@ export default {
         }
       }
     },
+    handleFileUpload(e) {
+      this.file = this.$refs.file.files[0];
+      let fileName = this.file.name;
+      const realFileName = fileName;
+      const roomId = this.activeChatRoomid
+      if (fileName.length >= 15) {
+        let ext = fileName.split(".").pop().toLowerCase();
+        let nameNoExt = fileName.split(ext)[0];
+        fileName =
+          nameNoExt.substring(0, 5) +
+          "..." +
+          nameNoExt.substring(nameNoExt.length - 5, nameNoExt.length) +
+          ext;
+        fileName.replaceAll(" ", "");
+      }
+      this.fileList.push({
+        name: fileName,
+        realName: realFileName,
+        state: "disable",
+        fileUrl: "",
+      });
+      this.uploadTask = firebase
+        .storage()
+        .ref('chatRooms/' + roomId + "/" + this.file.name)
+        .put(this.file);
+      this.uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          var progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          this.uploadProgress = progress;
+          switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED: // or 'paused'
+              console.log("Upload is paused");
+              break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          switch (error.code) {
+            case "storage/unauthorized":
+              // User doesn't have permission to access the object
+              break;
+            case "storage/canceled":
+              // User canceled the upload
+              break;
+            case "storage/unknown":
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+          }
+        },
+        () => {
+          // Upload completed successfully, now we can get the download URL
+          this.uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            for (let i = 0; i < this.fileList.length; i++) {
+              if (this.fileList[i].realName == this.file.name) {
+                this.fileList[i].state = "done";
+                this.fileList[i].fileUrl = downloadURL;
+              }
+            }
+          });
+        }
+      );
+    },
+    cancelTask(e) {
+      this.uploadTask.cancel();
+      const fileName = e.currentTarget.getAttribute("data-id");
+      for (let i = 0; i < this.fileList.length; i++) {
+        if (this.fileList[i].realName == fileName) {
+          this.fileList.splice(i, 1);
+          i--;
+        }
+      }
+      document.getElementById('chatFile').value=null
+      this.file=''
+    },
+    deleteFileFromUpload(e) {
+      const roomId = this.activeChatRoomid
+      const fileName = e.currentTarget.getAttribute("data-id");
+      var fileRef = firebase
+        .storage()
+        .ref()
+        .child('chatRooms/' + roomId + "/" + fileName);
+      fileRef
+        .delete()
+        .then(() => {
+          for (let i = 0; i < this.fileList.length; i++) {
+            if (this.fileList[i].realName == fileName) {
+              this.fileList.splice(i, 1);
+              i--;
+            }
+          }
+          document.getElementById('chatFile').value = null
+          this.file=''
+        })
+        .catch((error) => {
+          console.log("error deleting: " + error);
+        });
+        
+    },
   },
   asyncComputed: {
     async chatRooms() {
@@ -725,7 +901,11 @@ export default {
         chatRooms[i].id = rooms[i].id;
         chatRooms[i].name = rooms[i].name;
         chatRooms[i].lastMessageDate = rooms[i].modifiedAt;
+        
         chatRooms[i].lastMessage = rooms[i].lastMessage.messageText;
+        if(chatRooms[i].lastMessage.indexOf('<div class="fileBlock">') >= 0){
+          chatRooms[i].lastMessage = '<div class="roomFile"><i class="bi bi-file-earmark"></i>Документ</div>'
+        }
         chatRooms[i].readBy = rooms[i].lastMessage.readBy;
         if (!chatRooms[i].readBy.includes(uid)) {
           chatRooms[i].messagesNotSeen = true;

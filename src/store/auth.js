@@ -31,7 +31,8 @@ export default {
                     avatarUrl: avatarUrl,
                     preferedTheme: 'lightTheme',
                     name: name,
-                    position: ''
+                    position: 'empty',
+                    email: email
                 })
             } catch (e) {
                 commit('setError', e)

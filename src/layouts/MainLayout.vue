@@ -86,12 +86,14 @@ export default {
         rootEl.classList.add("darkTheme");
         this.theme = "darkTheme";
         this.$cookies.set("theme", "darkTheme", 60 * 60 * 24 * 30);
+        document.documentElement.setAttribute("data-color-scheme", "dark");
         this.darkTheme = true;
       } else {
         rootEl.classList.add("lightTheme");
         rootEl.classList.remove("darkTheme");
         this.theme = "lightTheme";
         this.$cookies.set("theme", "lightTheme", 60 * 60 * 24 * 30);
+        document.documentElement.setAttribute("data-color-scheme", "light");
         this.darkTheme = false;
       }
     },
@@ -106,7 +108,10 @@ export default {
     if (!Object.keys(this.$store.getters.info).length) {
       await this.$store.dispatch("fetchInfo");
     }
-    this.theme == 'lightTheme' ? this.darkTheme = false : this.darkTheme = true
+    this.theme == "lightTheme"
+      ? (this.darkTheme = false)
+      : (this.darkTheme = true);
+
     setTimeout(() => {
       this.loading = false;
     }, 500);
