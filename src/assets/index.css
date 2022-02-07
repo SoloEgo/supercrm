@@ -160,3 +160,12 @@ span.f-card-title {
 button.btn.btn-primary {
     color: #fff;
 }
+
+.darkTheme .form-select, .darkTheme input {
+    background-color: var(--elementBG);
+    color: var(--fontsColor);
+}
+
+.form-select-sm option {
+    font-size: 1rem;
+}

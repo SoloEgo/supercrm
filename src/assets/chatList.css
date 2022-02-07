@@ -164,7 +164,7 @@ input.search-input.form-control {
 }
 
 .usb-col.usb-name {
-    width: 90%;
+    width: 85%;
     box-sizing: border-box;
     padding-left: 0.5rem;
 }
@@ -485,6 +485,7 @@ button.btn.btn-sm.btn-close {
 
 .newChatUserSearchList {
     display: none;
+    margin-top: 1px;
 }
 
 .newChatUserSearchList.show {
@@ -565,7 +566,10 @@ input.chatNameControl {
 
 ul.dropdown-menu[data-popper-placement] {
     display: block;
-    left: -5rem !important;
+    position: absolute !important;
+    width: fit-content;
+    inset: 0px auto auto auto !important;
+    right: 0px !important;
 }
 
 .chatUserImage.groupImg {
@@ -595,8 +599,12 @@ ul.dropdown-menu[data-popper-placement] {
 
 .member-name {
     white-space: nowrap;
-    width: 110px;
+    max-width: 150px;
+    min-width: 150px;
     margin-right: 1rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .member-img {
@@ -707,4 +715,45 @@ label.btn.btn-light.chatFile {
 .messageText .fileBlock {
     display: flex;
     align-items: center;
+}
+
+.cose-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    margin-bottom: 1rem;
+}
+
+.newChatInput {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    justify-content: space-between;
+}
+
+.newChatInput input.search-input.form-control.show {
+    margin: 0;
+    width: 75%;
+}
+
+.checked-usr {
+    width: 5%;
+}
+
+.dropdown-item.members-row {
+    display: flex;
+    width: fit-content;
+}
+
+.member-name {
+    color: var(--fontsColor);
+}
+
+ul.dropdown-menu li {
+    width: fit-content;
+}
+
+.dropdown-item.members-row:hover, .dropdown-item.members-row:focus {
+    background-color: #00000029;
 }

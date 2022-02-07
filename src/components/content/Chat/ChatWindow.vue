@@ -69,21 +69,27 @@
           </div>
           <div class="newChatHolder" :class="{ active: newChatShow }">
             <div class="newChatListSearch">
-              <div class="neChatControls">
-                <input
-                  placeholder="Search..."
-                  aria-label="Search"
-                  type="search"
-                  class="search-input form-control ms-3 newChatUsers show"
-                  v-model="searchChatInput"
-                  @click="UsersList"
-                  @keyup="searchChatInputChange"
-                  value=""
-                />
-                <button
-                  class="btn btn-close btn-sm"
-                  @click="newChatShow = false"
-                ></button>
+              <div class="newChatControls">
+                <div class="cose-row">
+                  <div class="newChatName">Новый чат</div>
+                  <button
+                    class="btn btn-close btn-sm"
+                    @click="newChatShow = false"
+                  ></button>
+                </div>
+                <div class="newChatInput">
+                  <input
+                    placeholder="Search..."
+                    aria-label="Search"
+                    type="search"
+                    class="search-input form-control newChatUsers show"
+                    v-model="searchChatInput"
+                    @click="UsersList"
+                    @keyup="searchChatInputChange"
+                    value=""
+                  />
+                  <button class="btn btn-primary btn-sm" @click="createNewChat">Начать</button>
+                </div>
               </div>
 
               <div
@@ -96,7 +102,11 @@
                   :key="u.id"
                   :data-id="u.id"
                 >
-                  <div class="usb-row" :data-id="u.id" @click="createNewChat">
+                  <div
+                    class="usb-row"
+                    :data-id="u.id"
+                    @click="addUserToNewRoom"
+                  >
                     <div class="usb-col usb-img">
                       <div
                         class="chatUserImage"
@@ -107,6 +117,9 @@
                     </div>
                     <div class="usb-col usb-name">
                       {{ u.info.name }} {{ u.info.surname }}
+                    </div>
+                    <div class="checked-usr">
+                      <i class="bi bi-check" v-if="u.checked"></i>
                     </div>
                   </div>
                 </div>
@@ -407,6 +420,7 @@ export default {
     activeChatRoomid: null,
     notReadsLength: 0,
     usersSearList: [],
+    newRoomUsers: [],
     messages: [],
     searchChatInput: "",
     file: "",
@@ -476,13 +490,14 @@ export default {
     },
     async createNewChat(el) {
       const uid = this.$store.state.info.info.uid;
-      const id = el.currentTarget.getAttribute("data-id");
+      let pid = this.newRoomUsers
+      pid.push(uid)
       const snapshot = await db
         .collection("rooms")
         .where("members", "array-contains", uid)
         .get();
       let chats = snapshot.docs.map((doc) => doc.data());
-      chats = chats.filter((el) => el.members.indexOf(id) >= 0);
+      chats = chats.filter((el) => el.members.every(v => pid.includes(v)) && el.members.length == pid.length );
       if (chats.length <= 0) {
         let room = {
           createdAt: new Date().toJSON(),
@@ -491,14 +506,30 @@ export default {
             messageText: "",
             readBy: [uid],
           },
-          members: [id, uid],
+          members: pid,
           modifiedAt: new Date().toJSON(),
-          name: "",
+          name: pid.length > 2 ? 'Групповой чат' : '',
+          avatarColor: pid.length > 2 ? this.avatarColors[Math.floor(Math.random() * this.avatarColors.length)] : ''
         };
         db.collection("rooms").add(room);
         this.showNewUserListPanel = false;
         this.newChatShow = false;
+      }else{
+
       }
+    },
+    addUserToNewRoom(el) {
+      let users = this.usersSearList;
+      if( !this.newRoomUsers.includes(el.currentTarget.getAttribute("data-id")) ){
+        this.newRoomUsers.push(el.currentTarget.getAttribute("data-id"));
+      }else{
+        this.newRoomUsers = this.newRoomUsers.filter( i => i != el.currentTarget.getAttribute("data-id"));
+      }
+      
+      for (let i = 0; i < users.length; i++) {
+        users[i].checked = this.newRoomUsers.includes(users[i].id) ;
+      }
+      this.usersSearList = users;
     },
     async addUserToRoom(el) {
       const id = el.currentTarget.getAttribute("data-id");
@@ -611,12 +642,16 @@ export default {
         mText = this.$refs.replyHolder.innerHTML + mText;
       }
       if (this.fileList.length > 0) {
-        let ftext = ''
+        let ftext = "";
         for (let i = 0; i < this.fileList.length; i++) {
-          ftext = `<a href="${this.fileList[i].fileUrl}"  download="download" target="_blank"><div class="fileBlock">
-              <div class="fileIcon">${this.$options.filters.fileTypeFilter(this.fileList[i].realName)}</div>
+          ftext = `<a href="${
+            this.fileList[i].fileUrl
+          }"  download="download" target="_blank"><div class="fileBlock">
+              <div class="fileIcon">${this.$options.filters.fileTypeFilter(
+                this.fileList[i].realName
+              )}</div>
               <div class="fileName">${this.fileList[i].name}</div>
-              </div></a>`           
+              </div></a>`;
         }
         mText = ftext + mText;
       }
@@ -643,9 +678,9 @@ export default {
       this.$refs.replyHolder.innerHTML = "";
       this.$refs.replyWrapper.classList.remove("active");
       this.showEmojiBlock = false;
-      this.fileList = []
-      document.getElementById('chatFile').value=null
-      this.file=''
+      this.fileList = [];
+      document.getElementById("chatFile").value = null;
+      this.file = "";
     },
     deleteReply() {
       this.$refs.replyHolder.innerHTML = "";
@@ -678,7 +713,7 @@ export default {
       this.activeChatRoomid = null;
       this.$store.dispatch("unbindMessages");
       this.showChatRoom = false;
-      this.showSearchBar = false
+      this.showSearchBar = false;
     },
     async UsersList(e) {
       const uid = this.$store.state.info.info.uid;
@@ -716,6 +751,7 @@ export default {
       ];
       for (let i = 0; i < users.length; i++) {
         users[i].online = usersOnline.includes(users[i].id);
+        users[i].checked = this.newRoomUsers.includes(users[i].id);
       }
       this.usersSearList = users;
     },
@@ -735,8 +771,14 @@ export default {
             i--;
           }
         }
+        for (let i = 0; i < usersStart.length; i++) {
+          usersStart[i].checked = this.newRoomUsers.includes(usersStart[i].id);
+        }
         this.usersSearList = usersStart;
       } else {
+        for (let i = 0; i < usersReal.length; i++) {
+          usersReal[i].checked = this.newRoomUsers.includes(usersReal[i].id);
+        }
         this.usersSearList = usersReal;
       }
     },
@@ -791,7 +833,7 @@ export default {
       this.file = this.$refs.file.files[0];
       let fileName = this.file.name;
       const realFileName = fileName;
-      const roomId = this.activeChatRoomid
+      const roomId = this.activeChatRoomid;
       if (fileName.length >= 15) {
         let ext = fileName.split(".").pop().toLowerCase();
         let nameNoExt = fileName.split(ext)[0];
@@ -810,7 +852,7 @@ export default {
       });
       this.uploadTask = firebase
         .storage()
-        .ref('chatRooms/' + roomId + "/" + this.file.name)
+        .ref("chatRooms/" + roomId + "/" + this.file.name)
         .put(this.file);
       this.uploadTask.on(
         "state_changed",
@@ -862,16 +904,16 @@ export default {
           i--;
         }
       }
-      document.getElementById('chatFile').value=null
-      this.file=''
+      document.getElementById("chatFile").value = null;
+      this.file = "";
     },
     deleteFileFromUpload(e) {
-      const roomId = this.activeChatRoomid
+      const roomId = this.activeChatRoomid;
       const fileName = e.currentTarget.getAttribute("data-id");
       var fileRef = firebase
         .storage()
         .ref()
-        .child('chatRooms/' + roomId + "/" + fileName);
+        .child("chatRooms/" + roomId + "/" + fileName);
       fileRef
         .delete()
         .then(() => {
@@ -881,13 +923,12 @@ export default {
               i--;
             }
           }
-          document.getElementById('chatFile').value = null
-          this.file=''
+          document.getElementById("chatFile").value = null;
+          this.file = "";
         })
         .catch((error) => {
           console.log("error deleting: " + error);
         });
-        
     },
   },
   asyncComputed: {
@@ -901,10 +942,11 @@ export default {
         chatRooms[i].id = rooms[i].id;
         chatRooms[i].name = rooms[i].name;
         chatRooms[i].lastMessageDate = rooms[i].modifiedAt;
-        
+
         chatRooms[i].lastMessage = rooms[i].lastMessage.messageText;
-        if(chatRooms[i].lastMessage.indexOf('<div class="fileBlock">') >= 0){
-          chatRooms[i].lastMessage = '<div class="roomFile"><i class="bi bi-file-earmark"></i>Документ</div>'
+        if (chatRooms[i].lastMessage.indexOf('<div class="fileBlock">') >= 0) {
+          chatRooms[i].lastMessage =
+            '<div class="roomFile"><i class="bi bi-file-earmark"></i>Документ</div>';
         }
         chatRooms[i].readBy = rooms[i].lastMessage.readBy;
         if (!chatRooms[i].readBy.includes(uid)) {
