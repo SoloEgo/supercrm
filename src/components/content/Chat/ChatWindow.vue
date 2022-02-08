@@ -175,6 +175,7 @@
                         <button
                           class="btn btn-sm btn-light"
                           :data-id="u.id"
+                          v-if="usersInRoom.length >= 2"
                           @click="deleteUserFromRoom"
                         >
                           <i class="bi bi-trash"></i>
@@ -466,11 +467,7 @@ export default {
         .get()
         .then(async (querySnapshot) => {
           let doc = querySnapshot.data();
-          if (doc.members.length <= 2) {
-            this.activeChatSingle = true;
-          } else {
-            this.activeChatSingle = false;
-          }
+          this.activeChatSingle = !doc.isGroup;
           if (doc.name == "") {
             let member = doc.members.filter((m) => m != uid);
             let name = await this.$store.dispatch("fetchInfoById", member[0]);
@@ -509,6 +506,7 @@ export default {
           members: pid,
           modifiedAt: new Date().toJSON(),
           name: pid.length > 2 ? 'Групповой чат' : '',
+          isGroup: pid.length > 2 ? true : false,
           avatarColor: pid.length > 2 ? this.avatarColors[Math.floor(Math.random() * this.avatarColors.length)] : ''
         };
         db.collection("rooms").add(room);
@@ -557,6 +555,11 @@ export default {
             members.push(id);
             if (members.length > 2) {
               this.activeChatSingle = false;
+              db.collection("rooms")
+                .doc(roomId)
+                .update({
+                  isGroup: true,
+                });
             }
             db.collection("rooms").doc(roomId).update({
               members: members,
@@ -576,9 +579,7 @@ export default {
           let doc = querySnapshot.data();
           let members = doc.members;
           let newmembers = members.filter((m) => m != id);
-          if (newmembers.length <= 2) {
-            this.activeChatSingle = true;
-          }
+          this.activeChatSingle = !doc.isGroup;
           db.collection("rooms").doc(roomId).update({
             members: newmembers,
           });
@@ -936,6 +937,7 @@ export default {
       const uid = this.$store.state.info.info.uid;
       let usersOnline = this.$store.state.usersOnline;
       let rooms = this.$store.state.rooms;
+      console.log(rooms)
       let chatRooms = new Array();
       for (let i = 0; i < rooms.length; i++) {
         chatRooms[i] = Object();
@@ -963,8 +965,8 @@ export default {
           chatRooms[i].messagesSeenByAll = false;
         }
         chatRooms[i].members = rooms[i].members.filter((m) => m != uid);
-
-        if (chatRooms[i].members.length == 1) {
+        chatRooms[i].isGroup = rooms[i].isGroup
+        if (!chatRooms[i].isGroup) {
           let info = await this.$store.dispatch(
             "fetchInfoById",
             chatRooms[i].members[0]
@@ -981,6 +983,7 @@ export default {
           chatRooms[i].name = rooms[i].name;
         }
       }
+      console.log(chatRooms)
       //this.$store.state.rooms = chatRooms
       return chatRooms;
     },
