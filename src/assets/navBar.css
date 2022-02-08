@@ -80,10 +80,6 @@
     z-index: 100;
 }
 
-.content.full-width .navbar-top .left-nav-bar {
-    margin-left: 1rem;
-}
-
 .n-icon {
     color: var(--fontsColor);
     background-color: var(--btnLightBackground);

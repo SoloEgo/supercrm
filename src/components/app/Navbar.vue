@@ -5,19 +5,21 @@
         <button
           id="toggleNavigationTooltip"
           type="button"
-          class="btn btn-light bth-toggle-sidebar btn-sm"
+          class="btn bth-toggle-sidebar btn-sm"
           @click="hideSidebar"
+          :class="hideSidebarStatus ? 'btn-primary' : 'btn-light'"
         >
           <i class="bi bi-layout-sidebar-inset"></i>
         </button>
       </div>
     </div>
     <div class="right-nav-bar">
-      <button
-        class="calendar-toggle btn btn-sm btn-light me-3">
+      <button class="calendar-toggle btn btn-sm btn-light me-3">
         <i class="bi bi-calendar3"></i>
       </button>
-      <button class="notification-holder-btn btn btn-sm dropdown me-3" :class="notificationShow?'btn-primary':'btn-light'"
+      <button
+        class="notification-holder-btn btn btn-sm dropdown me-3"
+        :class="notificationShow ? 'btn-primary' : 'btn-light'"
         @click="notificationShow = !notificationShow"
       >
         <i class="bi bi-bell"></i>
@@ -31,16 +33,18 @@
             rounded-pill
             bg-primary
           "
-          v-if="notReadsLength>0"
+          v-if="notReadsLength > 0"
         >
           {{ notReadsLength }}
         </span>
       </button>
-      <button class="messanger-holder-btn btn btn-light btn-sm dropdown me-3"
+      <button
+        class="messanger-holder-btn btn btn-light btn-sm dropdown me-3"
         @click="chatListShowClcik"
       >
         <i class="bi bi-chat-right-text"></i>
         <span
+        id="unreadMSG"
           class="
             position-absolute
             top-0
@@ -51,11 +55,10 @@
             bg-danger
           "
         >
-          9+
-          <span class="visually-hidden">unread messages</span>
         </span>
       </button>
-      <div class="dropdown user-block"
+      <div
+        class="dropdown user-block"
         :class="{ active: showUserSettings }"
         @click="showUserSettings = !showUserSettings"
         v-click-outside="closeDropDown"
@@ -68,7 +71,8 @@
           <span class="dropdown-toggle">{{ name }} {{ surname }}</span>
           <small>{{ position }}</small>
         </div>
-        <ul class="dropdown-menu dropdown-menu-end"
+        <ul
+          class="dropdown-menu dropdown-menu-end"
           :class="{ show: showUserSettings }"
         >
           <li>
@@ -94,7 +98,8 @@
         </ul>
       </div>
     </div>
-    <div class="dropdownNotificationBlock"
+    <div
+      class="dropdownNotificationBlock"
       :class="{ active: notificationShow }"
     >
       <div v-for="n of notifications" :key="n.id" class="noticication_cards">
@@ -130,7 +135,7 @@
                   :disabled="n.isRead"
                 >
                   <span v-if="n.isRead">Прочитано</span>
-                  <span v-else>Подтвердить</span>
+                  <span v-else>Прочитать</span>
                 </button>
               </div>
             </div>
@@ -152,25 +157,30 @@ import data from "emoji-mart-vue-fast/data/all.json";
 import { Picker, EmojiIndex } from "emoji-mart-vue-fast";
 import "@/assets/notCenter.css";
 
-
 export default {
   data: () => ({
     showUserSettings: false,
-    hideSidebarStatus: true,
+    hideSidebarStatus: null,
     notificationShow: false,
     theme: "",
     date: new Date(),
     notifications: [],
-    notReadsLength: 0
+    notReadsLength: 0,
+    hsbActive: false,
   }),
-  components: {
-  },
+  components: {},
   methods: {
     async logout() {
       await this.$store.dispatch("logout");
       this.$router.push("/login?message=logout");
     },
-    hideSidebar: function () {
+    hideSidebar() {
+      this.hideSidebarStatus = !this.hideSidebarStatus;
+      this.$cookies.set(
+        "hideSidebarStatus",
+        this.hideSidebarStatus,
+        60 * 60 * 24 * 30
+      );
       let sideBar = document.querySelector(".navbar-vertical");
       let content = document.querySelector(".content");
       if (this.hideSidebarStatus) {
@@ -180,7 +190,6 @@ export default {
         sideBar.classList.remove("hidden");
         content.classList.remove("full-width");
       }
-      this.hideSidebarStatus = !this.hideSidebarStatus;
     },
     closeDropDown() {
       document
@@ -218,11 +227,11 @@ export default {
         }
       }
     },
-    chatListShowClcik(){
-      this.$emit('chatWindowState')
-    }
+    chatListShowClcik() {
+      this.$emit("chatWindowState");
+    },
   },
-  
+
   computed: {
     name() {
       return this.$store.getters.info.name;
@@ -258,6 +267,24 @@ export default {
   },
   async mounted() {
     this.uid = await this.$store.dispatch("getUid");
+    this.hideSidebarStatus = JSON.parse( (this.$cookies.get("hideSidebarStatus")).toLowerCase());
+
+    if (this.hideSidebarStatus == undefined) {
+      this.$cookies.set("hideSidebarStatus", false, 60 * 60 * 24 * 30);
+      this.hideSidebarStatus = false;
+    }
+
+    let sideBar = document.querySelector(".navbar-vertical");
+    let content = document.querySelector(".content");
+    
+    if (this.hideSidebarStatus) {
+      sideBar.classList.add("hidden");
+      content.classList.add("full-width");
+    } else {
+      sideBar.classList.remove("hidden");
+      content.classList.remove("full-width");
+    }
+
     this.theme = this.$cookies.get("theme");
     this.date = new Date();
     let ref = this.$store.getters.info.avatarUrl;

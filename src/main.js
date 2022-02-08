@@ -22,6 +22,8 @@ import 'firebase/database'
 import { firestorePlugin } from 'vuefire'
 import AsyncComputed from 'vue-async-computed'
 import "@/assets/customize.scss";
+import VCalendar from 'v-calendar';
+
 
 
 Vue.config.productionTip = false;
@@ -39,6 +41,9 @@ Vue.component('Paginate', Paginate)
 Vue.use(firestorePlugin)
 Vue.use(AsyncComputed)
 Vue.use(ToastPlugin)
+Vue.use(VCalendar, {
+    componentPrefix: 'vc'
+  });
 
 let app
 

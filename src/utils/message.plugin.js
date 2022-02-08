@@ -26,7 +26,7 @@ export default {
                     `${html} `
                 ]
             )
-            console.log(message)
+            //console.log(message)
             this.$bvToast.toast(
                 [message], {
                     title: "Предупреждение",

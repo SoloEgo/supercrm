@@ -186,7 +186,7 @@ export default {
         this.status = null;
         this.budget = null;
         this.description = null;
-        console.log(createdSale)
+        //console.log(createdSale)
 
         this.$v.$reset();
         document.querySelector(".create-new-record-card").classList.remove("active");

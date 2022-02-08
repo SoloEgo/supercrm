@@ -66,12 +66,6 @@ div#app {
     height: 100%;
 }
 
-#app input {
-    background-color: var(--elementBG);
-    color: var(--fontsColor);
-    border-color: var(--btnBorderColor);
-}
-
 
 /* .toast {
     position: fixed;
@@ -161,11 +155,21 @@ button.btn.btn-primary {
     color: #fff;
 }
 
-.darkTheme .form-select, .darkTheme input {
+#app input {
     background-color: var(--elementBG);
     color: var(--fontsColor);
+    border-color: var(--btnBorderColor);
+}
+
+
+.darkTheme #app select.form-select, .darkTheme #app  input {
+    background-color: var(--elementBG);
+    color: var(--fontsColor);
+    border-color: var(--btnBorderColor);
 }
 
 .form-select-sm option {
     font-size: 1rem;
 }
+
+

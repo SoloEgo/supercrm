@@ -757,3 +757,24 @@ ul.dropdown-menu li {
 .dropdown-item.members-row:hover, .dropdown-item.members-row:focus {
     background-color: #00000029;
 }
+
+.emptyMessages.sayHi {
+    box-sizing: border-box;
+    text-align: center;
+    background: var(--elementBG);
+    box-shadow: var(--boxShadow);
+    padding: 1rem 0;
+}
+
+.emptyMessages.sayHi p {
+    margin: 0;
+    font-weight: 600;
+}
+
+.emptyMessages.sayHi p:last-child {
+    font-size: 2rem;
+}
+
+.badge.hidden {
+    display:none;
+}

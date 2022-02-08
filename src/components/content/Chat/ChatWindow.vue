@@ -237,12 +237,17 @@
         </div>
       </div>
       <div class="mesWindow" ref="chatWindow">
+        <div class="emptyMessages sayHi" v-if="messages.length <= 0">
+          <p>Поприветствуйте участников!</p>
+          <p>👋</p>
+          </div>
         <div
           class="mes-row"
           v-for="m in messages"
           :key="m.id"
           :class="m.sentBy == uid ? 'my-message' : ''"
         >
+        
           <div class="message-wrapper" @contextmenu.prevent="mesMenuClick">
             <div class="dropdown">
               <ul class="dropdown-menu">
@@ -934,17 +939,16 @@ export default {
   },
   asyncComputed: {
     async chatRooms() {
+      let notReadsLength = 0
       const uid = this.$store.state.info.info.uid;
       let usersOnline = this.$store.state.usersOnline;
       let rooms = this.$store.state.rooms;
-      console.log(rooms)
       let chatRooms = new Array();
       for (let i = 0; i < rooms.length; i++) {
         chatRooms[i] = Object();
         chatRooms[i].id = rooms[i].id;
         chatRooms[i].name = rooms[i].name;
         chatRooms[i].lastMessageDate = rooms[i].modifiedAt;
-
         chatRooms[i].lastMessage = rooms[i].lastMessage.messageText;
         if (chatRooms[i].lastMessage.indexOf('<div class="fileBlock">') >= 0) {
           chatRooms[i].lastMessage =
@@ -953,6 +957,7 @@ export default {
         chatRooms[i].readBy = rooms[i].lastMessage.readBy;
         if (!chatRooms[i].readBy.includes(uid)) {
           chatRooms[i].messagesNotSeen = true;
+          notReadsLength++
         } else {
           chatRooms[i].messagesNotSeen = false;
         }
@@ -983,8 +988,12 @@ export default {
           chatRooms[i].name = rooms[i].name;
         }
       }
-      console.log(chatRooms)
-      //this.$store.state.rooms = chatRooms
+      if(notReadsLength > 0){
+        document.getElementById('unreadMSG').textContent = notReadsLength
+      }else{
+        document.getElementById('unreadMSG').textContent = ''
+      }
+      
       return chatRooms;
     },
   },

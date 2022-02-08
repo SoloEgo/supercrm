@@ -23,7 +23,8 @@ export default new Vuex.Store({
         messages: [],
         rooms: [],
         chatRooms: [],
-        activeChatRoomId: null
+        activeChatRoomId: null,
+
     },
     mutations: {
         ...vuexfireMutations,
