@@ -299,3 +299,21 @@
     .card th {
         border-color: var(--bs-gray-600);
     }
+
+    #app .app-main-layout-wrapper input {
+        background-color: var(--elementBG);
+        color: var(--fontsColor);
+        border-color: var(--btnBorderColor);
+    }
+    
+    
+    .darkTheme #app .app-main-layout-wrapper select.form-select, .darkTheme #app .app-main-layout-wrapper input {
+        background-color: var(--elementBG);
+        color: var(--fontsColor);
+        border-color: var(--btnBorderColor);
+    }
+    
+    .form-select-sm option {
+        font-size: 1rem;
+    }
+    

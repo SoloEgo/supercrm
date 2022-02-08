@@ -66,35 +66,6 @@ div#app {
     height: 100%;
 }
 
-
-/* .toast {
-    position: fixed;
-    opacity: 0;
-    margin-top: 45%;
-    transition: all 0.5s;
-    background-color: #ffffff;
-    padding: 10px 40px;
-    border-radius: 60px;
-    right: 1%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--boxShadow);
-}
-
-.toast span {
-    font-size: 30px;
-    margin-right: 10px;
-}
-
-.toast span.error {
-    color: #f44336;
-}
-
-.toast span.warning {
-    color: #FBC02D;
-} */
-
 span.f-card-title {
     font-size: 40px;
     font-weight: bold;
@@ -154,22 +125,4 @@ span.f-card-title {
 button.btn.btn-primary {
     color: #fff;
 }
-
-#app input {
-    background-color: var(--elementBG);
-    color: var(--fontsColor);
-    border-color: var(--btnBorderColor);
-}
-
-
-.darkTheme #app select.form-select, .darkTheme #app  input {
-    background-color: var(--elementBG);
-    color: var(--fontsColor);
-    border-color: var(--btnBorderColor);
-}
-
-.form-select-sm option {
-    font-size: 1rem;
-}
-
 

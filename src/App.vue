@@ -11,7 +11,6 @@
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import "assets/toast.css";
 @import "assets/bv-toast.css";
-/* @import "~bootstrap/dist/css/bootstrap.css"; */
 </style>
 
 

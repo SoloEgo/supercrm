@@ -41,9 +41,7 @@ Vue.component('Paginate', Paginate)
 Vue.use(firestorePlugin)
 Vue.use(AsyncComputed)
 Vue.use(ToastPlugin)
-Vue.use(VCalendar, {
-    componentPrefix: 'vc'
-  });
+Vue.use(VCalendar);
 
 let app
 
