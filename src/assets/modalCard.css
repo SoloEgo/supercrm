@@ -2,15 +2,6 @@
     background-color: var(--elementBG)
 }
 
-#app .modal-content input,
-#app .modal-content select,
-#app .modal-content textarea {
-    background-color: var(--modalFormElementBG);
-    border-color: var(--modalFormElBorder);
-    color: var(--fontsColor);
-    margin-left: -1px;
-}
-
 .modal-body .modal-header {
     display: flex;
     align-items: center;

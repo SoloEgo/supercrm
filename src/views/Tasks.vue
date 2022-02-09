@@ -57,7 +57,87 @@
 
           <div class="modal-body p-5 pt-0">
             <form class="form" @submit.prevent="handleSubmit">
-              <div class="form-row row mb-3">
+              <div class="row mb-3">
+                <div class="col-5">
+                  <label for="" class="form-label">Постановщик</label>
+                  <div class="inputMultiSelect">
+                    <span class="input-group-text"
+                      ><i class="bi bi-bootstrap"></i
+                    ></span>
+                    <multiselect
+                      v-model="author"
+                      :options="users"
+                      :multiple="true"
+                      :close-on-select="false"
+                      :clear-on-select="false"
+                      :preserve-search="true"
+                      placeholder="Ответственный"
+                      class="form-control rounded-4"
+                      :limit="3"
+                      label="name"
+                      track-by="name"
+                      :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <label for="" class="form-label">Крайний срок</label>
+                  <div class="input-group input-date-range">
+                    <span class="input-group-text"
+                      ><i class="bi bi-calendar-week"></i
+                    ></span>
+                    <v-date-picker v-model="dateEnd" mode="dateTime" is24hr>
+                      <template v-slot="{ inputValue, inputEvents }">
+                        <input
+                          class="form-control"
+                          :value="inputValue"
+                          v-on="inputEvents"
+                        />
+                      </template>
+                    </v-date-picker>
+                  </div>
+                </div>
+                <div class="col taskCheck">
+                  <div class="tsakImpCheck">
+                    <input
+                      type="checkbox"
+                      class="form-check-input me-2"
+                      id="exampleCheck1"
+                    />
+                    <label class="form-check-label" for="exampleCheck1"
+                      >Это важная задача
+                      <i class="bi bi-lightning-charge-fill"></i
+                    ></label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3 me-3">
+                <div class="col">
+                  <label for="" class="form-label">Ответственные</label>
+                  <div class="inputMultiSelect">
+                    <span class="input-group-text"
+                      ><i class="bi bi-bootstrap"></i
+                    ></span>
+                    <multiselect
+                      v-model="responsibleUsers"
+                      :options="users"
+                      :multiple="true"
+                      :close-on-select="false"
+                      :clear-on-select="false"
+                      :preserve-search="true"
+                      placeholder="Ответственный"
+                      class="form-control rounded-4"
+                      :limit="3"
+                      label="name"
+                      track-by="name"
+                      :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+                </div>
+              </div>
+              <div class="row me-3">
                 <div class="col">
                   <div class="input-group">
                     <span class="input-group-text"
@@ -80,89 +160,19 @@
                     >Поле Наименование не должно быть пустым</small
                   >
                 </div>
-                <div class="col">
-                  <div class="input-group">
-                    <span class="input-group-text"
-                      ><i class="bi bi-bootstrap"></i
-                    ></span>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="floatingInputName"
-                      placeholder="Постановщик"
-                      v-model="name"
-                      :class="{
-                        invalid: $v.name.$dirty && !$v.name.required,
-                      }"
-                    />
-                  </div>
-                  <small
-                    class="f-helper-text invalid"
-                    v-if="$v.name.$dirty && !$v.name.required"
-                    >Поле Наименование не должно быть пустым</small
-                  >
-                </div>
-                <div class="col">
-                  <div class="input-group input-date-range">
-                    <span class="input-group-text"
-                      ><i class="bi bi-calendar-week"></i
-                    ></span>
-                    <v-date-picker v-model="dateStart" mode="dateTime" is24hr>
-                      <template v-slot="{ inputValue, inputEvents }">
-                        <input
-                          class="form-control rounded-4"
-                          :value="inputValue"
-                          v-on="inputEvents"
-                        />
-                      </template>
-                    </v-date-picker>
-                    <span class="input-group-text"
-                      ><i class="bi bi-arrow-right"></i
-                    ></span>
-                    <v-date-picker v-model="dateEnd" mode="dateTime" is24hr>
-                      <template v-slot="{ inputValue, inputEvents }">
-                        <input
-                          class="form-control rounded-4"
-                          :value="inputValue"
-                          v-on="inputEvents"
-                        />
-                      </template>
-                    </v-date-picker>
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-3 me-3">
-                  <div class="inputMultiSelect">
-                    <span class="input-group-text"
-                      ><i class="bi bi-bootstrap"></i
-                    ></span>
-                    <multiselect
-                      v-model="responsibleUsers"
-                      :options="options"
-                      :multiple="true"
-                      :close-on-select="false"
-                      :clear-on-select="false"
-                      :preserve-search="true"
-                      placeholder="Ответственный"
-                      class="form-control rounded-4"
-                      :limit="3"
-                      label="name"
-                      track-by="name"
-                      :preselect-first="true"
-                    >
-                    </multiselect>
-                  </div>
               </div>
               <div class="row me-3">
-                <quill-editor
-                  ref="myQuillEditor"
-                  v-model="description"
-                  :options="editorOption"
-                />
+                <div class="col">
+                  <quill-editor
+                    ref="myQuillEditor"
+                    v-model="description"
+                    :options="editorOption"
+                  />
+                </div>
               </div>
 
-              <div class="form-row mb-3">
-                <div class="input-group">
+              <div class="form-row mt-3 mb-3">
+                <div class="col-2">
                   <button
                     class="w-100 mb-2 btn btn-lg rounded-4 btn-primary"
                     type="submit"
@@ -200,18 +210,15 @@ export default {
     dateEnd: "",
     description: "",
     responsibleUsers: "",
+    author: '',
     displayCalendar: false,
     showModalAddTask: false,
     range: {
       start: new Date(2020, 9, 12),
       end: new Date(2020, 9, 16),
     },
-    options: [
-      { name: "Vue.js", language: "JavaScript" },
-      { name: "Rails", language: "Ruby" },
-      { name: "Sinatra", language: "Ruby" },
-      { name: "Laravel", language: "PHP" },
-      { name: "Phoenix", language: "Elixir" },
+    users: [
+      
     ],
     editorOption: {
       theme: "snow",
@@ -242,6 +249,11 @@ export default {
   async mounted() {
     this.displayCalendar = this.$cookies.get("tasksDisplayTable") === "true";
     this.loading = false;
+    let users = await this.$store.dispatch("fetchUsers");
+    for (let i = 0; i < users.length; i++) {
+      this.users.push({id: users[i].id, name: users[i].info.name + ' ' + users[i].info.surname})
+    }
+    console.log(this.users)
   },
   components: {
     TaskBlock,

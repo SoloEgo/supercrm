@@ -24,6 +24,7 @@ import AsyncComputed from 'vue-async-computed'
 import "@/assets/customize.scss";
 import VCalendar from 'v-calendar';
 import Multiselect from 'vue-multiselect'
+import BootstrapVue from "bootstrap-vue"
 
 
 Vue.config.productionTip = false;
@@ -43,6 +44,7 @@ Vue.use(AsyncComputed)
 Vue.use(ToastPlugin)
 Vue.use(VCalendar);
 Vue.component('multiselect', Multiselect)
+Vue.use(BootstrapVue)
 
 let app
 
