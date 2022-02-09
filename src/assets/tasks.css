@@ -1,0 +1,49 @@
+.input-group.input-date-range>span>input {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.input-group.input-date-range {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    background:none;
+}
+
+.input-group.input-date-range>span {
+    height: 42px;
+    box-sizing: border-box;
+}
+
+.input-group.input-date-range span.input-group-text {
+    box-sizing: border-box;
+}
+
+.input-group.input-date-range>span:nth-child(2)>input {
+    border-radius: 0;
+}
+
+.input-group.input-date-range>span:last-child>input {
+    border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.multiselect.form-control .multiselect__tags {
+    border: 0;
+}
+
+.multiselect.form-control {
+    padding: 0;
+}
+
+.inputMultiSelect span {
+    width: fit-content;
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.inputMultiSelect {
+    display: flex;
+}
+
+.inputMultiSelect .multiselect {
+    border-radius: 0 0.25rem 0.25rem 0;
+}

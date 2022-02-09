@@ -53,26 +53,6 @@
     margin-bottom: 5px
 }
 
-.addNewTask {
-    position: absolute;
-    right: 0px;
-    top: 4px;
-    background: var(--btnLightBackground);
-    border-radius: 100rem;
-    width: 1.2rem;
-    height: 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    line-height: 1;
-    display: none;
-}
-
-.vc-day:hover .addNewTask {
-    display: flex;
-}
-
 .overflow-y-auto {
     overflow-y: auto;
 }

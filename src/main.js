@@ -23,7 +23,7 @@ import { firestorePlugin } from 'vuefire'
 import AsyncComputed from 'vue-async-computed'
 import "@/assets/customize.scss";
 import VCalendar from 'v-calendar';
-
+import Multiselect from 'vue-multiselect'
 
 
 Vue.config.productionTip = false;
@@ -42,6 +42,7 @@ Vue.use(firestorePlugin)
 Vue.use(AsyncComputed)
 Vue.use(ToastPlugin)
 Vue.use(VCalendar);
+Vue.component('multiselect', Multiselect)
 
 let app
 

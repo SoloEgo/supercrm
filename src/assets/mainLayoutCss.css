@@ -310,7 +310,7 @@
     .darkTheme #app .app-main-layout-wrapper select.form-select, .darkTheme #app .app-main-layout-wrapper input {
         background-color: var(--elementBG);
         color: var(--fontsColor);
-        border-color: var(--btnBorderColor);
+        border-color: var(--modalFormElBorder);
     }
     
     .form-select-sm option {

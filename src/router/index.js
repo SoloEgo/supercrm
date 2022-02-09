@@ -68,7 +68,7 @@ const routes = [{
         forAdmin: false,
         meta: { layout: "main", auth: true },
         component: () =>
-            import ("../views/Categories.vue"),
+            import ("../views/Tasks.vue"),
     },
     {
         path: "/structure",
