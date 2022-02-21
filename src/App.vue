@@ -1,8 +1,18 @@
 <template>
-  <div id="app">
+  <div id="app" v-if="!isMobile()">
     <component :is="layout">
       <router-view />
     </component>
+  </div>
+  <div class="mobile-layout get-app" v-else>
+    <div class="mob-container">
+      <div class="logo"><img type="image/svg+xml" src="/img/logo.7cde6236.svg"></div>
+      <h1>Get our app</h1>
+      <div class="btn-holder">
+        <div class="apple-btn btn"><img type="image/svg+xml" src="/img/appstore.svg"></div>
+        <div class="google-btn btn"><img type="image/png" src="/img/google.png"></div>
+      </div>
+    </div>    
   </div>
 </template>
 
@@ -50,6 +60,24 @@ export default {
       db.collection("users").doc(uid).set({
         online: false,
       });
+      const runningTask = this.$store.state.runningTask
+      console.log(runningTask.tid)
+      console.log(runningTask.pauseState)
+      if(runningTask.pauseState == false){
+        await this.$store.dispatch("setTaskTime", runningTask.tid)
+      }
+
+    },
+    isMobile() {
+      if (
+        /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        )
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
   async mounted() {

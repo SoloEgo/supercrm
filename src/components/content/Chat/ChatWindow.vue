@@ -402,8 +402,8 @@
 </template>
 
 <script>
-import "firebase/firestore";
-import firebase from "firebase/app";
+import "firebase/compat/firestore";
+import firebase from "firebase/compat/app";
 import { db } from "@/plugins/db";
 import "emoji-mart-vue-fast/css/emoji-mart.css";
 import data from "emoji-mart-vue-fast/data/all.json";

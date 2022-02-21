@@ -1,5 +1,5 @@
 import firebase from "@/plugins/firebase"
-import 'firebase/firestore'
+import 'firebase/compat/firestore'
 const config = {
     apiKey: "AIzaSyBRnuLWtVJPHwID_3V-uDbW4Gp4sXE1uas",
     authDomain: "my-crm-fca31.firebaseapp.com",

@@ -9,6 +9,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import dateFilter from '@/filters/date.filter';
+import timeFilter from '@/filters/time.filter';
 import fileTypeFilter from '@/filters/fileType.filter';
 import currencyFilter from '@/filters/currency.filter';
 import tooltipDirective from '@/directives/tooltip.directive'
@@ -17,8 +18,8 @@ import Loader from '@/components/app/Loader'
 import LoaderContent from '@/components/app/LoaderContent'
 import "./registerServiceWorker";
 import firebase from "@/plugins/firebase"
-import 'firebase/auth'
-import 'firebase/database'
+import 'firebase/compat/auth'
+import 'firebase/compat/database'
 import { firestorePlugin } from 'vuefire'
 import AsyncComputed from 'vue-async-computed'
 import "@/assets/customize.scss";
@@ -33,6 +34,7 @@ Vue.use(Vuelidate);
 Vue.use(VueCookies)
 Vue.$cookies.config('7d')
 Vue.filter('date', dateFilter)
+Vue.filter('time', timeFilter)
 Vue.filter('fileTypeFilter', fileTypeFilter)
 Vue.filter('currency', currencyFilter)
 Vue.directive('tooltip', tooltipDirective)

@@ -30,8 +30,12 @@
       <div class="tile-holder" v-else>
         <div class="tile-card tile-0">
           <div class="card white-card minh-100">
-            <TaskCalendar v-if="displayCalendar" />
-            <TaskBlock v-else />
+            <TaskCalendar
+              :tasks="tasks"
+              :key="tasks.length"
+              v-if="displayCalendar"
+            />
+            <TaskBlock :taskList="tasks" :key="tasks.length" v-else />
           </div>
         </div>
       </div>
@@ -57,8 +61,31 @@
 
           <div class="modal-body p-5 pt-0">
             <form class="form" @submit.prevent="handleSubmit">
-              <div class="row mb-3">
+              <div class="row me-3 mb-3">
                 <div class="col-5">
+                  <label for="" class="form-label">Наименование</label>
+                  <small
+                    class="f-helper-text invalid ms-3"
+                    v-if="$v.name.$dirty && !$v.name.required"
+                    >Поле Наименование не должно быть пустым</small
+                  >
+                  <div class="input-group">
+                    <span class="input-group-text"
+                      ><i class="bi bi-bootstrap"></i
+                    ></span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="floatingInputName"
+                      placeholder=""
+                      v-model="name"
+                      :class="{
+                        invalid: $v.name.$dirty && !$v.name.required,
+                      }"
+                    />
+                  </div>
+                </div>
+                <div class="col-6">
                   <label for="" class="form-label">Постановщик</label>
                   <div class="inputMultiSelect">
                     <span class="input-group-text"
@@ -71,9 +98,13 @@
                       :close-on-select="false"
                       :clear-on-select="false"
                       :preserve-search="true"
-                      placeholder="Ответственный"
+                      selectedLabel="Выбрано"
+                      selectLabel="Выбрать"
+                      deselectLabel="Отменить выбор"
+                      placeholder=""
                       class="form-control rounded-4"
                       :limit="3"
+                      :limitText="(count) => `+${count}`"
                       label="name"
                       track-by="name"
                       :preselect-first="true"
@@ -81,6 +112,7 @@
                     </multiselect>
                   </div>
                 </div>
+                <div class="row mb-3"></div>
                 <div class="col-3">
                   <label for="" class="form-label">Крайний срок</label>
                   <div class="input-group input-date-range">
@@ -98,23 +130,75 @@
                     </v-date-picker>
                   </div>
                 </div>
-                <div class="col taskCheck">
-                  <div class="tsakImpCheck">
-                    <input
-                      type="checkbox"
-                      class="form-check-input me-2"
-                      id="exampleCheck1"
-                    />
-                    <label class="form-check-label" for="exampleCheck1"
-                      >Это важная задача
-                      <i class="bi bi-lightning-charge-fill"></i
-                    ></label>
+                <div class="col">
+                  <div class="dopTime">
+                    <button
+                      class="btn btn-light btn-time-control"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#taskTimeCollapse"
+                      aria-expanded="false"
+                      aria-controls="taskTimeCollapse"
+                    >
+                      <span>Планирование сроков</span>
+                    </button>
                   </div>
                 </div>
               </div>
+              <div class="collapse" id="taskTimeCollapse">
+                <div class="row">
+                  <div class="col-2">
+                    <label for="" class="form-label">Дата начала</label>
+                    <div class="input-group input-date-range">
+                      <span class="input-group-text pe-3"
+                        ><i class="bi bi-calendar-week"></i
+                      ></span>
+                      <v-date-picker v-model="dateStart" mode="dateTime" is24hr>
+                        <template v-slot="{ inputValue, inputEvents }">
+                          <input
+                            class="form-control"
+                            :value="inputValue"
+                            v-on="inputEvents"
+                          />
+                        </template>
+                      </v-date-picker>
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <label for="" class="form-label">Дата выполнения</label>
+                    <div class="input-group input-date-range">
+                      <span class="input-group-text pe-3"
+                        ><i class="bi bi-calendar-week"></i
+                      ></span>
+                      <v-date-picker
+                        v-model="datePlanEnd"
+                        mode="dateTime"
+                        is24hr
+                      >
+                        <template v-slot="{ inputValue, inputEvents }">
+                          <input
+                            class="form-control"
+                            :value="inputValue"
+                            v-on="inputEvents"
+                          />
+                        </template>
+                      </v-date-picker>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div class="row mb-3 me-3">
                 <div class="col">
                   <label for="" class="form-label">Ответственные</label>
+                  <small
+                    class="f-helper-text invalid ms-3"
+                    v-if="
+                      $v.responsibleUsers.$dirty &&
+                      !$v.responsibleUsers.required
+                    "
+                    >Поле Ответственные не должно быть пустым</small
+                  >
                   <div class="inputMultiSelect">
                     <span class="input-group-text"
                       ><i class="bi bi-bootstrap"></i
@@ -139,30 +223,30 @@
               </div>
               <div class="row me-3">
                 <div class="col">
-                  <div class="input-group">
-                    <span class="input-group-text"
-                      ><i class="bi bi-bootstrap"></i
-                    ></span>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="floatingInputName"
-                      placeholder="Наименование"
-                      v-model="name"
-                      :class="{
-                        invalid: $v.name.$dirty && !$v.name.required,
-                      }"
-                    />
+                  <div class="row">
+                    <div class="col">
+                      <label for="" class="form-label">Описание задачи</label>
+                      <small
+                        class="f-helper-text invalid ms-3"
+                        v-if="$v.description.$dirty && !$v.description.required"
+                        >Поле описание не должно быть пустым</small
+                      >
+                    </div>
+                    <div class="col text-end">
+                      <div class="tsakImpChec1k">
+                        <input
+                          type="checkbox"
+                          class="form-check-input me-2"
+                          v-model="impTask"
+                          id="impTask"
+                        />
+                        <label class="form-check-label" for="impTask"
+                          >Это важная задача
+                          <i class="bi bi-lightning-charge-fill"></i
+                        ></label>
+                      </div>
+                    </div>
                   </div>
-                  <small
-                    class="f-helper-text invalid"
-                    v-if="$v.name.$dirty && !$v.name.required"
-                    >Поле Наименование не должно быть пустым</small
-                  >
-                </div>
-              </div>
-              <div class="row me-3">
-                <div class="col">
                   <quill-editor
                     ref="myQuillEditor"
                     v-model="description"
@@ -176,6 +260,7 @@
                   <button
                     class="w-100 mb-2 btn btn-lg rounded-4 btn-primary"
                     type="submit"
+                    @click.prevent="submitHandler"
                   >
                     Добавить
                   </button>
@@ -205,21 +290,22 @@ export default {
   name: "categories",
   data: () => ({
     loading: true,
+    displayCalendar: false,
+    showModalAddTask: false,
+    impTask: false,
     name: "",
     dateStart: "",
     dateEnd: "",
+    datePlanEnd: "",
     description: "",
-    responsibleUsers: "",
-    author: '',
-    displayCalendar: false,
-    showModalAddTask: false,
+    author: [],
+    responsibleUsers: [],
+    users: [],
     range: {
       start: new Date(2020, 9, 12),
       end: new Date(2020, 9, 16),
     },
-    users: [
-      
-    ],
+    tasks: [],
     editorOption: {
       theme: "snow",
       modules: {
@@ -245,15 +331,27 @@ export default {
   validations: {
     name: { required },
     description: { required },
+    responsibleUsers: { required },
   },
   async mounted() {
+    let tasks = this.$store.state.tasks;
+    this.tasks = tasks;
     this.displayCalendar = this.$cookies.get("tasksDisplayTable") === "true";
+    this.dateStart = new Date();
     this.loading = false;
     let users = await this.$store.dispatch("fetchUsers");
+    const uid = await this.$store.dispatch("getUid");
+    const currentUser = users.filter((u) => u.id == uid)[0].info;
+    this.author.push({
+      id: uid,
+      name: currentUser.name + " " + currentUser.surname,
+    });
     for (let i = 0; i < users.length; i++) {
-      this.users.push({id: users[i].id, name: users[i].info.name + ' ' + users[i].info.surname})
+      this.users.push({
+        id: users[i].id,
+        name: users[i].info.name + " " + users[i].info.surname,
+      });
     }
-    console.log(this.users)
   },
   components: {
     TaskBlock,
@@ -261,6 +359,40 @@ export default {
     quillEditor,
   },
   methods: {
+    async submitHandler() {
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+      try {
+        let newTask = {
+          dateClose: "",
+          dateDeadLine: this.dateEnd.toJSON(),
+          dateExpect: this.datePlanEnd.toJSON(),
+          dateStart: this.dateStart.toJSON(),
+          description: this.description,
+          important: this.impTask,
+          name: this.name,
+          responsible: [
+            ...new Set(this.responsibleUsers.map((item) => item.id)),
+          ],
+          taskManager: [...new Set(this.author.map((item) => item.id))],
+          status: "",
+        };
+        await this.$store.dispatch("createTask", newTask);
+        this.name = "";
+        this.author = "";
+        this.dateStart = "";
+        this.dateEnd = "";
+        this.datePlanEnd = "";
+        this.description = "";
+        this.impTask = "";
+        this.responsibleUser = "";
+        this.$message("Задача успешно создана");
+      } catch (e) {
+        console.log(e);
+      }
+    },
     bthDisplayHnadler() {
       this.displayCalendar = !this.displayCalendar;
       this.$cookies.set(
@@ -269,6 +401,9 @@ export default {
         60 * 60 * 24 * 30
       );
     },
+  },
+  created() {
+    this.$store.dispatch("bindTasks");
   },
 };
 </script>

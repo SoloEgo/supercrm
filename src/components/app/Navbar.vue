@@ -13,6 +13,54 @@
         </button>
       </div>
     </div>
+    <div class="center-nav-bar">
+      <div class="currentTask">
+        <div class="currNoTask" v-if="Object.keys(runningTaskObj).length <= 0">
+          Сейчас нет выполняемых задач, время <router-link to="/tasks" class="btn btn-sm btn-light">зажечь 🔥!</router-link>
+        </div>
+        <div v-else class="curTaskHub-wrapper">
+          <div class="curTaskHub">
+            <div class="row">
+              <div class="col col-rntsk-nam">
+                <div class="runningTaskIconState">
+                  <div class="rtis" v-if="!runningTaskPause">🔥</div>
+                  <div class="rtis" v-else>💤</div>
+                </div>
+                <div class="taskName">
+                  <div class="name">{{ runningTaskObj.name }}</div>
+                  <div class="taskTime">
+                    {{ runningTaskTime | time() }}
+                  </div>
+                </div>
+              </div>
+              <div class="col p-0">
+                <div class="thb-contr">
+                  <button
+                    class="btn btn-sm btn-light"
+                    v-if="!runningTaskPause"
+                    @click="pauseTask"
+                  >
+                    <i class="bi bi-pause"></i>
+                  </button>
+                  <button
+                    class="btn btn-sm btn-primary"
+                    v-else
+                    @click="runTask"
+                  >
+                    <i class="bi bi-play" key=""></i>
+                  </button>
+                </div>
+              </div>
+              <div class="col">
+                <button class="btn btn-sm btn-light" @click="closeTask">
+                  <i class="bi bi-check-circle"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="right-nav-bar">
       <button class="calendar-toggle btn btn-sm btn-light me-3">
         <i class="bi bi-calendar3"></i>
@@ -44,7 +92,7 @@
       >
         <i class="bi bi-chat-right-text"></i>
         <span
-        id="unreadMSG"
+          id="unreadMSG"
           class="
             position-absolute
             top-0
@@ -147,15 +195,16 @@
 </template>
 
 <script>
-import "firebase/storage";
-import "firebase/firestore";
-import firebase from "firebase/app";
+import "firebase/compat/storage";
+import "firebase/compat/firestore";
+//import firebase from "firebase/app";
 import { db } from "@/plugins/db";
 import ClickOutside from "vue-click-outside";
 import "emoji-mart-vue-fast/css/emoji-mart.css";
-import data from "emoji-mart-vue-fast/data/all.json";
-import { Picker, EmojiIndex } from "emoji-mart-vue-fast";
+// import data from "emoji-mart-vue-fast/data/all.json";
+// import { Picker, EmojiIndex } from "emoji-mart-vue-fast";
 import "@/assets/notCenter.css";
+import { mapState } from "vuex";
 
 export default {
   data: () => ({
@@ -167,12 +216,80 @@ export default {
     notifications: [],
     notReadsLength: 0,
     hsbActive: false,
+    runningTaskObj: {},
+    runningTaskPause: "",
+    runningTaskTime: "",
+    timerId: "",
+    tid: "",
   }),
   components: {},
+  created() {
+    this.unsubscribe = this.$store.subscribe(async (mutation, state) => {
+      if (mutation.type === "setRunTask") {
+        this.runningTaskPause = state.runningTask.pauseState;
+        let tid = state.runningTask.tid;
+
+        if (tid.length > 1) {
+          this.tid = tid;
+          this.runningTaskObj = await this.$store.dispatch(
+            "fetchTaskById",
+            tid
+          );
+        } else {
+          this.tid = tid;
+          this.runningTaskObj = {};
+        }
+
+        this.runningTaskTime = await this.$store.dispatch("fetchTaskTimeById", {
+          uid: this.uid,
+          tid: this.tid,
+        });
+
+        if (!this.runningTaskPause) {
+          this.startTimer(this.runningTaskTime);
+        } else {
+          this.pauseTimer();
+        }
+      }
+    });
+  },
   methods: {
     async logout() {
       await this.$store.dispatch("logout");
       this.$router.push("/login?message=logout");
+    },
+    async runTask() {
+      let taskId = this.tid;
+      let payload = { tid: taskId, pauseState: false };
+      this.$store.commit("setRunTask", payload);
+      await this.$store.dispatch("setCurrentTaskRun", taskId);
+    },
+
+    async pauseTask() {
+      let taskId = this.tid;
+      let payload = { tid: taskId, pauseState: true };
+      this.$store.commit("setRunTask", payload);
+      await this.$store.dispatch("setCurrentTaskPause", taskId);
+      this.runningTaskTime = await this.$store.dispatch("fetchTaskTimeById", {
+        uid: this.uid,
+        tid: this.tid,
+      });
+      // await this.$store.dispatch("setTaskTime", taskId);
+    },
+
+    async closeTask() {
+      let taskId = this.tid;
+      let payload = { tid: taskId, pauseState: true };
+      this.$store.commit("setRunTask", payload);
+      await this.$store.dispatch("setCurrentTaskPause", taskId);
+      this.runningTaskTime = await this.$store.dispatch("fetchTaskTimeById", {
+        uid: this.uid,
+        tid: this.tid,
+      });
+      await this.$store.dispatch("closeTask", this.tid);
+      this.runningTaskObj = {};
+      this.runningTaskPause = "";
+      this.runningTaskTime = "";
     },
     hideSidebar() {
       this.hideSidebarStatus = !this.hideSidebarStatus;
@@ -230,8 +347,18 @@ export default {
     chatListShowClcik() {
       this.$emit("chatWindowState");
     },
+    startTimer(time) {
+      this.runningTaskTime = time;
+      this.timerId = setInterval(() => (this.runningTaskTime += 1000), 1000);
+    },
+    pauseTimer() {
+      clearInterval(this.timerId);
+      this.timerId = null;
+    },
+    handler: function handler(event) {
+      // Do Something
+    },
   },
-
   computed: {
     name() {
       return this.$store.getters.info.name;
@@ -244,6 +371,9 @@ export default {
     },
     avatar() {
       return this.$store.getters.info.avatarUrl;
+    },
+    mapState() {
+      runningTask: (state) => state.runningTask;
     },
   },
   firestore: {
@@ -267,7 +397,32 @@ export default {
   },
   async mounted() {
     this.uid = await this.$store.dispatch("getUid");
-    this.hideSidebarStatus = JSON.parse( (this.$cookies.get("hideSidebarStatus")).toLowerCase());
+    const tid = await this.$store.dispatch("getCurrentRunTaskId", this.uid);
+    console.log(tid);
+    if (tid.length > 1) {
+      const curTask = await this.$store.dispatch("getCurrentRunTask", this.uid);
+      this.tid = tid;
+      this.runningTaskObj = await this.$store.dispatch("fetchTaskById", tid);
+
+      this.runningTaskTime = await this.$store.dispatch("fetchTaskTimeById", {
+        uid: this.uid,
+        tid: tid,
+      });
+
+      this.runningTaskPause = curTask.pause;
+
+      if (!this.runningTaskPause) {
+        this.runningTaskTime =
+          this.runningTaskTime + (new Date() - new Date(curTask.dateStart));
+        this.startTimer(this.runningTaskTime);
+      }
+    }else{
+      this.runningTaskObj = {}
+    }
+
+    this.hideSidebarStatus = JSON.parse(
+      this.$cookies.get("hideSidebarStatus").toLowerCase()
+    );
 
     if (this.hideSidebarStatus == undefined) {
       this.$cookies.set("hideSidebarStatus", false, 60 * 60 * 24 * 30);
@@ -276,7 +431,7 @@ export default {
 
     let sideBar = document.querySelector(".navbar-vertical");
     let content = document.querySelector(".content");
-    
+
     if (this.hideSidebarStatus) {
       sideBar.classList.add("hidden");
       content.classList.add("full-width");

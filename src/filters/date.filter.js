@@ -1,4 +1,5 @@
 export default function dateFilter(value, format = 'date') {
+
     const options = {}
     if (format.includes('date')) {
         options.day = '2-digit'
@@ -8,7 +9,6 @@ export default function dateFilter(value, format = 'date') {
     if (format.includes('time')) {
         options.hour = 'numeric'
         options.minute = 'numeric'
-            //options.second = 'numeric'
     }
     if (format == ('shortDateTime')) {
         options.day = '2-digit'

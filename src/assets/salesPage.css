@@ -121,7 +121,6 @@
 
 #app .list-item-card.card {
     padding: 0.5rem 1rem;
-    background-color: var(--btnLightBackground) !important;
 }
 
 .col.lgt-name {

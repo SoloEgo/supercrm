@@ -1,4 +1,4 @@
-import firebase from 'firebase/app'
+import firebase from 'firebase/compat/app'
 export default {
     state: {
         info: {}
@@ -38,6 +38,130 @@ export default {
                 const users = (await firebase.database().ref(`/users`).once('value')).val() || {}
                 return Object.keys(users).map(key => ({...users[key], id: key }))
             } catch (error) {
+                commit('setError', e)
+                throw e
+            }
+        },
+        async getCurrentRunTask({ commit, dispatch }, uid) {
+            try {
+                const task = (await firebase.database().ref(`/users/${uid}/currentTask`).once('value')).val() || {}
+                return task
+            } catch (e) {
+                commit('setError', e)
+                throw e
+            }
+        },
+        async getCurrentRunTaskId({ commit, dispatch }, uid) {
+            try {
+                const task = (await firebase.database().ref(`/users/${uid}/currentTask`).once('value')).val() || {}
+                return task.id
+            } catch (e) {
+                commit('setError', e)
+                throw e
+            }
+        },
+        async fetchTaskTimeById({ commit, dispatch }, { uid, tid }) {
+            try {
+                const res = (await firebase.database().ref(`/users/${uid}/tasksTime/${tid}`).once('value')).val() || {}
+                return res.taskTime
+            } catch (e) {
+                commit('setError', e)
+                throw e
+            }
+        },
+        async setCurrentTaskStop({ commit, dispatch }, tid) {
+            try {
+                const uid = await dispatch('getUid')
+                const dateEnd = new Date()
+                let dateStart = (await firebase.database().ref(`/users/${uid}/currentTask`).once('value')).val().dateStart
+                let timeDif = dateEnd - new Date(dateStart)
+                let timeTask = 0;
+                let timeTaskObj = (await firebase.database().ref(`/users/${uid}/tasksTime/${tid}`).once('value')).val()
+                if (timeTaskObj != undefined) {
+                    timeTask = timeTaskObj.taskTime + timeDif
+                } else {
+                    timeTask = timeDif
+                }
+                await firebase.database().ref(`/users/${uid}/currentTask`).update({
+                    dateEnd: dateEnd.toJSON()
+                })
+
+                await firebase.database().ref(`/users/${uid}/tasksTime/${tid}`).update({
+                    taskTime: timeTask
+                })
+
+                await firebase.database().ref(`/users/${uid}/currentTask`).update({
+                    id: '',
+                    dateStart: '',
+                    dateEnd: '',
+                    pause: false
+                })
+
+            } catch (e) {
+                commit('setError', e)
+                throw e
+            }
+        },
+        async setCurrentTaskRun({ commit, dispatch }, tid) {
+            try {
+                const uid = await dispatch('getUid')
+                await firebase.database().ref(`/users/${uid}/currentTask`).update({
+                    id: tid,
+                    dateStart: (new Date()).toJSON(),
+                    dateEnd: '',
+                    pause: false
+                })
+            } catch (e) {
+                commit('setError', e)
+                throw e
+            }
+        },
+        async setCurrentTaskPause({ commit, dispatch }, tid) {
+            try {
+                const uid = await dispatch('getUid')
+                const dateEnd = new Date()
+                let dateStart = (await firebase.database().ref(`/users/${uid}/currentTask`).once('value')).val().dateStart
+                let timeDif = dateEnd - new Date(dateStart)
+                let timeTask = 0;
+                let timeTaskObj = (await firebase.database().ref(`/users/${uid}/tasksTime/${tid}`).once('value')).val()
+                if (timeTaskObj != undefined) {
+                    timeTask = timeTaskObj.taskTime + timeDif
+                } else {
+                    timeTask = timeDif
+                }
+                await firebase.database().ref(`/users/${uid}/currentTask`).update({
+                    dateEnd: dateEnd.toJSON(),
+                    pause: true
+                })
+                await firebase.database().ref(`/users/${uid}/tasksTime/${tid}`).update({
+                    taskTime: timeTask
+                })
+
+                return (await firebase.database().ref(`/users/${uid}/currentTask`).once('value')).val()
+
+            } catch (e) {
+                commit('setError', e)
+                throw e
+            }
+        },
+        async setTaskTime({ commit, dispatch }, tid) {
+            try {
+                const uid = await dispatch('getUid')
+                const dateEnd = new Date()
+                let dateStart = (await firebase.database().ref(`/users/${uid}/currentTask`).once('value')).val().dateStart
+                let timeDif = dateEnd - new Date(dateStart)
+                let timeTask = 0;
+                let timeTaskObj = (await firebase.database().ref(`/users/${uid}/tasksTime/${tid}`).once('value')).val()
+                console.log(timeTaskObj)
+                if (timeTaskObj != undefined) {
+                    timeTask = timeTaskObj.taskTime + timeDif
+                } else {
+                    timeTask = timeDif
+                }
+                await firebase.database().ref(`/users/${uid}/tasksTime/${tid}`).update({
+                    taskTime: timeTask
+                })
+            } catch (e) {
                 commit('setError', e)
                 throw e
             }

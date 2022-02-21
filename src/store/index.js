@@ -7,24 +7,29 @@ import record from './record'
 import contractors from './contractors'
 import sales from './sales'
 import structure from './structure'
-
-import firebase from 'firebase/app'
+import tasks from './tasks'
+import firebase from 'firebase/compat/app'
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
 import { db } from "@/plugins/db";
 
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    //const store = new Vuex.Store({
     state: {
         error: null,
         usersOnline: [],
         messages: [],
         rooms: [],
-        chatRooms: [],
         activeChatRoomId: null,
-
+        tasks: [],
+        runningTask: {
+            tid: '',
+            pauseState: false
+        },
+        runningTaskTime: 0,
+        myCounterInterval: ''
     },
     mutations: {
         ...vuexfireMutations,
@@ -33,6 +38,10 @@ export default new Vuex.Store({
         },
         clearError(state) {
             state.error = null
+        },
+        setRunTask(state, payload) {
+            Vue.set(state.runningTask, 'tid', payload.tid)
+            Vue.set(state.runningTask, 'pauseState', payload.pauseState)
         }
     },
     actions: {
@@ -42,6 +51,10 @@ export default new Vuex.Store({
         bindChatRooms: firestoreAction(({ bindFirestoreRef }) => {
             const uid = firebase.auth().currentUser.uid
             return bindFirestoreRef('rooms', db.collection('rooms').orderBy("modifiedAt", "desc").where('members', 'array-contains', uid))
+        }),
+        bindTasks: firestoreAction(({ bindFirestoreRef }) => {
+            const uid = firebase.auth().currentUser.uid
+            return bindFirestoreRef('tasks', db.collection('tasks').orderBy("dateStart", "desc").where('responsible', 'array-contains', uid))
         }),
         bindMessages: firestoreAction(({ state, bindFirestoreRef, }) => {
             const id = state.activeChatRoomId
@@ -59,7 +72,8 @@ export default new Vuex.Store({
     },
     getters: {
         error: s => s.error,
-        messages: m => m.messages
+        messages: m => m.messages,
+        getCurrentRunningTask: state => state.runningTask
     },
     modules: {
         auth,
@@ -68,6 +82,7 @@ export default new Vuex.Store({
         record,
         contractors,
         sales,
-        structure
+        structure,
+        tasks
     },
 });
