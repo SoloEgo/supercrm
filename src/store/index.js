@@ -52,9 +52,15 @@ export default new Vuex.Store({
             const uid = firebase.auth().currentUser.uid
             return bindFirestoreRef('rooms', db.collection('rooms').orderBy("modifiedAt", "desc").where('members', 'array-contains', uid))
         }),
-        bindTasks: firestoreAction(({ bindFirestoreRef }) => {
+        bindTasksResponse: firestoreAction(({ bindFirestoreRef }) => {
             const uid = firebase.auth().currentUser.uid
-            return bindFirestoreRef('tasks', db.collection('tasks').orderBy("dateStart", "desc").where('responsible', 'array-contains', uid))
+            let tR = db.collection('tasks').where('responsible', 'array-contains', uid)
+            return bindFirestoreRef('tasksResponse', tR)
+        }),
+        bindTasksManage: firestoreAction(({ bindFirestoreRef }) => {
+            const uid = firebase.auth().currentUser.uid
+            let tM = db.collection('tasks').where('taskManager', 'array-contains', uid)
+            return bindFirestoreRef('tasksManage', tM)
         }),
         bindMessages: firestoreAction(({ state, bindFirestoreRef, }) => {
             const id = state.activeChatRoomId

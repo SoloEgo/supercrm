@@ -9,7 +9,8 @@
           @click="hideSidebar"
           :class="hideSidebarStatus ? 'btn-primary' : 'btn-light'"
         >
-          <i class="bi bi-layout-sidebar-inset"></i>
+          <i v-if="hideSidebarStatus" class="bi bi-chevron-right"></i>
+          <i v-else class="bi bi-chevron-left"></i>
         </button>
       </div>
     </div>
@@ -62,9 +63,6 @@
       </div>
     </div>
     <div class="right-nav-bar">
-      <button class="calendar-toggle btn btn-sm btn-light me-3">
-        <i class="bi bi-calendar3"></i>
-      </button>
       <button
         class="notification-holder-btn btn btn-sm dropdown me-3"
         :class="notificationShow ? 'btn-primary' : 'btn-light'"

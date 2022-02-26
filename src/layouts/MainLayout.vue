@@ -5,12 +5,13 @@
       <nav class="navbar-vertical navbar d-flex text-white">
         <div class="nav-bar-content scrollbar">
           <div class="logo-holder">
-            <div class="logo-img ms-3 me-2">
+            <div class="logo-img ms-2 me-1">
               <div class="logoBlock">
                 <img type="image/svg+xml" src="../assets/img/logo.svg" />
               </div>
             </div>
-            <div class="logo-name">Custom<br /><b>Crm</b></div>
+            <div class="logo-name"><b>Leads</b>
+            </div>
           </div>
 
           <div class="navbar-vertical-content scrollbar mt-2">

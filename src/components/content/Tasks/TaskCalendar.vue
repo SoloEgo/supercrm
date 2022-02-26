@@ -12,14 +12,15 @@
         <div class="flex flex-col h-full z-10 overflow-hidden" v-on="dayEvents">
           <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
           <div class="flex-grow overflow-y-auto overflow-x-auto">
-            <p
+            <div
               v-for="t in attributes"
               :key="t.key"
-              class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
-              :class="t.customData.class"
+              class="calend_task_line"
+              
             >
-              {{ t.customData.title }}
-            </p>
+            <div class="calend_task_status" :class="t.customData.class"><i class="bi bi-circle-fill"></i></div>
+              {{ t.customData.name }}
+            </div>
           </div>
         </div>
       </template>
@@ -473,7 +474,7 @@ export default {
           responsible: this.tasks[i].responsible,
           status: this.tasks[i].status,
           taskManager: this.tasks[i].taskManager,
-          class: this.tasks[i].statusClass + " text-white",
+          class: this.tasks[i].statusClass,
         };
       }
       this.attributes = this.tasks;

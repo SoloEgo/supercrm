@@ -14,13 +14,21 @@ export default {
         async fetchTasks({ dispatch, commit }) {
             try {
                 let result = []
+                let resultManage = []
+                let resultResponce = []
                 const uid = await dispatch('getUid')
                 const q = query(collection(db, "tasks"), where("taskManager", "array-contains", uid));
                 const querySnapshot = await getDocs(q);
                 querySnapshot.forEach((doc) => {
-                    result.push({...doc.data(), id: doc.id });
+                    resultManage.push({...doc.data(), id: doc.id });
                 });
 
+                const qR = query(collection(db, "tasks"), where("responsible", "array-contains", uid));
+                const querySnapshotR = await getDocs(qR);
+                querySnapshotR.forEach((doc) => {
+                    resultResponce.push({...doc.data(), id: doc.id });
+                });
+                result = resultManage.concat(resultResponce)
                 return result
 
             } catch (e) {

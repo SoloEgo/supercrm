@@ -9,7 +9,7 @@
 .lightTheme {
     --mainBG: #ecedef;
     --elementBG: #ffffff;
-    --sideBarBG: #293042;
+    --sideBarBG: #1a1c1e;
     --fontsColor: #3e3e3e;
     --btnBorderColor: #6c757d;
     --btnLightBorder: #ced4da;
@@ -22,15 +22,15 @@
 }
 
 .darkTheme {
-    --mainBG: #16151A;
-    --elementBG: #1F1E25;
-    --sideBarBG: #1F1E25;
+    --mainBG: #000000;
+    --elementBG: #1a1c1e;
+    --sideBarBG: #1a1c1e;
     --fontsColor: #f5f5f5;
     --accentTableRow: #16151a;
     --btnBorderColor: #838383;
     --btnLightBorder: #16151a;
-    --btnLightBackground: #36343E;
-    --modalFormElementBG: #36343E;
+    --btnLightBackground: #000000;
+    --modalFormElementBG: #000000;
     --modalFormSpanBG: #16151A;
     --modalFormElBorder: #16151a;
     --bs-primary: #6769EA;

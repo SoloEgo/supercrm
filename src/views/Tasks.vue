@@ -3,26 +3,54 @@
     <div class="page-title">
       <div class="pahe-header"><h3>Задачи</h3></div>
       <div class="page-controls">
-        <button
-          class="btn btn-sm me-3"
-          :class="displayCalendar ? 'btn-primary' : 'btn-light'"
-          @click="bthDisplayHnadler"
-        >
-          <i class="bi bi-calendar3"></i>
-        </button>
-        <button
-          class="btn btn-sm me-3"
-          :class="!displayCalendar ? 'btn-primary' : 'btn-light'"
-          @click="bthDisplayHnadler"
-        >
-          <i class="bi bi-card-list"></i>
-        </button>
-        <button
-          class="btn btn-sm btn-primary"
-          @click="showModalAddTask = !showModalAddTask"
-        >
-          <i class="bi bi-plus-square"></i> Новая задача
-        </button>
+        <div class="form-check me-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            :value="true"
+            v-model="iManage"
+            @change="taskResManCheck()"
+            checked="checked"
+            id="iManage"
+          />
+          <label class="form-check-label" for="iManage"> Я постановщик </label>
+        </div>
+        <div class="form-check me-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            :value="true"
+            v-model="iResp"
+            @change="taskResManCheck()"
+            checked="checked"
+            id="iResposn"
+          />
+          <label class="form-check-label" for="iResposn">
+            Я ответственный
+          </label>
+        </div>
+        <div class="pagecontrol-btns">
+          <button
+            class="btn btn-sm me-3"
+            :class="displayCalendar ? 'btn-primary' : 'btn-light'"
+            @click="bthDisplayHnadler"
+          >
+            <i class="bi bi-calendar3"></i>
+          </button>
+          <button
+            class="btn btn-sm me-3"
+            :class="!displayCalendar ? 'btn-primary' : 'btn-light'"
+            @click="bthDisplayHnadler"
+          >
+            <i class="bi bi-card-list"></i>
+          </button>
+          <button
+            class="btn btn-sm btn-primary"
+            @click="showModalAddTask = !showModalAddTask"
+          >
+            <i class="bi bi-plus-square"></i> Новая задача
+          </button>
+        </div>
       </div>
     </div>
     <section>
@@ -287,7 +315,7 @@ import "vue-multiselect/dist/vue-multiselect.min.css";
 import { quillEditor } from "vue-quill-editor";
 import "@/assets/tasks.css";
 export default {
-  name: "categories",
+  name: "taskPage",
   data: () => ({
     loading: true,
     displayCalendar: false,
@@ -305,7 +333,10 @@ export default {
       start: new Date(2020, 9, 12),
       end: new Date(2020, 9, 16),
     },
+    iManage: true,
+    iResp: true,
     tasks: [],
+    tasksReal: [],
     editorOption: {
       theme: "snow",
       modules: {
@@ -334,8 +365,10 @@ export default {
     responsibleUsers: { required },
   },
   async mounted() {
-    let tasks = this.$store.state.tasks;
-    this.tasks = tasks;
+    let tasksManage = this.$store.state.tasksManage;
+    let tasksResponse = this.$store.state.tasksResponse;
+    this.tasksReal = Object.assign(tasksManage, tasksResponse);
+    this.tasks = this.tasksReal;
     this.displayCalendar = this.$cookies.get("tasksDisplayTable") === "true";
     this.dateStart = new Date();
     this.loading = false;
@@ -401,9 +434,35 @@ export default {
         60 * 60 * 24 * 30
       );
     },
+    async taskResManCheck() {
+      const uid = await this.$store.dispatch("getUid");
+      let tempTasksManage = this.tasksReal.slice();
+      let tempTasksPesp = this.tasksReal.slice();
+      if (this.iManage) {
+        tempTasksManage = tempTasksManage.filter(
+          (it) => it.taskManager.indexOf(uid) >= 0
+        );
+      } else {
+        tempTasksManage = []
+      }
+
+      if (this.iResp) {
+        tempTasksPesp = tempTasksPesp.filter(
+          (it) => it.responsible.indexOf(uid) >= 0
+        );
+      } else {
+        tempTasksPesp = []
+      }
+      let tempTasks = tempTasksManage.concat(tempTasksPesp);
+      const idsTmp = tempTasks.map(o => o.id)
+      const filtered = tempTasks.filter(({id}, index) => !idsTmp.includes(id, index + 1))
+      this.tasks = filtered;
+
+    },
   },
   created() {
-    this.$store.dispatch("bindTasks");
+    this.$store.dispatch("bindTasksManage");
+    this.$store.dispatch("bindTasksResponse");
   },
 };
 </script>

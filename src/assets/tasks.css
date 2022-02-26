@@ -294,7 +294,7 @@ popover-row {
 }
 
 .bg-task-closed {
-    background: #ced4da;
+    color: #ced4da;
 }
 
 .tab-content-tasks {
@@ -421,4 +421,40 @@ popover-row {
     margin-bottom: 0.1rem;
     color: #fff;
     text-shadow: 1px 1px 0px #000;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.calend_task_line {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    box-sizing: border-box;
+    color: var(--fontsColor);
+}
+
+.calend_task_status {
+    margin-right: 0.5rem;
+}
+
+.calend_task_status {
+    font-size: 0.4rem;
+}
+
+.calend_task_status.bg-primary {
+    color: var(--bs-primary);
+    background: none !important;
+}
+
+.calend_task_status.bg-danger {
+    color: var(--bs-danger);
+    background: none !important;
+}
+
+.cal-popover-indicator.bg-task-closed {
+    background: #ced4da;
 }

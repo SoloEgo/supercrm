@@ -1,7 +1,6 @@
 .navbar-top {
     justify-content: space-between !important;
     padding-right: 2.5rem;
-    padding-left: 2.5rem;
     box-shadow: var(--boxShadow);
 }
 
@@ -265,4 +264,14 @@
 .col.col-rntsk-nam {
     display: flex;
     align-items: center;
+}
+
+#app button#toggleNavigationTooltip {
+    background-color: var(--sideBarBG);
+    color: #fff;
+    border: none;
+    border-radius: 0 0.2rem 0.2rem 0;
+    padding: 0.25rem;
+    outline: none;
+    box-shadow: none;
 }
