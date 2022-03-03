@@ -1,7 +1,7 @@
 <template>
   <div class="displayContentBlock">
     <div class="page-title">
-      <div class="page-header"><h3>Структура отделов</h3><span class="badge bg-primary ms-3">Администрирование</span></div>
+      <div class="page-header"><h3>Структура отделов</h3></div>
       <div class="page-controls">
       </div>
     </div>

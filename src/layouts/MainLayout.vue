@@ -18,7 +18,7 @@
             <div class="navbar-vertical-content scrollbar">
               <Sidebar />
             </div>
-            <div class="toggleThemeBlock">
+            <div class="toggleThemeBlock" :class="{ active: darkTheme }">
               <div class="lightIcon">
                 <label class="form-check-label" for="flexSwitchCheckDefault"
                   ><i class="bi bi-sun" :class="{ active: !darkTheme }"></i

@@ -365,7 +365,7 @@ export default {
       return this.$store.getters.info.surname;
     },
     position() {
-      return this.$store.getters.info.position;
+      return this.$store.getters.info.positionName;
     },
     avatar() {
       return this.$store.getters.info.avatarUrl;
@@ -396,7 +396,6 @@ export default {
   async mounted() {
     this.uid = await this.$store.dispatch("getUid");
     const tid = await this.$store.dispatch("getCurrentRunTaskId", this.uid);
-    console.log(tid);
     if (tid.length > 1) {
       const curTask = await this.$store.dispatch("getCurrentRunTask", this.uid);
       this.tid = tid;

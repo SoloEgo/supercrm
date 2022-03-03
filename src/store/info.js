@@ -16,6 +16,9 @@ export default {
             try {
                 const uid = await dispatch('getUid')
                 const info = (await firebase.database().ref(`/users/${uid}/info`).once('value')).val()
+                let posNames = (await firebase.database().ref(`/positions`).once('value')).val()
+                let names = Object.keys(posNames).map(key => ({...posNames[key], idx: key }))
+                info.positionName = (names.filter(item => item.idName === 'administrator'))[0].name
                 commit('setInfo', info)
             } catch (e) {
                 commit('setError')

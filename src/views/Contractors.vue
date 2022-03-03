@@ -3,6 +3,9 @@
     <div class="page-title">
       <div class="pahe-header"><h3>Контрагенты</h3></div>
       <div class="page-controls">
+        <div class="searchInput me-4">
+          <input type="search" v-model="contrSearch" v-on:keyup="searchEvent" @click="searchEvent" class="form-control form-control-sm" placeholder="Поиск..." aria-label="Search">
+        </div>
         <button class="btn btn-sm btn-primary" @click="openModalCreateContr">
           <i class="bi btn-sm bi-plus-square"></i> Новый контрагент</button>
       </div>
@@ -61,7 +64,8 @@ export default {
     contractorObj: {},
     updateCount: 0,
     updatedCotractor: 0,
-    id: ''
+    id: '',
+    contrSearch: ''
   }),
   async mounted() {
     this.contractors = await this.$store.dispatch("fetchContractors");
@@ -96,7 +100,21 @@ export default {
         }
       })
       this.updatedCotractor = this.updatedCotractor + 1
-      
+    },
+    async searchEvent(){
+      let realContr = await this.$store.dispatch("fetchContractors");
+      let resSearch = []
+      for (let i = 0; i < realContr.length; i++) {
+        if(
+          realContr[i].name.indexOf(this.contrSearch) >= 0 ||
+          realContr[i].description.indexOf(this.contrSearch) >= 0 ||
+          realContr[i].email.indexOf(this.contrSearch) >= 0 ||
+          realContr[i].phone.indexOf(this.contrSearch) >= 0
+          ){
+            resSearch.push(realContr[i])
+        }
+      }
+      this.contractors = resSearch
     }
   },
   components: {

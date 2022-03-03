@@ -3,9 +3,12 @@
     <div class="page-title">
       <div class="page-header">
         <h3>Пользователи</h3>
-        <span class="badge bg-primary ms-3">Администрирование</span>
       </div>
-      <div class="page-controls"></div>
+      <div class="page-controls">
+        <div class="searchInput me-4">
+          <input type="search" v-model="usersSearch" v-on:keyup="searchEvent" @click="searchEvent" class="form-control form-control-sm" placeholder="Поиск..." aria-label="Search">
+        </div>
+      </div>
     </div>
     <section>
       <LoaderContent v-if="loading" />
@@ -53,9 +56,11 @@ export default {
   data: () => ({
     loading: true,
     users: [],
+    usersReal: [],
     displayTable: null,
     updC: 0,
     positions: [],
+    usersSearch: ''
   }),
   async mounted() {
     const usersDirty = await this.$store.dispatch("fetchUsers");
@@ -80,6 +85,7 @@ export default {
     }
     this.positions = positions;
     this.users = users;
+    this.usersReal = users
     this.setupPagination(
       this.users.map((user) => {
         return {
@@ -111,8 +117,25 @@ export default {
         }
       }
       this.users = userTmp
+      this.usersReal = userTmp
       this.updC++;
     },
+    searchEvent(){
+      let realUsers = this.usersReal
+      let resSearch = []
+      for (let i = 0; i < realUsers.length; i++) {
+        if(
+          realUsers[i].departmentName.indexOf(this.usersSearch) >= 0 ||
+          realUsers[i].name.indexOf(this.usersSearch) >= 0 ||
+          realUsers[i].positionName.indexOf(this.usersSearch) >= 0 ||
+          realUsers[i].email.indexOf(this.usersSearch) >= 0 ||
+          realUsers[i].surname.indexOf(this.usersSearch) >= 0
+          ){
+            resSearch.push(realUsers[i])
+        }
+      }
+      this.users = resSearch
+    }
   },
   components: {
     UsersTable,

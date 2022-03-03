@@ -750,10 +750,6 @@ label.btn.btn-light.chatFile {
     color: var(--fontsColor);
 }
 
-ul.dropdown-menu li {
-    width: fit-content;
-}
-
 .dropdown-item.members-row:hover, .dropdown-item.members-row:focus {
     background-color: #00000029;
 }

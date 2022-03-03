@@ -6,7 +6,31 @@
     <section>
       <LoaderContent v-if="loading" />
       <div class="tile-holder" v-else>
-        <div class="tile-card tile-0">
+        <div class="tile-1 not-holder">
+          <div v-for="n of notifications" :key="n.id" class="noticication_cards">
+        <div class="notificationCard card mb-1">
+          <div class="nf-row">
+            <div class="nf-col-bell">
+              <div class="n-icon">
+                <i class="bi bi-bell"></i>
+              </div>
+            </div>
+            <div class="nf-col-text">
+              <div class="nf-header">
+                <div class="n_author">от: {{ n.author }}</div>
+                <div class="d_date">
+                  {{ n.date | date("datetime") }}
+                </div>
+              </div>
+
+              <div class="n_header" v-html="n.header"></div>
+              <div class="n_text" v-html="n.content"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="tile-card tile-2">
           <div class="card white-card">
             <div class="not-center-form">
               <form @submit.prevent="sendNotification">
@@ -52,7 +76,7 @@
                   <label for="title">Название</label>
                   <input
                     type="text"
-                    class="form-control w-25"
+                    class="form-control w-50"
                     id="title"
                     placeholder="Название"
                     v-model="title"
@@ -94,6 +118,8 @@ import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import quillEmoji from 'quill-emoji'
 import 'quill-emoji/dist/quill-emoji.css'
+import "firebase/compat/storage";
+import "firebase/compat/firestore";
 
 import { quillEditor } from "vue-quill-editor";
 export default {
@@ -106,6 +132,7 @@ export default {
     notText: "",
     content: "",
     authorState: false,
+    notifications: [],
     editorOption: {
           theme: 'snow',
           modules: {
@@ -120,8 +147,6 @@ export default {
               [{ 'indent': '-1' }, { 'indent': '+1' }],
               [{ 'direction': 'rtl' }],
               [{ 'size': ['small', false, 'large', 'huge'] }],
-              [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-              [{ 'font': [] }],
               [{ 'color': [] }, { 'background': [] }],
               [{ 'align': [] }],
               ['clean'],
@@ -138,6 +163,7 @@ export default {
     this.name =
       this.$store.getters.info.name + " " + this.$store.getters.info.surname;
     this.loading = false;
+    this.content = 'Напишите текст здесь';
   },
   methods: {
     async sendNotification() {
@@ -167,6 +193,25 @@ export default {
           this.$store.getters.info.name +
           " " +
           this.$store.getters.info.surname;
+      }
+    },
+  },
+  firestore: {
+    notifications: db.collection("notifications").orderBy("date", "desc"),
+  },
+  watch: {
+    notifications: async function () {
+      this.notifications.map((obj) => ({ ...obj, isRead: false }));
+      this.notReadsLength = 0;
+      if (this.notifications) {
+        for (let i = 0; i < this.notifications.length; i++) {
+          if (!this.notifications[i].viewedUsers.includes(this.uid)) {
+            this.notReadsLength++;
+            this.notifications[i].isRead = false;
+          } else {
+            this.notifications[i].isRead = true;
+          }
+        }
       }
     },
   },

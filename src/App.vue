@@ -61,8 +61,6 @@ export default {
         online: false,
       });
       const runningTask = this.$store.state.runningTask
-      console.log(runningTask.tid)
-      console.log(runningTask.pauseState)
       if(runningTask.pauseState == false){
         await this.$store.dispatch("setTaskTime", runningTask.tid)
       }

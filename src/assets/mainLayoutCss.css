@@ -321,3 +321,12 @@
         display: flex;
         align-items: center;
     }
+
+    .hidden .toggleThemeBlock {
+        display: none;
+    }
+    
+    .searchInput input {
+        width: 100%;
+        box-sizing: border-box;
+    }

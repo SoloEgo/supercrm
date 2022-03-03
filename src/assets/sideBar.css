@@ -171,7 +171,7 @@ ul.side-nav.nav.nav-pills.flex-column.mb-auto {
     box-sizing: border-box;
     overflow: hidden;
     margin-bottom: 10px;
-    background: #ffffff1f;
+    background: #000000;
     width: -webkit-fit-content;
     width: -moz-fit-content;
     width: fit-content;
@@ -270,4 +270,45 @@ ul.side-nav.nav.nav-pills.flex-column.mb-auto {
 
 hr {
     width: 90%;
+}
+
+.form-check.form-switch {
+    display: none;
+}
+
+.lightIcon {
+    margin: 0 1rem 0 0.5rem;
+}
+
+.darkIcon {
+    margin: 0 0.5rem 0 1rem;
+}
+
+.toggleThemeBlock:before {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 90%;
+    background: #393939;
+    border-radius: 100rem;
+    left: 0px;
+    transition: 0.5s;
+    margin: 0px;
+}
+
+.toggleThemeBlock.active:before{
+    left: 50%;
+}
+
+.darkIcon i, .lightIcon i {
+    color: #605f5f;
+    transition: all 0.2s;
+}
+
+.darkIcon i.active, .lightIcon i.active {
+    color: #ffffff;
+}
+
+.hidden .toggleThemeBlock {
+    display: none;
 }
