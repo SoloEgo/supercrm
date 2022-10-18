@@ -1,7 +1,7 @@
 <template>
   <div class="displayContentBlock">
     <div class="page-title">
-      <div class="pahe-header"><h3>Задачи</h3></div>
+      <div class="pahe-header"><h3>Tasks</h3></div>
       <div class="page-controls">
         <div class="form-check me-3">
           <input
@@ -13,7 +13,7 @@
             checked="checked"
             id="iManage"
           />
-          <label class="form-check-label" for="iManage"> Я постановщик </label>
+          <label class="form-check-label" for="iManage"> I creator </label>
         </div>
         <div class="form-check me-3">
           <input
@@ -26,7 +26,7 @@
             id="iResposn"
           />
           <label class="form-check-label" for="iResposn">
-            Я ответственный
+            I responsible
           </label>
         </div>
         <div class="pagecontrol-btns">
@@ -48,7 +48,7 @@
             class="btn btn-sm btn-primary"
             @click="showModalAddTask = !showModalAddTask"
           >
-            <i class="bi bi-plus-square"></i> Новая задача
+            <i class="bi bi-plus-square"></i> New task
           </button>
         </div>
       </div>
@@ -77,7 +77,7 @@
       <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content rounded-5 shadow">
           <div class="modal-header p-5 pb-4 border-bottom-0 mb-3">
-            <h2 class="fw-bold mb-0">Новое задание</h2>
+            <h2 class="fw-bold mb-0">New task</h2>
             <button
               @click="showModalAddTask = !showModalAddTask"
               type="button"
@@ -91,11 +91,11 @@
             <form class="form" @submit.prevent="handleSubmit">
               <div class="row me-3 mb-3">
                 <div class="col-5">
-                  <label for="" class="form-label">Наименование</label>
+                  <label for="" class="form-label">Title</label>
                   <small
                     class="f-helper-text invalid ms-3"
                     v-if="$v.name.$dirty && !$v.name.required"
-                    >Поле Наименование не должно быть пустым</small
+                    >Title could not be empty</small
                   >
                   <div class="input-group">
                     <span class="input-group-text"
@@ -114,7 +114,7 @@
                   </div>
                 </div>
                 <div class="col-6">
-                  <label for="" class="form-label">Постановщик</label>
+                  <label for="" class="form-label">Task descriptor</label>
                   <div class="inputMultiSelect">
                     <span class="input-group-text"
                       ><i class="bi bi-bootstrap"></i
@@ -126,9 +126,9 @@
                       :close-on-select="false"
                       :clear-on-select="false"
                       :preserve-search="true"
-                      selectedLabel="Выбрано"
-                      selectLabel="Выбрать"
-                      deselectLabel="Отменить выбор"
+                      selectedLabel="Checked"
+                      selectLabel="Check"
+                      deselectLabel="cancel"
                       placeholder=""
                       class="form-control rounded-4"
                       :limit="3"
@@ -142,7 +142,7 @@
                 </div>
                 <div class="row mb-3"></div>
                 <div class="col-3">
-                  <label for="" class="form-label">Крайний срок</label>
+                  <label for="" class="form-label">Deadline</label>
                   <div class="input-group input-date-range">
                     <span class="input-group-text"
                       ><i class="bi bi-calendar-week"></i
@@ -168,7 +168,7 @@
                       aria-expanded="false"
                       aria-controls="taskTimeCollapse"
                     >
-                      <span>Планирование сроков</span>
+                      <span>Planning</span>
                     </button>
                   </div>
                 </div>
@@ -176,7 +176,7 @@
               <div class="collapse" id="taskTimeCollapse">
                 <div class="row">
                   <div class="col-2">
-                    <label for="" class="form-label">Дата начала</label>
+                    <label for="" class="form-label">Date begin</label>
                     <div class="input-group input-date-range">
                       <span class="input-group-text pe-3"
                         ><i class="bi bi-calendar-week"></i
@@ -193,7 +193,7 @@
                     </div>
                   </div>
                   <div class="col-2">
-                    <label for="" class="form-label">Дата выполнения</label>
+                    <label for="" class="form-label">Date of completion</label>
                     <div class="input-group input-date-range">
                       <span class="input-group-text pe-3"
                         ><i class="bi bi-calendar-week"></i
@@ -218,14 +218,14 @@
 
               <div class="row mb-3 me-3">
                 <div class="col">
-                  <label for="" class="form-label">Ответственные</label>
+                  <label for="" class="form-label">Responsible</label>
                   <small
                     class="f-helper-text invalid ms-3"
                     v-if="
                       $v.responsibleUsers.$dirty &&
                       !$v.responsibleUsers.required
                     "
-                    >Поле Ответственные не должно быть пустым</small
+                    >Responsible could not be empty</small
                   >
                   <div class="inputMultiSelect">
                     <span class="input-group-text"
@@ -238,7 +238,7 @@
                       :close-on-select="false"
                       :clear-on-select="false"
                       :preserve-search="true"
-                      placeholder="Ответственный"
+                      placeholder="Responsible"
                       class="form-control rounded-4"
                       :limit="3"
                       label="name"
@@ -253,11 +253,11 @@
                 <div class="col">
                   <div class="row">
                     <div class="col">
-                      <label for="" class="form-label">Описание задачи</label>
+                      <label for="" class="form-label">Description</label>
                       <small
                         class="f-helper-text invalid ms-3"
                         v-if="$v.description.$dirty && !$v.description.required"
-                        >Поле описание не должно быть пустым</small
+                        >Description could not be empty</small
                       >
                     </div>
                     <div class="col text-end">
@@ -269,7 +269,7 @@
                           id="impTask"
                         />
                         <label class="form-check-label" for="impTask"
-                          >Это важная задача
+                          >Hot task
                           <i class="bi bi-lightning-charge-fill"></i
                         ></label>
                       </div>
@@ -290,7 +290,7 @@
                     type="submit"
                     @click.prevent="submitHandler"
                   >
-                    Добавить
+                    Create
                   </button>
                 </div>
               </div>

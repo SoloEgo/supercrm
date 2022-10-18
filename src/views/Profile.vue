@@ -1,7 +1,7 @@
 <template>
   <div class="displayContentBlock">
     <div class="page-title">
-      <h3>Профиль</h3>
+      <h3>Profile</h3>
     </div>
     <section>
       <div class="row h-100">
@@ -30,12 +30,12 @@
                   </div>
                 </div>
                 <div class="mb-3">
-                  <label for="title">Имя</label>
+                  <label for="title">Name</label>
                   <input
                     type="text"
                     class="form-control"
                     id="name"
-                    placeholder="Имя"
+                    placeholder="Name"
                     v-model="name"
                     :class="{
                       'is-invalid': $v.name.$dirty && !$v.name.required,
@@ -45,16 +45,16 @@
                     for="floatingInputInvalid"
                     class="h-auto"
                     v-if="$v.name.$dirty && !$v.name.required"
-                    >Введите Имя</label
+                    >Enter the name</label
                   >
                 </div>
                 <div class="mb-3">
-                  <label for="title">Фамилия</label>
+                  <label for="title">Surname</label>
                   <input
                     type="text"
                     class="form-control"
                     id="surname"
-                    placeholder="Фамилия"
+                    placeholder="Surname"
                     v-model="surname"
                     :class="{
                       'is-invalid': $v.surname.$dirty && !$v.surname.required,
@@ -64,12 +64,12 @@
                     for="floatingInputInvalid"
                     class="h-auto"
                     v-if="$v.surname.$dirty && !$v.surname.required"
-                    >Введите Фамилию</label
+                    >Enter your surname</label
                   >
                 </div>
                 <div class="col-12">
                   <button class="btn btn-primary" type="submit">
-                    Обновить
+                    Update
                   </button>
                 </div>
               </form>
@@ -87,7 +87,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content rounded-5 shadow">
           <div class="modal-header p-5 pb-4 border-bottom-0 mb-3">
-            <h2 class="fw-bold mb-0">Новая автарка</h2>
+            <h2 class="fw-bold mb-0">New avatar</h2>
             <button
               @click="closeModalCreateContr"
               type="button"
@@ -137,7 +137,7 @@
             </div>
             <div class="row mt-3">
               <button class="btn btn-pimary" @click="uploadImage">
-                Обновить
+                Update
               </button>
             </div>
           </div>

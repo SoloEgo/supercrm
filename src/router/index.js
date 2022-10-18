@@ -8,7 +8,7 @@ Vue.use(VueRouter);
 const routes = [{
         path: "/",
         name: "Home",
-        title: "Рабочий стол",
+        title: "Home",
         icon: 'bi-laptop',
         inSidebar: true,
         forAdmin: false,
@@ -18,7 +18,7 @@ const routes = [{
     {
         path: "/sales",
         name: "Sales",
-        title: 'Сделки',
+        title: 'Sales',
         icon: 'bi-wallet2',
         inSidebar: true,
         forAdmin: false,
@@ -29,7 +29,7 @@ const routes = [{
     {
         path: "/contractors",
         name: "Contractors",
-        title: 'Контрагенты',
+        title: 'Contractors',
         icon: 'bi-boxes',
         inSidebar: true,
         forAdmin: false,
@@ -40,7 +40,7 @@ const routes = [{
     {
         path: "/login",
         name: "Login",
-        title: 'Вход',
+        title: 'Sign In',
         icon: '',
         inSidebar: false,
         forAdmin: false,
@@ -51,7 +51,7 @@ const routes = [{
     {
         path: "/register",
         name: "Register",
-        title: 'Регистрация',
+        title: 'Sign up',
         icon: '',
         inSidebar: false,
         forAdmin: false,
@@ -62,7 +62,7 @@ const routes = [{
     {
         path: "/tasks",
         name: "Tasks",
-        title: 'Задачи',
+        title: 'Tasks',
         icon: 'bi-bookmarks',
         inSidebar: true,
         forAdmin: false,
@@ -73,7 +73,7 @@ const routes = [{
     {
         path: "/structure",
         name: "Structure",
-        title: 'Структура',
+        title: 'Departments',
         icon: 'bi-grid-1x2',
         inSidebar: true,
         forAdmin: true,
@@ -84,7 +84,7 @@ const routes = [{
     {
         path: "/users",
         name: "Users",
-        title: 'Пользователи',
+        title: 'Users',
         icon: 'bi-people',
         inSidebar: true,
         forAdmin: true,
@@ -95,7 +95,7 @@ const routes = [{
     {
         path: "/notCenter",
         name: "Notifications",
-        title: 'Уведомления',
+        title: 'Notifications',
         icon: 'bi-app-indicator',
         inSidebar: true,
         forAdmin: true,
@@ -137,7 +137,7 @@ const routes = [{
     {
         path: "/profile",
         name: "Profile",
-        title: 'Профиль',
+        title: 'Profile',
         icon: '',
         inSidebar: false,
         meta: { layout: "main", auth: true },

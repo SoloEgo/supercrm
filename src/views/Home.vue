@@ -1,7 +1,7 @@
 <template>
   <div class="displayContentBlock">
     <div class="page-title">
-      <h3>Рабочий стол</h3>
+      <h3>Dashboard</h3>
       <button class="btn btn-primary btn-sm" @click="refresh">
         <i class="bi bi-arrow-clockwise"></i>
       </button>

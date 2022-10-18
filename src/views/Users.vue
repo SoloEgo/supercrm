@@ -2,18 +2,18 @@
   <div class="displayContentBlock">
     <div class="page-title">
       <div class="page-header">
-        <h3>Пользователи</h3>
+        <h3>Users</h3>
       </div>
       <div class="page-controls">
         <div class="searchInput me-4">
-          <input type="search" v-model="usersSearch" v-on:keyup="searchEvent" @click="searchEvent" class="form-control form-control-sm" placeholder="Поиск..." aria-label="Search">
+          <input type="search" v-model="usersSearch" v-on:keyup="searchEvent" @click="searchEvent" class="form-control form-control-sm" placeholder="search..." aria-label="Search">
         </div>
       </div>
     </div>
     <section>
       <LoaderContent v-if="loading" />
       <div class="empty-results-holder" v-else-if="!users.length">
-        <div class="empty-result">Пользователей пока нет.</div>
+        <div class="empty-result">No users yet.</div>
       </div>
       <div class="tile-holder" v-else>
         <div class="tile-card tile-0">
@@ -28,8 +28,8 @@
                 v-model="page"
                 :page-count="pageCount"
                 :click-handler="pageChangeHandler"
-                :prev-text="'Назад'"
-                :next-text="'Вперед'"
+                :prev-text="'next'"
+                :next-text="'prev'"
                 :container-class="'pagination pagination-sm'"
                 :page-class="'page-item'"
                 :page-link-class="'page-link'"

@@ -1,7 +1,7 @@
 <template>
   <div class="displayContentBlock">
     <div class="page-title breadcrumb-wrap">
-      <router-link to="/history" class="breadcrumb">История</router-link>
+      <router-link to="/history" class="breadcrumb">History</router-link>
       <a @click.prevent class="breadcrumb"> {{record.type === 'income' ? 'Доход' : 'Расход'}} </a>
     </div>
     <section>
@@ -14,9 +14,9 @@
             'red': record.type === 'outcome'
             }"></div>
             <div class="card-content white-text">
-              <p>Описание: {{ record.description }}</p>
-              <p>Сумма: {{ record.amount | currency("RUB") }}</p>
-              <p>Категория: {{ record.categoryName }}</p>
+              <p>Description: {{ record.description }}</p>
+              <p>Amount: {{ record.amount | currency("RUB") }}</p>
+              <p>Category: {{ record.categoryName }}</p>
               <small>{{ record.date | date("datetime") }} </small>
             </div>
           </div>
@@ -24,7 +24,7 @@
       </div>
       <div class="empty-results-holder" v-else>
         <div class="empty-result">
-          Записей c id = {{ $route.params.id }} не найдена
+          Record id = {{ $route.params.id }} not found
         </div>
       </div>
     </section>

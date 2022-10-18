@@ -11,7 +11,7 @@ export default {
             )
             this.$bvToast.toast(
                 [message], {
-                    title: "Успех",
+                    title: "Success",
                     autoHideDelay: 5000,
                     appendToast: true,
                 }
@@ -29,7 +29,7 @@ export default {
             //console.log(message)
             this.$bvToast.toast(
                 [message], {
-                    title: "Предупреждение",
+                    title: "Warning",
                     autoHideDelay: 5000,
                     appendToast: true,
                 }
@@ -47,7 +47,7 @@ export default {
             )
             this.$bvToast.toast(
                 [message], {
-                    title: "Ошибка",
+                    title: "Error",
                     autoHideDelay: 5000,
                     appendToast: true,
                 }

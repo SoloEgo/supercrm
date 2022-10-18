@@ -1,19 +1,19 @@
 <template>
   <div class="displayContentBlock">
     <div class="page-title">
-      <h3>Новая запись</h3>
+      <h3>New record</h3>
     </div>
     <section>
       <LoaderContent v-if="loading" />
       <div class="empty-results-holder" v-else-if="!categories.length" >
-        <div class="empty-result">Доступных категорий пока нет. <router-link to="/categories">Добавить новую категорию</router-link></div>
+        <div class="empty-result">There are no categories. <router-link to="/categories">Add new category</router-link></div>
       </div>
       <div class="tile-holder" v-else>
         <div class="col cw3 ch2">
           <div class="card white-card">
             <form class="form" @submit.prevent="handleSubmit">
               <div class="f-input-field">
-                <label>Выберите категорию</label>
+                <label>Select category</label>
                 <select ref="select" v-model="category">
                   <option v-for="c in categories" :key="c.id" :value="c.id">
                     {{ c.title }}
@@ -29,7 +29,7 @@
                     type="radio"
                     value="income"
                     v-model="type" />
-                  <label class="form-check-label" for="radio1">Доход</label>
+                  <label class="form-check-label" for="radio1">Income</label>
                 </div>
                 <div class="col-2 form-check">
                   <input
@@ -39,12 +39,12 @@
                     type="radio"
                     value="outcome"
                     v-model="type" />
-                  <label class="form-check-label" for="radio2">Расход</label>
+                  <label class="form-check-label" for="radio2">Expense</label>
                 </div>
               </div>
 
               <div class="f-input-field">
-                <label for="amount">Сумма</label>
+                <label for="amount">Amount</label>
                 <input
                   id="amount"
                   type="number"
@@ -57,12 +57,12 @@
                   class="helper-text invalid"
                   v-if="$v.amount.$dirty && !$v.amount.minValue"
                 >
-                  Минимальная величина {{ $v.amount.$params.minValue.min }}
+                  Minimum value {{ $v.amount.$params.minValue.min }}
                 </span>
               </div>
 
               <div class="f-input-field">
-                <label for="description">Описание</label>
+                <label for="description">Description</label>
                 <input
                   id="description"
                   type="text"
@@ -75,12 +75,12 @@
                 <span
                   class="helper-text invalid"
                   v-if="$v.description.$dirty && !$v.description.required"
-                  >Введите описание</span
+                  >Add description</span
                 >
               </div>
               <div class="card-action">
                 <button class="btn waves-effect waves-light" type="submit">
-                  Создать
+                  Create
                 </button>
               </div>
             </form>

@@ -1,7 +1,7 @@
 <template>
   <div class="displayContentBlock">
     <div class="page-title">
-      <h3>Центр уведомлений</h3>
+      <h3>Notification center</h3>
     </div>
     <section>
       <LoaderContent v-if="loading" />
@@ -42,7 +42,7 @@
                         type="text"
                         class="form-control"
                         id="name"
-                        placeholder="Автор"
+                        placeholder="Author"
                         disabled
                         v-model="name"
                         :class="{
@@ -53,7 +53,7 @@
                         for="floatingInputInvalid"
                         class="h-auto"
                         v-if="$v.name.$dirty && !$v.name.required"
-                        >Введите Автора</label
+                        >Author</label
                       >
                     </div>
                     <div class="col w-initial">
@@ -66,19 +66,19 @@
                           @click="authorStateChange"
                         />
                         <label class="form-check-label" for="flexCheckDefault">
-                          Отправить от имени администрации
+                          send from Administration
                         </label>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="mb-3">
-                  <label for="title">Название</label>
+                  <label for="title">Name</label>
                   <input
                     type="text"
                     class="form-control w-50"
                     id="title"
-                    placeholder="Название"
+                    placeholder="Name"
                     v-model="title"
                     :class="{
                       'is-invalid': $v.title.$dirty && !$v.title.required,
@@ -88,16 +88,16 @@
                     for="floatingInputInvalid"
                     class="h-auto"
                     v-if="$v.title.$dirty && !$v.title.required"
-                    >Введите Название</label
+                    >Enter Name</label
                   >
                 </div>
                 <div class="richTextNots mb-3">
-                  <label for="title">Текст новости</label>
+                  <label for="title">Text here...</label>
                   <quill-editor ref="myQuillEditor" v-model="content" :options="editorOption"/>
                 </div>
                 <div class="col-12">
                   <button class="btn btn-primary" type="submit">
-                    Отправить
+                    Send
                   </button>
                 </div>
               </form>

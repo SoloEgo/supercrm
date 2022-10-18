@@ -1,7 +1,7 @@
 <template>
   <div class="displayContentBlock">
     <div class="page-title">
-      <div class="pahe-header"><h3>Сделки</h3></div>
+      <div class="pahe-header"><h3>Deals</h3></div>
       <div class="page-controls">
         <button
           class="btn btn-sm me-3"
@@ -18,7 +18,7 @@
           <i class="bi bi-card-list"></i>
         </button>
         <button class="btn btn-sm btn-primary" @click="openModalCreateSale">
-          <i class="bi bi-plus-square"></i> Новая сделка
+          <i class="bi bi-plus-square"></i> New deal
         </button>
       </div>
     </div>
@@ -26,8 +26,8 @@
       <LoaderContent v-if="loading" />
       <div class="empty-results-holder" v-else-if="!sales.length">
         <div class="empty-result">
-          Сделок пока нет.
-          <button class="btn  btn-sm primary-btn">Добавить новую сделку</button>
+          No deals yet.
+          <button class="btn  btn-sm primary-btn">Add new deal</button>
         </div>
       </div>
       <div class="tile-holder" v-else>

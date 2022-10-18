@@ -1,14 +1,14 @@
 <template>
   <div class="displayContentBlock">
     <div class="page-title">
-      <h3>История записей</h3>
+      <h3>History</h3>
     </div>
     <section>
       <LoaderContent v-if="loading" />
       <div class="empty-results-holder" v-else-if="!records.length">
         <div class="empty-result">
-          Записей пока нет.
-          <router-link to="/record">Добавить новую запись</router-link>
+          No records yet.
+          <router-link to="/record">Add new record</router-link>
         </div>
       </div>
       <div class="tile-holder" v-else>

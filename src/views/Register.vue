@@ -4,7 +4,7 @@
       <div class="form-container">
         <form class="f-card" @submit.prevent="submitHandler">
           <div class="f-card-content">
-            <span class="f-card-title">Регистрация</span>
+            <span class="f-card-title">Sign up</span>
             <div class="f-input-field">
               <label for="email">Email</label>
               <input
@@ -20,16 +20,16 @@
               <small
                 class="f-helper-text invalid"
                 v-if="$v.email.$dirty && !$v.email.required"
-                >Поле E-mail не должно быть пустым</small
+                >E-mail could not be emptyм</small
               >
               <small
                 class="f-helper-text invalid"
                 v-else-if="$v.email.$dirty && !$v.email.email"
-                >Введите корректный E-mail</small
+                >Enter correct E-mail</small
               >
             </div>
             <div class="f-input-field">
-              <label for="password">Пароль</label>
+              <label for="password">Password</label>
               <input
                 id="password"
                 type="password"
@@ -44,17 +44,17 @@
               <small
                 class="f-helper-text invalid"
                 v-if="$v.password.$dirty && !$v.password.required"
-                >Введите пароль</small
+                >Enter password</small
               >
               <small
                 class="f-helper-text invalid"
                 v-if="$v.password.$dirty && !$v.password.minLength"
-                >Пароль должен содержать больше
-                {{ $v.password.$params.minLength.min }} знаков</small
+                >Password must be minimum
+                {{ $v.password.$params.minLength.min }} signs</small
               >
             </div>
             <div class="f-input-field">
-              <label for="name">Имя</label>
+              <label for="name">Name</label>
               <input
                 id="name"
                 type="text"
@@ -64,12 +64,12 @@
               <small
                 class="f-helper-text invalid"
                 v-if="$v.name.$dirty && !$v.name.required"
-                >Введите Ваше имя</small
+                >Provide your name</small
               >
             </div>
             <div class="f-input-field f-chck-w">
               <input id="agreement" type="checkbox" v-model="agree" />
-              <label for="agreement">С правилами согласен</label>
+              <label for="agreement">I agree with conditions</label>
             </div>
           </div>
           <div class="card-action">
@@ -78,13 +78,13 @@
                 class="btn waves-effect waves-light auth-submit"
                 type="submit"
               >
-                Зарегистрироваться
+                Sig up
               </button>
             </div>
 
             <p class="center">
-              Уже есть аккаунт?
-              <router-link to="/login">Войти!</router-link>
+              Already have account?
+              <router-link to="/login">Sig in!</router-link>
             </p>
           </div>
         </form>

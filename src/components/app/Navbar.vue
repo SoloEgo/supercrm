@@ -17,7 +17,7 @@
     <div class="center-nav-bar">
       <div class="currentTask">
         <div class="currNoTask" v-if="Object.keys(runningTaskObj).length <= 0">
-          Сейчас нет выполняемых задач, время <router-link to="/tasks" class="btn btn-sm btn-light">зажечь 🔥!</router-link>
+          No tasks, its time <router-link to="/tasks" class="btn btn-sm btn-light">to 🔥!</router-link>
         </div>
         <div v-else class="curTaskHub-wrapper">
           <div class="curTaskHub">
@@ -123,22 +123,22 @@
         >
           <li>
             <router-link to="/profile" class="dropdown-item">
-              <i class="bi bi-person me-2"></i> Профиль
+              <i class="bi bi-person me-2"></i> Profile
             </router-link>
           </li>
           <li>
             <router-link to="/profile" class="dropdown-item">
-              <i class="bi bi-info-lg me-2"></i> Помощь
+              <i class="bi bi-info-lg me-2"></i> Help
             </router-link>
           </li>
           <li>
             <router-link to="/profile" class="dropdown-item">
-              <i class="bi bi-gear-wide-connected me-2"></i> Параметры
+              <i class="bi bi-gear-wide-connected me-2"></i> Settings
             </router-link>
           </li>
           <li>
             <a href="#" class="dropdown-item" @click.prevent="logout">
-              <i class="bi bi-box-arrow-left me-2"></i> Выйти
+              <i class="bi bi-box-arrow-left me-2"></i> Logout
             </a>
           </li>
         </ul>
@@ -180,8 +180,8 @@
                   :class="n.isRead ? ' btn-secondary' : ' btn-primary'"
                   :disabled="n.isRead"
                 >
-                  <span v-if="n.isRead">Прочитано</span>
-                  <span v-else>Прочитать</span>
+                  <span v-if="n.isRead">Accepted</span>
+                  <span v-else>Accept</span>
                 </button>
               </div>
             </div>
@@ -314,8 +314,8 @@ export default {
     },
     async notCardClicked(el) {
       var btn = el.currentTarget;
-      if (btn.firstChild.data == "Подтвердить") {
-        btn.firstChild.data = "Прочитано";
+      if (btn.firstChild.data == "Accept") {
+        btn.firstChild.data = "Accepted";
       }
       const id = el.currentTarget.getAttribute("data-id");
       const nota = this.notifications.find((el) => el.id == id);

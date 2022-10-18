@@ -1,9 +1,9 @@
 <template>
   <div  class="displayContentBlock">
     <div class="page-title">
-      <h3>Планирование</h3>
+      <h3>Planning</h3>
       <div class="balance-info-total">
-        Текущий баланс:
+        Current amount:
         <h4>{{ info.bill | currency("RUB") }}</h4>
       </div>
     </div>
@@ -11,8 +11,8 @@
       <LoaderContent v-if="loading" />
       <div class="empty-results-holder" v-else-if="!categories.length">
         <div class="empty-result">
-          Доступных категорий пока нет.
-          <router-link to="/categories">Добавить новую категорию</router-link>
+          There are no categories.
+          <router-link to="/categories">Add new category</router-link>
         </div>
       </div>
       <div class="tile-holder" v-else>
@@ -21,7 +21,7 @@
             <div class="planning-lines" v-for="cat of categories" :key="cat.id">
               <p>
                 <strong>{{ cat.title }}:</strong>
-                {{ cat.spend | currency("RUB") }} из
+                {{ cat.spend | currency("RUB") }} from
                 {{ cat.limit | currency("RUB") }}
               </p>
               <div class="progress" v-tooltip="cat.tooltip">

@@ -8,7 +8,7 @@
           data-bs-target="#page-collapse"
           aria-expanded="true"
         >
-          Продуктивность
+          Workflow
         </button>
         <div class="collapse show" id="page-collapse">
           <ul class="side-nav nav nav-pills flex-column mb-auto">
@@ -45,7 +45,7 @@
           data-bs-target="#admin-collapse"
           aria-expanded="true"
         >
-          Администрирование
+          Admin Panel
         </button>
         <div class="collapse show" id="admin-collapse">
           <ul class="side-nav nav nav-pills flex-column mb-auto">

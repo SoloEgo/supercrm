@@ -4,7 +4,7 @@
       <div class="form-container">
         <form class="f-card" @submit.prevent="submitHandler">
           <div class="f-card-content">
-            <span class="f-card-title">Вход</span>
+            <span class="f-card-title">Sign in</span>
             <div class="f-input-field">
               <label for="email">Email</label>
               <input
@@ -20,16 +20,16 @@
               <small
                 class="f-helper-text invalid"
                 v-if="$v.email.$dirty && !$v.email.required"
-                >Поле E-mail не должно быть пустым</small
+                >E-mail could not be empty</small
               >
               <small
                 class="f-helper-text invalid"
                 v-else-if="$v.email.$dirty && !$v.email.email"
-                >Введите корректный E-mail</small
+                >enter correct E-mail</small
               >
             </div>
             <div class="f-input-field">
-              <label for="password">Пароль</label>
+              <label for="password">Password</label>
               <input
                 id="password"
                 type="password"
@@ -44,12 +44,12 @@
               <small
                 class="f-helper-text invalid"
                 v-if="$v.password.$dirty && !$v.password.required"
-                >Введите пароль</small
+                >Enter the password</small
               >
               <small
                 class="f-helper-text invalid"
                 v-if="$v.password.$dirty && !$v.password.minLength"
-                >Пароль должен содержать больше {{$v.password.$params.minLength.min}} знаков</small
+                >Password must be greater then {{$v.password.$params.minLength.min}} signs</small
               >
             </div>
           </div>
@@ -59,12 +59,12 @@
                 class="f-btn waves-effect waves-light auth-submit"
                 type="submit"
               >
-                Войти
+              Sign in
               </button>
             </div>
             <p class="center">
-              Нет аккаунта?
-              <router-link to="/register">Зарегистрироваться</router-link>
+              Don`t have account?
+              <router-link to="/register">Sign Up</router-link>
             </p>
           </div>
         </form>
