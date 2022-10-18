@@ -27,7 +27,6 @@ import VCalendar from 'v-calendar';
 import Multiselect from 'vue-multiselect'
 import BootstrapVue from "bootstrap-vue"
 
-
 Vue.config.productionTip = false;
 Vue.use(messagePlugin);
 Vue.use(Vuelidate);

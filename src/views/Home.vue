@@ -10,34 +10,34 @@
       <LoaderContent v-if="loading" />
       <div v-else class="home-dashboard-holder g-0">
         <div class="item">
-          <div class="item_name">Item name 1</div>
+          <div class="item_name"><BarChart /></div>
         </div>
         <div class="item">
-          <div class="item_name">Item name 2</div>
+          <div class="item_name"><LineChart /></div>
         </div>
         <div class="item">
-          <div class="item_name">Item name 3</div>
+          <div class="item_name"><LineChart /></div>
         </div>
         <div class="item">
-          <div class="item_name">Item name 4</div>
+          <div class="item_name"><LineChart /></div>
         </div>
         <div class="item">
-          <div class="item_name">Item name 5</div>
+          <div class="item_name"><LineChart /></div>
         </div>
         <div class="item">
-          <div class="item_name">Item name 6</div>
+          <div class="item_name"><LineChart /></div>
         </div>
         <div class="item">
-          <div class="item_name">Item name 7</div>
+          <div class="item_name"><LineChart /></div>
         </div>
         <div class="item">
-          <div class="item_name">Item name 8</div>
+          <div class="item_name"><LineChart /></div>
         </div>
         <div class="item">
-          <div class="item_name">Item name 9</div>
+          <div class="item_name"><LineChart /></div>
         </div>
         <div class="item">
-          <div class="item_name">Item name 10</div>
+          <div class="item_name"><BarChart /></div>
         </div>
       </div>
     </section>
@@ -46,15 +46,21 @@
 
 <script>
 import "@/assets/home.css";
+import BarChart from '../components/content/Chart/BarChart.vue'
+import LineChart from "../components/content/Chart/LineChart.vue";
 export default {
   name: "Home",
   data: () => ({
-    loading: true,
+    loading: true
   }),
   async mounted() {
     this.loading = false;
+    
   },
-  components: {},
+  components: {
+    BarChart,
+    LineChart
+},
   methods: {
     async refresh() {
       this.loading = true;
