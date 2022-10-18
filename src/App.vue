@@ -1,10 +1,10 @@
 <template>
-  <!--div id="app" v-if="!isMobile()">
+  <div id="app">
     <component :is="layout">
       <router-view />
     </component>
-  </div-->
-  <div class="mobile-layout get-app">
+  </div>
+  <!--div class="mobile-layout get-app">
     <div class="mob-container">
       <div class="logo"><img type="image/svg+xml" src="/img/logo.7cde6236.svg"></div>
       <h1>Get our app</h1>
@@ -13,7 +13,7 @@
         <div class="google-btn btn"><img type="image/png" src="/img/google.png"></div>
       </div>
     </div>    
-  </div>
+  </div-->
 </template>
 
 <style>
