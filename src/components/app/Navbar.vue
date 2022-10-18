@@ -418,10 +418,10 @@ export default {
     }
 
     this.hideSidebarStatus = JSON.parse(
-      this.$cookies.get("hideSidebarStatus").toLowerCase()
+      this.$cookies.get("hideSidebarStatus") ? this.$cookies.get("hideSidebarStatus").toLowerCase() : null
     );
 
-    if (this.hideSidebarStatus == undefined) {
+    if (this.hideSidebarStatus == undefined || this.hideSidebarStatus == null) {
       this.$cookies.set("hideSidebarStatus", false, 60 * 60 * 24 * 30);
       this.hideSidebarStatus = false;
     }

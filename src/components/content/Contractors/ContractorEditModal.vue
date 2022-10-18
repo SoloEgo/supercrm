@@ -129,6 +129,7 @@
 </template>
 <script>
 import { email, required } from "vuelidate/lib/validators";
+import ContractorDataService from "../../../services/ContractorDataService";
 import { mapGetters } from "vuex";
 export default {
   name: "editContractor",
@@ -138,7 +139,7 @@ export default {
       type: Object,
     },
   },
-  data: function(){
+  data: function () {
     return {
       name: this.contractor.name,
       email: this.contractor.email,
@@ -148,10 +149,8 @@ export default {
     };
   },
   async mounted() {
-    if(this.name != undefined){
-         document
-        .querySelector(".edit-contractor-card")
-        .classList.toggle("active");
+    if (this.name != undefined) {
+      document.querySelector(".edit-contractor-card").classList.add("active");
     }
     this.loading = false;
   },
@@ -170,16 +169,29 @@ export default {
       }
       try {
         const contractor = {
+          id: this.id,
           name: this.name,
           phone: this.phone,
           email: this.email,
           description: this.description,
-          id: this.id
+          updatedAt: new Date().toJSON()
         };
 
-        const contr = await this.$store.dispatch("updateContractor", contractor);
-        this.$emit("updatedContractor", contr);
-        this.$message("Запись успешно обновлена");        
+        //const contr = await this.$store.dispatch("updateContractor", contractor);
+
+        ContractorDataService.update(contractor.id, contractor)
+          .then((response) => {
+            // this.name = null;
+            // this.phone = null;
+            // this.email = null;
+            // this.description = null;
+
+            this.$emit("updatedContractor", contractor);
+            this.$message("Запись успешно обновлена");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       } catch (e) {
         console.log(e);
       }

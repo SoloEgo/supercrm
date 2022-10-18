@@ -54,7 +54,7 @@ import ContractorsCreateModal from "@/components/content/Contractors/Contractors
 import ContractorsTable from "@/components/content/Contractors/ContractorsTable";
 import ContractorEditModal from "@/components/content/Contractors/ContractorEditModal";
 import paginationMixin from "@/mixins/pagination.mixin";
-
+import ContractorDataService from "../services/ContractorDataService";
 export default {
   name: "contractors",
   mixins: [paginationMixin],
@@ -68,7 +68,14 @@ export default {
     contrSearch: ''
   }),
   async mounted() {
-    this.contractors = await this.$store.dispatch("fetchContractors");
+     ContractorDataService.getAll()
+      .then((response) => {
+        this.contractors = response.data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    //this.contractors = await this.$store.dispatch("fetchContractors");
     this.setupPagination(
       this.contractors.map((contractor) => {
         return {
@@ -85,8 +92,15 @@ export default {
     createdContractor(contractor){
       this.contractors.push(contractor);
     },
-    async selectedContractor(id){      
-      this.contractorObj = await this.$store.dispatch('fetchContractorById', {id})
+    async selectedContractor(id){  
+      ContractorDataService.findOne(id)
+      .then((response) => {
+        this.contractorObj = response.data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+      //this.contractorObj = await this.$store.dispatch('fetchContractorById', {id})
       this.updateCount = this.updateCount + 1
     },
     updateContrTable(contr){

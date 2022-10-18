@@ -18,7 +18,7 @@
         v-for="(contractor, idx) of contractors"
         :key="contractor.id"
         :data-id="contractor.id"
-        @click="openModalEditContr"
+       
       >
         <td>{{ idx + 1 }}</td>
         <td>{{ contractor.date | date("date") }}</td>
@@ -27,7 +27,11 @@
         <td>{{ contractor.email }}</td>
         <td>{{ contractor.phone }}</td>
         <td>{{ contractor.description }}</td>
-        <td><button class="btn btn-light btn-sm" :data-id="contractor.id" @click="openModalEditContr2"><i class="bi bi-pencil-square"></i></button></td>
+        <td>
+          <!-- <button class="btn btn-light btn-sm" :data-id="contractor.id" @click="openModalEditContr2"> -->
+            <i @click="openModalEditContr2" :data-id="contractor.id" class="btn btn-light btn-sm bi bi-pencil-square"></i>
+          <!-- </button> -->
+        </td>
       </tr>
     </tbody>
   </table>
@@ -46,7 +50,7 @@ export default {
   },
   methods: {
     openModalEditContr(ev) {
-      const id = ev.path[2].attributes["data-id"].value
+      const id = ev.path[1].attributes["data-id"].value
       this.$emit("contrTargetId", id);
     },
     openModalEditContr2(ev){

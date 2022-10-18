@@ -97,9 +97,9 @@ export default {
   async mounted() {
     this.isAdmin = this.$store.getters.info.isAdmin;
     Array.from(document.querySelectorAll('a[data-bs-toggle="tooltip"]')).forEach(tooltipNode => new Tooltip(tooltipNode))
-    this.hideSidebarStatus = JSON.parse(
-      this.$cookies.get("hideSidebarStatus").toLowerCase()
-    );
+    // this.hideSidebarStatus = JSON.parse(
+    //   this.$cookies.get("hideSidebarStatus") ? this.$cookies.get("hideSidebarStatus").toLowerCase() : ''
+    // );
   },
 };
 </script>

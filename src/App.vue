@@ -1,10 +1,10 @@
 <template>
-  <div id="app" v-if="!isMobile()">
+  <!--div id="app" v-if="!isMobile()">
     <component :is="layout">
       <router-view />
     </component>
-  </div>
-  <div class="mobile-layout get-app" v-else>
+  </div-->
+  <div class="mobile-layout get-app">
     <div class="mob-container">
       <div class="logo"><img type="image/svg+xml" src="/img/logo.7cde6236.svg"></div>
       <h1>Get our app</h1>
