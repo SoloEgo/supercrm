@@ -68,14 +68,14 @@ export default {
     contrSearch: ''
   }),
   async mounted() {
-     ContractorDataService.getAll()
+     /*ContractorDataService.getAll()
       .then((response) => {
         this.contractors = response.data;
       })
       .catch((e) => {
         console.log(e);
-      });
-    //this.contractors = await this.$store.dispatch("fetchContractors");
+      });*/
+    this.contractors = await this.$store.dispatch("fetchContractors");
     this.setupPagination(
       this.contractors.map((contractor) => {
         return {
@@ -93,14 +93,14 @@ export default {
       this.contractors.push(contractor);
     },
     async selectedContractor(id){  
-      ContractorDataService.findOne(id)
+      /*ContractorDataService.findOne(id)
       .then((response) => {
         this.contractorObj = response.data;
       })
       .catch((e) => {
         console.log(e);
-      });
-      //this.contractorObj = await this.$store.dispatch('fetchContractorById', {id})
+      });*/
+      this.contractorObj = await this.$store.dispatch('fetchContractorById', {id})
       this.updateCount = this.updateCount + 1
     },
     updateContrTable(contr){

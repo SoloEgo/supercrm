@@ -177,9 +177,9 @@ export default {
           updatedAt: new Date().toJSON()
         };
 
-        //const contr = await this.$store.dispatch("updateContractor", contractor);
+        const contr = await this.$store.dispatch("updateContractor", contractor);
 
-        ContractorDataService.update(contractor.id, contractor)
+        /*ContractorDataService.update(contractor.id, contractor)
           .then((response) => {
             // this.name = null;
             // this.phone = null;
@@ -191,7 +191,7 @@ export default {
           })
           .catch((e) => {
             console.log(e);
-          });
+          });*/
       } catch (e) {
         console.log(e);
       }
