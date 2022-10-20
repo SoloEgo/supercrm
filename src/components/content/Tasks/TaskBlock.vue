@@ -74,37 +74,37 @@ export default {
   data: () => ({
     taskTypes: [
       {
-        name: "Просрочена",
+        name: "Out of date",
         class: "warning",
         id: "outOfDate",
         list: [],
       },
       {
-        name: "На сегодня",
+        name: "For today",
         class: "today",
         id: "today",
         list: [],
       },
       {
-        name: "На этой неделе",
+        name: "This week",
         class: "thisWeek",
         id: "thisWeek",
         list: []
       },
       {
-        name: "На следуюущей неделе",
+        name: "Next week",
         class: "nextWeek",
         id: "nextWeek",
         list: [],
       },
       {
-        name: "Более двух недель",
+        name: "More then 2 weeks",
         class: "farThenTwoWeeks",
         id: "farThenTwoWeeks",
         list: [],
       },
       {
-        name: "Без срока",
+        name: "Without date",
         class: "noDate",
         id: "noDate",
         list: [],
@@ -114,17 +114,17 @@ export default {
   created() {},
   methods: {
     async onEnd(evt) {
-      // this.loading = true;
-      // const itemId = evt.item.getAttribute("data-id");
-      // const newStatus =
-      //   evt.to.__vue__.$el.parentElement.getAttribute("data-id");
-      // const sales = await this.$store.dispatch("changeStatusById", {
-      //   id: itemId,
-      //   status: newStatus,
-      // });
-      // this.$emit("updated", sales);
-      // this.loading = false;
-      // this.$message("Статус продажи успешно изменен");
+      this.loading = true;
+      const itemId = evt.item.getAttribute("data-id");
+      const newStatus =
+        evt.to.__vue__.$el.parentElement.getAttribute("data-id");
+      const sales = await this.$store.dispatch("changeStatusById", {
+        id: itemId,
+        status: newStatus,
+      });
+      this.$emit("updated", sales);
+      this.loading = false;
+      this.$message("Статус продажи успешно изменен");
     },
   },
   async mounted() {

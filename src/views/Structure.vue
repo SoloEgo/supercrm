@@ -29,7 +29,8 @@ export default {
     displayTable: null,
   }),
   async mounted() {
-    this.sales = await this.$store.dispatch("fetchSales");
+    this.sales = await this.$store.dispatch("fetchStructure");
+    console.log(this.sales)
     this.displayTable = this.$cookies.get("displayTable") === "true";
     this.loading = false;
   },
