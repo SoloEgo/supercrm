@@ -39,7 +39,12 @@ export default {
                 const statusTypes = await dispatch('fetchSalesStatus')
                 let sal = Object.keys(sales).map(key => ({...sales[key], id: key }))
                 for (let i = 0; i < sal.length; i++) {
-                    sal[i].contractor_info = await dispatch('fetchContractorById', { id: sal[i].contractor_id })
+                    if(sal[i].contractor_id){
+                        sal[i].contractor_info = await dispatch('fetchContractorById', { id: sal[i].contractor_id })
+                    }else{
+                        sal[i].contractor_info = ''
+                    }
+                    
                     sal[i].status_info = statusTypes.find(e => e.status === sal[i].status)
                 }
                 return sal

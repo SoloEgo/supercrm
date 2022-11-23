@@ -80,6 +80,7 @@ export default {
         k++;
       }
     }
+    console.log(listTypes)
     this.typeList = listTypes;
     this.loading = false;
   },
